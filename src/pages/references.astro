@@ -1,0 +1,530 @@
+---
+// src/pages/references.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL;
+
+const breadcrumbs = [
+  { label: "Home", href: `${base}/` },
+  { label: "References", href: `${base}/references/` }
+];
+
+// Inline SVG for external link icon
+const externalLinkIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="inline-block w-3 h-3 ml-0.5 align-baseline text-blue-500 dark:text-blue-400/80 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors"><path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 0 0 3 3.5v9A1.5 1.5 0 0 0 4.5 14h9a1.5 1.5 0 0 0 1.5-1.5v-5a.75.75 0 0 0-1.5 0v5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h5a.75.75 0 0 0 0-1.5h-5ZM10 .75A.75.75 0 0 1 10.75 0h4.5A.75.75 0 0 1 16 .75v4.5a.75.75 0 0 1-1.5 0V1.56l-4.97 4.97a.75.75 0 0 1-1.06-1.06L14.44 1H10.75A.75.75 0 0 1 10 .75Z" clip-rule="evenodd" /></svg>`;
+---
+<BaseLayout title="References" breadcrumbs={breadcrumbs}>
+  <header class="mb-1 w-full text-center">
+    <h1 class="mt-0 mb-4 text-center" style="text-align: center; margin: 0 auto; width: 100%;">
+      References
+    </h1>
+    <p class="text-center text-sm text-slate-500 dark:text-slate-400 italic" style="text-align: center; margin: 0 auto; width: 100%;">
+      (Formatted using APA 7th Style)
+    </p>
+  </header>
+
+    {/* Added a containing div with subtle background/border */}
+    <div class="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-lg p-6 md:p-8 shadow-sm">
+        <dl class="space-y-6 text-sm text-slate-700 dark:text-slate-300 max-w-prose mx-auto"> {/* Centered content */}
+
+            {/* === Start of Reference List === */}
+
+            <div class="break-inside-avoid">
+              <dt class="sr-only">Alzheimer's Association (2024)</dt>
+              <dd class="leading-relaxed">
+                Alzheimer's Association. (2024). 2024 Alzheimer's disease facts and figures. <em>Alzheimer's & Dementia</em>, <em>20</em>(S1). <a href="https://doi.org/10.1002/alz.13698" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1002/alz.13698</span><Fragment set:html={externalLinkIcon} /></a>
+              </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+              <dt class="sr-only">Anstey et al. (2011)</dt>
+              <dd class="leading-relaxed">
+                Anstey, K. J., Cherbuin, N., Budge, M., & Young, J. (2011). Body mass index in midlife and late-life as a risk factor for dementia: A meta-analysis of prospective studies. <em>Obesity Reviews</em>, <em>12</em>(5), e159–e168. <a href="https://doi.org/10.1111/j.1467-789X.2010.00744.x" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1111/j.1467-789X.2010.00744.x</span><Fragment set:html={externalLinkIcon} /></a>
+              </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+              <dt class="sr-only">Anstey et al. (2007)</dt>
+              <dd class="leading-relaxed">
+                Anstey, K. J., von Sanden, C., Salim, A., & O'Kearney, R. (2007). Smoking as a risk factor for dementia and cognitive decline: A meta-analysis of prospective studies. <em>American Journal of Epidemiology</em>, <em>166</em>(4), 367–378. <a href="https://doi.org/10.1093/aje/kwm116" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1093/aje/kwm116</span><Fragment set:html={externalLinkIcon} /></a>
+              </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Arnold et al. (2018)</dt>
+                <dd class="leading-relaxed">
+                    Arnold, S. E., Arvanitakis, Z., Macauley-Rambach, S. L., Koenig, A. M., Wang, H. Y., Ahima, R. S., Craft, S., Gandy, S., Buettner, C., Stoeckel, L. E., Holtzman, D. M., & Nathan, D. M. (2018). Brain insulin resistance in type 2 diabetes and Alzheimer disease: Concepts and conundrums. <em>Nature Reviews Neurology</em>, <em>14</em>(3), 168–181. <a href="https://doi.org/10.1038/nrneurol.2017.185" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1038/nrneurol.2017.185</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Arevalo-Rodriguez et al. (2015)</dt>
+                <dd class="leading-relaxed">
+                    Arevalo-Rodriguez, I., Smailagic, N., Roqué i Figuls, M., Ciapponi, A., Sanchez-Perez, E., Giannakou, A., Pedraza, O. L., Bonfill Cosp, X., & Cullum, S. (2015). Mini-Mental State Examination (MMSE) for the detection of Alzheimer's disease and other dementias in people with mild cognitive impairment (MCI). <em>Cochrane Database of Systematic Reviews</em>, (3), CD010783. <a href="https://doi.org/10.1002/14651858.CD010783.pub2" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1002/14651858.CD010783.pub2</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Arvanitakis et al. (2019)</dt>
+                <dd class="leading-relaxed">
+                    Arvanitakis, Z., Shah, R. C., & Bennett, D. A. (2019). Diagnosis and management of dementia: A review. <em>JAMA</em>, <em>322</em>(16), 1589–1599. <a href="https://doi.org/10.1001/jama.2019.4782" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1001/jama.2019.4782</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Ashton et al. (2022)</dt>
+                <dd class="leading-relaxed">
+                    Ashton, N. J., Pascoal, T. A., Karikari, T. K., Benedet, A. L., Lantero-Rodriguez, J., Suárez-Calvet, M., ... & Blennow, K. (2022). Plasma p-tau217 predicts longitudinal brain atrophy and cognitive decline in non-demented adults. <em>Nature Medicine</em>, <em>28</em>(10), 2158–2168. <a href="https://doi.org/10.1038/s41591-022-01993-0" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1038/s41591-022-01993-0</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Baumgart et al. (2015)</dt>
+                <dd class="leading-relaxed">
+                    Baumgart, M., Snyder, H. M., Carrillo, M. C., Fazio, S., Kim, H., & Johns, H. (2015). Summary of the evidence on modifiable risk factors for cognitive decline and dementia: A population-based perspective. <em>Alzheimer's & Dementia</em>, <em>11</em>(6), 718–726. <a href="https://doi.org/10.1016/j.jalz.2015.04.002" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/j.jalz.2015.04.002</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Bezprozvanny & Mattson (2008)</dt>
+                <dd class="leading-relaxed">
+                    Bezprozvanny, I., & Mattson, M. P. (2008). Neuronal calcium mishandling and the pathogenesis of Alzheimer's disease. <em>Trends in Neurosciences</em>, <em>31</em>(9), 454–463. <a href="https://doi.org/10.1016/j.tins.2008.06.005" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/j.tins.2008.06.005</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Birks (2006)</dt>
+                <dd class="leading-relaxed">
+                    Birks, J. S. (2006). Cholinesterase inhibitors for Alzheimer's disease. <em>Cochrane Database of Systematic Reviews</em>, (1), CD005593. <a href="https://doi.org/10.1002/14651858.CD005593" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1002/14651858.CD005593</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Bondi et al. (2017)</dt>
+                <dd class="leading-relaxed">
+                    Bondi, M. W., Edmonds, E. C., & Salmon, D. P. (2017). Alzheimer’s disease: Past, present, and future. <em>Journal of the International Neuropsychological Society</em>, <em>23</em>(9-10), 818–831. <a href="https://doi.org/10.1017/S135561771700100X" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1017/S135561771700100X</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Brodaty & Donkin (2009)</dt>
+                <dd class="leading-relaxed">
+                    Brodaty, H., & Donkin, M. (2009). Family caregivers of people with dementia. <em>Dialogues in Clinical Neuroscience</em>, <em>11</em>(2), 217–228. <a href="https://doi.org/10.31887/DCNS.2009.11.2/hbrodaty" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.31887/DCNS.2009.11.2/hbrodaty</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Cummings et al. (2021)</dt>
+                <dd class="leading-relaxed">
+                    Cummings, J., Aisen, P., Apostolova, L. G., Atri, A., Salloway, S., & Weiner, M. (2021). Aducanumab: Appropriate use recommendations. <em>The Journal of Prevention of Alzheimer's Disease</em>, <em>8</em>(4), 398–410. <a href="https://doi.org/10.14283/jpad.2021.41" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.14283/jpad.2021.41</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Cummings et al. (2023)</dt>
+                <dd class="leading-relaxed">
+                    Cummings, J., Zhou, Y., Lee, G., Zhong, K., Fonseca, J., & Cheng, F. (2023). Alzheimer's disease drug development pipeline: 2023. <em>Alzheimer's & Dementia: Translational Research & Clinical Interventions</em>, <em>9</em>(2), e12385. <a href="https://doi.org/10.1002/trc2.12385" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1002/trc2.12385</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">De la Monte & Wands (2008)</dt>
+                <dd class="leading-relaxed">
+                    De la Monte, S. M., & Wands, J. R. (2008). Alzheimer's disease is type 3 diabetes—evidence reviewed. <em>Journal of Diabetes Science and Technology</em>, <em>2</em>(6), 1101–1113. <a href="https://doi.org/10.1177/193229680800200619" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1177/193229680800200619</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Deckers et al. (2015)</dt>
+                <dd class="leading-relaxed">
+                    Deckers, K., van Boxtel, M. P., Schiepers, O. J., de Vugt, M., Muñoz Sánchez, J. L., Anstey, K. J., ... & Köhler, S. (2015). Target risk factors for dementia prevention: A systematic review and Delphi consensus study on the evidence from observational studies. <em>International Journal of Geriatric Psychiatry</em>, <em>30</em>(3), 234–246. <a href="https://doi.org/10.1002/gps.4150" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1002/gps.4150</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Frisoni et al. (2010)</dt>
+                <dd class="leading-relaxed">
+                    Frisoni, G. B., Fox, N. C., Jack, C. R., Jr, Scheltens, P., & Thompson, P. M. (2010). The clinical use of structural MRI in Alzheimer disease. <em>Nature Reviews Neurology</em>, <em>6</em>(2), 67–77. <a href="https://doi.org/10.1038/nrneurol.2009.215" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1038/nrneurol.2009.215</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Galvin et al. (2006)</dt>
+                <dd class="leading-relaxed">
+                    Galvin, J. E., Roe, C. M., Powlishta, K. K., Coats, M. A., Muich, S. J., Grant, E., Miller, J. P., Storandt, M., & Morris, J. C. (2006). The AD8: A brief informant interview to detect dementia. <em>Neurology</em>, <em>67</em>(8), 1391–1397. <a href="https://doi.org/10.1212/01.wnl.0000242554.85391.1e" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1212/01.wnl.0000242554.85391.1e</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Gitlin et al. (2012)</dt>
+                <dd class="leading-relaxed">
+                    Gitlin, L. N., Kales, H. C., & Lyketsos, C. G. (2012). Nonpharmacologic management of behavioral symptoms in dementia. <em>JAMA</em>, <em>308</em>(19), 2020–2029. <a href="https://doi.org/10.1001/jama.2012.36918" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1001/jama.2012.36918</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Goedert & Spillantini (2006)</dt>
+                <dd class="leading-relaxed">
+                    Goedert, M., & Spillantini, M. G. (2006). A century of Alzheimer's disease. <em>Science</em>, <em>314</em>(5800), 777–781. <a href="https://doi.org/10.1126/science.1132814" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1126/science.1132814</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Goldman et al. (2011)</dt>
+                <dd class="leading-relaxed">
+                    Goldman, J. S., Hahn, S. E., Catania, J. W., LaRusse-Eckert, S., Butson, M. B., Rumbaugh, M., ... & Mayeux, R. (2011). Genetic counseling and testing for Alzheimer disease: Joint practice guidelines of the American College of Medical Genetics and the National Society of Genetic Counselors. <em>Genetics in Medicine</em>, <em>13</em>(6), 597–605. <a href="https://doi.org/10.1097/GIM.0b013e31821d69b8" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1097/GIM.0b013e31821d69b8</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Gorelick et al. (2011)</dt>
+                <dd class="leading-relaxed">
+                    Gorelick, P. B., Scuteri, A., Black, S. E., DeCarli, C., Greenberg, S. M., Iadecola, C., ... & Benavente, O. (2011). Vascular contributions to cognitive impairment and dementia: A statement for healthcare professionals from the American Heart Association/American Stroke Association. <em>Stroke</em>, <em>42</em>(9), 2672–2713. <a href="https://doi.org/10.1161/STR.0b013e3182299496" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1161/STR.0b013e3182299496</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Groot et al. (2016)</dt>
+                <dd class="leading-relaxed">
+                    Groot, C., Hooghiemstra, A. M., Raijmakers, P. G., van Berckel, B. N., Scheltens, P., Scherder, E. J., van der Flier, W. M., & Ossenkoppele, R. (2016). The effect of physical activity on cognitive function in patients with dementia: A meta-analysis of randomized control trials. <em>Ageing Research Reviews</em>, <em>25</em>, 13–23. <a href="https://doi.org/10.1016/j.arr.2015.11.005" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/j.arr.2015.11.005</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Heneka et al. (2015)</dt>
+                <dd class="leading-relaxed">
+                    Heneka, M. T., Carson, M. J., El Khoury, J., Landreth, G. E., Brosseron, F., Feinstein, D. L., ... & Kummer, M. P. (2015). Neuroinflammation in Alzheimer's disease. <em>The Lancet Neurology</em>, <em>14</em>(4), 388–405. <a href="https://doi.org/10.1016/S1474-4422(15)70016-5" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/S1474-4422(15)70016-5</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Iadecola (2013)</dt>
+                <dd class="leading-relaxed">
+                    Iadecola, C. (2013). The pathobiology of vascular dementia. <em>Neuron</em>, <em>80</em>(4), 844–866. <a href="https://doi.org/10.1016/j.neuron.2013.10.008" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/j.neuron.2013.10.008</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Jack et al. (2018)</dt>
+                <dd class="leading-relaxed">
+                    Jack, C. R., Jr, Bennett, D. A., Blennow, K., Carrillo, M. C., Dunn, B., Haeberlein, S. B., ... & Phelps, C. (2018). NIA-AA Research Framework: Toward a biological definition of Alzheimer's disease. <em>Alzheimer's & Dementia</em>, <em>14</em>(4), 535–562. <a href="https://doi.org/10.1016/j.jalz.2018.02.018" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/j.jalz.2018.02.018</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Johnson et al. (2013)</dt>
+                <dd class="leading-relaxed">
+                    Johnson, K. A., Minoshima, S., Bohnen, N. I., Donohoe, K. J., Foster, N. L., Herscovitch, P., ... & Thies, W. (2013). Appropriate use criteria for amyloid PET: A report of the Amyloid Imaging Task Force, the Society of Nuclear Medicine and Molecular Imaging, and the Alzheimer’s Association. <em>Alzheimer's & Dementia</em>, <em>9</em>(1), e1–e16. <a href="https://doi.org/10.1016/j.jalz.2013.01.002" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/j.jalz.2013.01.002</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Kales et al. (2015)</dt>
+                <dd class="leading-relaxed">
+                    Kales, H. C., Gitlin, L. N., & Lyketsos, C. G. (2015). Assessment and management of behavioral and psychological symptoms of dementia. <em>BMJ</em>, <em>350</em>, h369. <a href="https://doi.org/10.1136/bmj.h369" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1136/bmj.h369</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Kametani & Hasegawa (2018)</dt>
+                <dd class="leading-relaxed">
+                    Kametani, F., & Hasegawa, M. (2018). Reconsideration of amyloid hypothesis and tau hypothesis in Alzheimer’s disease. <em>Frontiers in Neuroscience</em>, <em>12</em>, 25. <a href="https://doi.org/10.3389/fnins.2018.00025" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.3389/fnins.2018.00025</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Karikari et al. (2020)</dt> {/* Assuming Karikari 2020 from diagnosis page */}
+                <dd class="leading-relaxed">
+                    Karikari, T. K., Pascoal, T. A., Ashton, N. J., Janelidze, S., Benedet, A. L., Rodriguez, J. L., ... & Blennow, K. (2020). Blood phosphorylated tau 181 as a biomarker for Alzheimer's disease: a diagnostic performance and prediction modelling study using data from four prospective cohorts. <em>The Lancet Neurology</em>, <em>19</em>(5), 422–433. <a href="https://doi.org/10.1016/S1474-4422(20)30071-5" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/S1474-4422(20)30071-5</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Knopman et al. (2021)</dt>
+                <dd class="leading-relaxed">
+                    Knopman, D. S., Amieva, H., Petersen, R. C., Chételat, G., Holtzman, D. M., Hyman, B. T., Nixon, R. A., & Jones, D. T. (2021). Alzheimer disease. <em>Nature Reviews Disease Primers</em>, <em>7</em>(1), 33. <a href="https://doi.org/10.1038/s41572-021-00269-y" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1038/s41572-021-00269-y</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+             <div class="break-inside-avoid">
+                 <dt class="sr-only">Knopman et al. (2001)</dt> {/* Added from diagnosis page */}
+                 <dd class="leading-relaxed">
+                     Knopman, D. S., DeKosky, S. T., Cummings, J. L., Chui, H., Corey-Bloom, J., Fetting, J., ... & Stevens, J. C. (2001). Practice parameter: diagnosis of dementia (an evidence-based review): report of the Quality Standards Subcommittee of the American Academy of Neurology. <em>Neurology</em>, <em>56</em>(9), 1143–1153. <a href="https://doi.org/10.1212/wnl.56.9.1143" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1212/wnl.56.9.1143</span><Fragment set:html={externalLinkIcon} /></a>
+                 </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Kuiper et al. (2015)</dt>
+                <dd class="leading-relaxed">
+                    Kuiper, J. S., Zuidersma, M., Oude Voshaar, R. C., Zuidema, S. U., van den Heuvel, E. R., Stolk, R. P., & Smidt, N. (2015). Social relationships and risk of dementia: A systematic review and meta-analysis of longitudinal cohort studies. <em>Ageing Research Reviews</em>, <em>22</em>, 39–57. <a href="https://doi.org/10.1016/j.arr.2015.04.006" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/j.arr.2015.04.006</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Kuller & Lopez (2023)</dt>
+                <dd class="leading-relaxed">
+                    Kuller, L. H., & Lopez, O. L. (2023). Lecanemab for Alzheimer Disease: A Critical Appraisal. <em>JAMA</em>, <em>330</em>(6), 505–506. <a href="https://doi.org/10.1001/jama.2023.11931" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1001/jama.2023.11931</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Larouche et al. (2019)</dt>
+                <dd class="leading-relaxed">
+                    Larouche, E., Hudon, C., & Goulet, S. (2019). Potential benefits of mindfulness-based interventions on cognitive functioning in persons with mild cognitive impairment or dementia: A systematic review. <em>Geriatric Nursing</em>, <em>40</em>(2), 161–168. <a href="https://doi.org/10.1016/j.gerinurse.2018.09.005" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/j.gerinurse.2018.09.005</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Lin & Beal (2006)</dt>
+                <dd class="leading-relaxed">
+                    Lin, M. T., & Beal, M. F. (2006). Mitochondrial dysfunction and oxidative stress in neurodegenerative diseases. <em>Nature</em>, <em>443</em>(7113), 787–795. <a href="https://doi.org/10.1038/nature05292" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1038/nature05292</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Liu et al. (2013)</dt>
+                <dd class="leading-relaxed">
+                    Liu, C. C., Liu, C. C., Kanekiyo, T., Xu, H., & Bu, G. (2013). Apolipoprotein E and Alzheimer disease: Risk, mechanisms and therapy. <em>Nature Reviews Neurology</em>, <em>9</em>(2), 106–118. <a href="https://doi.org/10.1038/nrneurol.2012.263" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1038/nrneurol.2012.263</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Livingston et al. (2020)</dt>
+                <dd class="leading-relaxed">
+                    Livingston, G., Huntley, J., Sommerlad, A., Ames, D., Ballard, C., Banerjee, S., ... & Mukadam, N. (2020). Dementia prevention, intervention, and care: 2020 report of the Lancet Commission. <em>The Lancet</em>, <em>396</em>(10248), 413–446. <a href="https://doi.org/10.1016/S0140-6736(20)30367-6" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/S0140-6736(20)30367-6</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">McKhann et al. (2011)</dt>
+                <dd class="leading-relaxed">
+                    McKhann, G. M., Knopman, D. S., Chertkow, H., Hyman, B. T., Jack, C. R., Jr, Kawas, C. H., ... & Phelps, C. H. (2011). The diagnosis of dementia due to Alzheimer's disease: Recommendations from the National Institute on Aging-Alzheimer's Association workgroups on diagnostic guidelines for Alzheimer's disease. <em>Alzheimer's & Dementia</em>, <em>7</em>(3), 263–269. <a href="https://doi.org/10.1016/j.jalz.2011.03.005" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/j.jalz.2011.03.005</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">McShane et al. (2019)</dt>
+                <dd class="leading-relaxed">
+                    McShane, R., Westby, M. J., Roberts, E., Minakaran, N., Schneider, L., Farrimond, L. E., ... & Hyde, C. (2019). Memantine for dementia. <em>Cochrane Database of Systematic Reviews</em>, (3), CD003154. <a href="https://doi.org/10.1002/14651858.CD003154.pub6" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1002/14651858.CD003154.pub6</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Meng & D'Arcy (2012)</dt>
+                <dd class="leading-relaxed">
+                    Meng, X., & D'Arcy, C. (2012). Education and dementia: A meta-analysis of observational studies. <em>Dementia and Geriatric Cognitive Disorders</em>, <em>34</em>(5-6), 299–311. <a href="https://doi.org/10.1159/000345102" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1159/000345102</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Moreno-García et al. (2018)</dt>
+                <dd class="leading-relaxed">
+                    Moreno-García, A., Kun, A., Calero, O., Medina, M., & Calero, M. (2018). An overview of the role of lipofuscin in age-related neurodegeneration. <em>Frontiers in Neuroscience</em>, <em>12</em>, 464. <a href="https://doi.org/10.3389/fnins.2018.00464" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.3389/fnins.2018.00464</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Mosconi et al. (2008)</dt>
+                <dd class="leading-relaxed">
+                    Mosconi, L., Pupi, A., & De Leon, M. J. (2008). Brain glucose hypometabolism and oxidative stress in preclinical Alzheimer's disease. <em>Annals of the New York Academy of Sciences</em>, <em>1147</em>(1), 180–195. <a href="https://doi.org/10.1196/annals.1427.007" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1196/annals.1427.007</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Nixon (2013)</dt>
+                <dd class="leading-relaxed">
+                    Nixon, R. A. (2013). The role of autophagy in neurodegenerative disease. <em>Nature Medicine</em>, <em>19</em>(8), 983–997. <a href="https://doi.org/10.1038/nm.3232" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1038/nm.3232</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Olsson et al. (2016)</dt>
+                <dd class="leading-relaxed">
+                    Olsson, B., Lautner, R., Andreasson, U., Öhrfelt, A., Portelius, E., Bjerke, M., ... & Blennow, K. (2016). CSF and blood biomarkers for the diagnosis of Alzheimer's disease: A systematic review and meta-analysis. <em>The Lancet Neurology</em>, <em>15</em>(7), 673–684. <a href="https://doi.org/10.1016/S1474-4422(16)00070-3" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/S1474-4422(16)00070-3</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Ownby et al. (2006)</dt>
+                <dd class="leading-relaxed">
+                    Ownby, R. L., Crocco, E., Acevedo, A., John, V., & Loewenstein, D. (2006). Depression and risk for Alzheimer disease: Systematic review, meta-analysis, and metaregression analysis. <em>Archives of General Psychiatry</em>, <em>63</em>(5), 530–538. <a href="https://doi.org/10.1001/archpsyc.63.5.530" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1001/archpsyc.63.5.530</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Peters et al. (2019)</dt>
+                <dd class="leading-relaxed">
+                    Peters, R., Ee, N., Peters, J., Booth, A., Mudway, I., & Anstey, K. J. (2019). Air pollution and dementia: A systematic review. <em>Journal of Alzheimer's Disease</em>, <em>70</em>(s1), S185–S203. <a href="https://doi.org/10.3233/JAD-180631" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.3233/JAD-180631</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Plassman et al. (2000)</dt>
+                <dd class="leading-relaxed">
+                    Plassman, B. L., Havlik, R. J., Steffens, D. C., Helms, M. J., Newman, T. N., Drosdick, D., ... & Breitner, J. C. S. (2000). Documented head injury in early adulthood and risk of Alzheimer's disease and other dementias. <em>Neurology</em>, <em>55</em>(8), 1158–1166. <a href="https://doi.org/10.1212/WNL.55.8.1158" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1212/WNL.55.8.1158</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Prins & Scheltens (2015)</dt>
+                <dd class="leading-relaxed">
+                    Prins, N. D., & Scheltens, P. (2015). White matter hyperintensities, cognitive impairment and dementia: An update. <em>Nature Reviews Neurology</em>, <em>11</em>(3), 157–165. <a href="https://doi.org/10.1038/nrneurol.2015.10" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1038/nrneurol.2015.10</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Scarmeas et al. (2009)</dt>
+                <dd class="leading-relaxed">
+                    Scarmeas, N., Luchsinger, J. A., Schupf, N., Brickman, A. M., Cosentino, S., Tang, M. X., & Stern, Y. (2009). Physical activity, diet, and risk of Alzheimer disease. <em>JAMA</em>, <em>302</em>(6), 627–637. <a href="https://doi.org/10.1001/jama.2009.1144" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1001/jama.2009.1144</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Scarmeas et al. (2018)</dt>
+                <dd class="leading-relaxed">
+                    Scarmeas, N., Anastasiou, C. A., & Yannakoulia, M. (2018). Nutrition and prevention of cognitive impairment. <em>Current Opinion in Clinical Nutrition and Metabolic Care</em>, <em>21</em>(6), 450–456. <a href="https://doi.org/10.1097/MCO.0000000000000505" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1097/MCO.0000000000000505</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Scheff et al. (2006)</dt> {/* Changed year to match citation */}
+                <dd class="leading-relaxed">
+                    Scheff, S. W., Price, D. A., Schmitt, F. A., & Mufson, E. J. (2006). Hippocampal synaptic loss in early Alzheimer's disease and mild cognitive impairment. <em>Neurobiology of Aging</em>, <em>27</em>(10), 1372–1384. <a href="https://doi.org/10.1016/j.neurobiolaging.2005.09.012" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/j.neurobiolaging.2005.09.012</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Scheltens et al. (2021)</dt>
+                <dd class="leading-relaxed">
+                    Scheltens, P., De Strooper, B., Kivipelto, M., Holstege, H., Chételat, G., Teunissen, C. E., ... & Zetterberg, H. (2021). Alzheimer's disease. <em>The Lancet</em>, <em>397</em>(10284), 1577–1590. <a href="https://doi.org/10.1016/S0140-6736(20)32205-4" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/S0140-6736(20)32205-4</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Selkoe (2002)</dt>
+                <dd class="leading-relaxed">
+                    Selkoe, D. J. (2002). Alzheimer's disease is a synaptic failure. <em>Science</em>, <em>298</em>(5594), 789–791. <a href="https://doi.org/10.1126/science.1074069" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1126/science.1074069</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Selkoe & Hardy (2016)</dt>
+                <dd class="leading-relaxed">
+                    Selkoe, D. J., & Hardy, J. (2016). The amyloid hypothesis of Alzheimer's disease at 25 years. <em>EMBO Molecular Medicine</em>, <em>8</em>(6), 595–608. <a href="https://doi.org/10.15252/emmm.201606210" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.15252/emmm.201606210</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Serrano-Pozo et al. (2011)</dt>
+                <dd class="leading-relaxed">
+                    Serrano-Pozo, A., Frosch, M. P., Masliah, E., & Hyman, B. T. (2011). Neuropathological alterations in Alzheimer disease. <em>Cold Spring Harbor Perspectives in Medicine</em>, <em>1</em>(1), a006189. <a href="https://doi.org/10.1101/cshperspect.a006189" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1101/cshperspect.a006189</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Shankar & Walsh (2009)</dt>
+                <dd class="leading-relaxed">
+                    Shankar, G. M., & Walsh, D. M. (2009). Alzheimer’s disease: Synaptic dysfunction and Aβ. <em>Molecular Neurodegeneration</em>, <em>4</em>(1), 48. <a href="https://doi.org/10.1186/1750-1326-4-48" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1186/1750-1326-4-48</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Shi et al. (2018)</dt>
+                <dd class="leading-relaxed">
+                    Shi, L., Chen, S. J., Ma, M. Y., Bao, Y. P., Han, Y., Wang, Y. M., ... & Li, W. (2018). Sleep disturbances increase the risk of dementia: A systematic review and meta-analysis. <em>Sleep Medicine Reviews</em>, <em>40</em>, 4–16. <a href="https://doi.org/10.1016/j.smrv.2017.06.010" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/j.smrv.2017.06.010</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Sims et al. (2023)</dt>
+                <dd class="leading-relaxed">
+                    Sims, J. R., Zimmer, J. A., Evans, C. D., Lu, M., Ardayfio, P., Sparks, J., ... & TRAILBLAZER-ALZ 2 Investigators. (2023). Donanemab in early symptomatic Alzheimer disease: The TRAILBLAZER-ALZ 2 randomized clinical trial. <em>JAMA</em>, <em>330</em>(6), 512–527. <a href="https://doi.org/10.1001/jama.2023.13239" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1001/jama.2023.13239</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Sperling et al. (2011)</dt> {/* Corrected year from 2021 */}
+                <dd class="leading-relaxed">
+                    Sperling, R. A., Jack, C. R., Jr, Black, S. E., Frosch, M. P., Greenberg, S. M., Hyman, B. T., ... & Aisen, P. S. (2011). Amyloid-related imaging abnormalities in amyloid-modifying therapeutic trials: Recommendations from the Alzheimer's Association Research Roundtable Workgroup. <em>Alzheimer's & Dementia</em>, <em>7</em>(4), 367-385. <a href="https://doi.org/10.1016/j.jalz.2011.05.2351" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1016/j.jalz.2011.05.2351</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+              <dt class="sr-only">Stephen et al. (2017)</dt>
+              <dd class="leading-relaxed">
+                Stephen, R., Hongisto, K., Solomon, A., & Lönnroos, E. (2017). Physical activity and Alzheimer's disease: A systematic review. <em>The Journals of Gerontology: Series A</em>, <em>72</em>(6), 733–739. <a href="https://doi.org/10.1093/gerona/glw251" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1093/gerona/glw251</span><Fragment set:html={externalLinkIcon} /></a>
+              </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Sweeney et al. (2018)</dt>
+                <dd class="leading-relaxed">
+                    Sweeney, M. D., Sagare, A. P., & Zlokovic, B. V. (2018). Blood–brain barrier breakdown in Alzheimer disease and other neurodegenerative disorders. <em>Nature Reviews Neurology</em>, <em>14</em>(3), 133–150. <a href="https://doi.org/10.1038/nrneurol.2017.188" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1038/nrneurol.2017.188</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Tampi et al. (2016)</dt>
+                <dd class="leading-relaxed">
+                    Tampi, R. R., Tampi, D. J., Balachandran, S., & Hoq, R. (2016). Antipsychotic use in dementia: A systematic review of benefits and risks from meta-analyses. <em>Therapeutic Advances in Drug Safety</em>, <em>7</em>(5), 185–198. <a href="https://doi.org/10.1177/2042098616658463" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1177/2042098616658463</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Uddin et al. (2018)</dt> {/* Corrected year based on PubMed */}
+                <dd class="leading-relaxed">
+                    Uddin, M. S., Stachowiak, A., Mamun, A. A., Tzvetkov, N. T., Takeda, S., Atanasov, A. G., Bergantin, L. B., Abdel-Daim, M. M., & Stankiewicz, A. M. (2018). Autophagy and Alzheimer's disease: From molecular mechanisms to therapeutic implications. <em>Frontiers in Aging Neuroscience</em>, <em>10</em>, 4. <a href="https://doi.org/10.3389/fnagi.2018.00004" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.3389/fnagi.2018.00004</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Vagelatos & Eslick (2013)</dt>
+                <dd class="leading-relaxed">
+                    Vagelatos, N. T., & Eslick, G. D. (2013). Type 2 diabetes as a risk factor for cognitive impairment and dementia: A meta-analysis of longitudinal cohort studies. <em>BMC Neurology</em>, <em>13</em>(1), 162. <a href="https://doi.org/10.1186/1471-2377-13-162" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1186/1471-2377-13-162</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">van Dyck et al. (2023)</dt>
+                <dd class="leading-relaxed">
+                    van Dyck, C. H., Swanson, C. J., Aisen, P., Bateman, R. J., Chen, C., Gee, M., Kanekiyo, M., Li, D., Reyderman, L., Cohen, S., Froelich, L., Katayama, S., Sabbagh, M., Vellas, B., Watson, D., Dhadda, S., Irizarry, M., Kramer, L. D., & Iwatsubo, T. (2023). Lecanemab in early Alzheimer’s disease. <em>New England Journal of Medicine</em>, <em>388</em>(1), 9–21. <a href="https://doi.org/10.1056/NEJMoa2212948" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1056/NEJMoa2212948</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Venegas & Heneka (2017)</dt>
+                <dd class="leading-relaxed">
+                    Venegas, C., & Heneka, M. T. (2017). Danger-associated molecular patterns in Alzheimer's disease. <em>Journal of Leukocyte Biology</em>, <em>101</em>(1), 87–98. <a href="https://doi.org/10.1189/jlb.3MR0416-204R" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1189/jlb.3MR0416-204R</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Villemagne et al. (2018)</dt>
+                <dd class="leading-relaxed">
+                    Villemagne, V. L., Doré, V., Bourgeat, P., Burnham, S. C., Laws, S., Salvado, O., Masters, C. L., & Rowe, C. C. (2018). Aβ-amyloid and tau imaging in dementia. <em>Cold Spring Harbor Perspectives in Medicine</em>, <em>8</em>(9), a023711. <a href="https://doi.org/10.1101/cshperspect.a023711" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1101/cshperspect.a023711</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Walker & Lue (2015)</dt>
+                <dd class="leading-relaxed">
+                    Walker, K. A., & Lue, L. F. (2015). The role of inflammation in Alzheimer's disease. <em>Clinical Interventions in Aging</em>, <em>10</em>, 1697–1707. <a href="https://doi.org/10.2147/CIA.S71280" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.2147/CIA.S71280</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Wightman et al. (2021)</dt>
+                <dd class="leading-relaxed">
+                    Wightman, D. P., Jansen, I. E., Savage, J. E., Shadrin, A. A., Bahrami, S., Holland, D., ... & Posthuma, D. (2021). A genome-wide association study with 1,126,563 individuals identifies new risk loci for Alzheimer's disease. <em>Nature Genetics</em>, <em>53</em>(9), 1276–1282. <a href="https://doi.org/10.1038/s41588-021-00921-z" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1038/s41588-021-00921-z</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+
+            <div class="break-inside-avoid">
+                <dt class="sr-only">Zlokovic (2011)</dt>
+                <dd class="leading-relaxed">
+                    Zlokovic, B. V. (2011). Neurovascular pathways to neurodegeneration in Alzheimer's disease and other disorders. <em>Nature Reviews Neuroscience</em>, <em>12</em>(12), 723–738. <a href="https://doi.org/10.1038/nrn3114" target="_blank" rel="noopener noreferrer" class="group font-normal break-words inline-flex items-center"><span>https://doi.org/10.1038/nrn3114</span><Fragment set:html={externalLinkIcon} /></a>
+                </dd>
+            </div>
+            {/* === End of Reference List === */}
+
+        </dl>
+    </div>
+</BaseLayout>

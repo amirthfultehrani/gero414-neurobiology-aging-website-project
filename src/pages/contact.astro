@@ -1,0 +1,109 @@
+---
+// src/pages/contact.astro
+// --- Imports ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// --- Configuration ---
+const base = import.meta.env.BASE_URL; // Base URL for link construction.
+const pageTitle = "Contact Us";
+// SEO Description specific to this page.
+const pageDescription = "Get in touch with feedback or questions about the CCH-MIC educational project (GERO 414 at USC).";
+
+// --- Data ---
+// Defines breadcrumb navigation for this page.
+const breadcrumbs = [
+  { label: "Home", href: `${base}/` },
+  { label: "Contact", href: `${base}/contact/` } // Current page.
+];
+
+// Defines SVG icon markup for the email button.
+const emailIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 transition-transform duration-200 ease-out group-hover:translate-x-0.5"><path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" /><path d="M19 8.839l-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" /></svg>`;
+// Defines SVG icon markup for the disclaimer blockquote.
+const infoIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 shrink-0 text-amber-600 dark:text-amber-400 mt-0.5"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM8.94 6.94a.75.75 0 1 1-1.061-1.061 3 3 0 1 1 2.871 5.026v.345a.75.75 0 0 1-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 1 0 8.94 6.94ZM10 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" /></svg>`;
+---
+
+{/* Apply BaseLayout with page-specific title, description, and breadcrumbs */}
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+
+  {/* Page Header with animation */}
+  <header class="mb-10 md:mb-12 text-center group">
+    <h1 class="mt-0 mb-4 text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white animate-fade-in-down duration-500">Contact Us</h1>
+    <p class="text-lg lg:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed animate-fade-in-down duration-500 delay-100">
+      We welcome feedback and questions about this educational project.
+    </p>
+  </header>
+
+  {/* Contact Information Section */}
+  {/* Styled container with gradient, border, shadow, and hover effects */}
+  <div class="mb-12 md:mb-16 rounded-2xl border border-blue-200/70 bg-gradient-to-br from-blue-50/80 via-indigo-50/50 to-white dark:from-slate-800/70 dark:via-slate-800/50 dark:to-slate-900/70 p-6 py-10 md:p-10 md:py-14 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:border-blue-300 dark:border-blue-900/50 dark:hover:border-blue-700/60 transform hover:-translate-y-1 hover:scale-[1.01] flex flex-col items-center">
+    {/* Section Heading with gradient text */}
+    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center mt-0 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 pb-1 animate-fade-in duration-500 delay-200">
+      Get in Touch
+    </h2>
+    {/* Explanatory text */}
+    <p class="leading-relaxed text-slate-700 dark:text-slate-300 max-w-prose mx-auto mb-8 text-center animate-fade-in duration-500 delay-300">
+      For questions or feedback regarding the information presented on this website (a GERO 414 course project at USC), please reach out via email:
+    </p>
+    {/* Email Button Container (using <p> for centering) */}
+    <p class="flex justify-center animate-fade-in duration-500 delay-400">
+      {/* Email Link styled as a prominent button */}
+      <a
+        href="mailto:amirreza@usc.edu"
+        class="group inline-flex items-center justify-center gap-x-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-4 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-500/30 ring-offset-2 ring-offset-blue-50 dark:ring-offset-slate-800 transition-all duration-300 ease-out hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl hover:ring-4 hover:ring-blue-400/40 hover:-translate-y-0.5 hover:scale-[1.03] focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-400 dark:focus-visible:ring-blue-600 active:scale-95 active:shadow-md active:translate-y-0 transform-gpu"
+      >
+        {/* Email Icon container with hover animation */}
+        <span class="transition-transform duration-200 ease-out group-hover:rotate-[-5deg]">
+          <Fragment set:html={emailIcon} />
+        </span>
+        {/* Email Address */}
+        <span>amirreza@usc.edu</span>
+      </a>
+    </p>
+  </div>
+
+    {/* Disclaimer Reminder Section */}
+    {/* Styled blockquote for emphasis */}
+    <blockquote class="mt-12 md:mt-16 rounded-lg border-l-4 border-amber-500 bg-amber-50 p-5 shadow-md dark:border-amber-400 dark:bg-slate-800/70 backdrop-blur-sm transition-shadow duration-300 hover:shadow-lg">
+        <div class="flex items-start gap-x-4">
+            {/* Info Icon */}
+            <span class="mt-0.5 shrink-0">
+                <Fragment set:html={infoIcon} />
+            </span>
+            {/* Disclaimer Content */}
+            <div>
+                <p class="font-semibold text-amber-900 dark:text-amber-300 mb-2">
+                    Disclaimer Reminder
+                </p>
+                {/* Disclaimer Text */}
+                <p class="text-sm italic text-amber-800/90 dark:text-slate-300/90 leading-relaxed"> {/* Increased contrast */}
+                   Please remember, this website is an informational resource created by me (Amir Tehrani) as part of a university course project (specifically, a Spring 2025 course at USC titled GERO 414: The Neurobiology of Aging - taught by Dr. John Walsh and Dr. Tara Mastro). Given its student nature, it does not aim to provide medical advice or clinical services. Please always talk with qualified healthcare professionals for personal health concerns. May you be blessed!
+                </p>
+            </div>
+        </div>
+    </blockquote>
+</BaseLayout>
+
+{/* Animation Keyframes (Define globally or keep scoped) */}
+<style>
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fade-in-down {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  /* Animation Utility Classes */
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+  }
+  .animate-fade-in-down {
+      animation: fade-in-down 0.5s ease-out forwards;
+  }
+  /* Delay Utility Classes */
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .duration-500 { animation-duration: 500ms; }
+</style>

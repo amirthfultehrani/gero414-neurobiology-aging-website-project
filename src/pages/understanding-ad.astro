@@ -1,0 +1,346 @@
+---
+// src/pages/understanding-ad.astro
+// --- Imports ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// --- Configuration ---
+const base = import.meta.env.BASE_URL; // Base URL for link construction.
+const pageTitle = "Understanding Alzheimer's & Dementia";
+// SEO Description specific to this page.
+const pageDescription = "Demystify dementia vs. Alzheimer's disease. Explore the core biological changes (plaques, tangles, inflammation, synapse loss, vascular issues) underlying AD.";
+
+// --- Data ---
+// Defines breadcrumb navigation structure for this page.
+const breadcrumbs = [
+  { label: "Home", href: `${base}/` },
+  { label: "Understanding AD", href: `${base}/understanding-ad/` } // Current page.
+];
+
+// --- Schema.org Data ---
+// Basic Article schema for SEO.
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": pageTitle,
+  "description": pageDescription,
+  "author": {
+    "@type": "Person",
+    "name": "Amir Tehrani" // TODO: Confirm author name
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CCH-MIC",
+    "logo": {
+      "@type": "ImageObject",
+      "url": new URL(`${base}/favicon.svg`, Astro.site).toString()
+    }
+  },
+  // "datePublished": "YYYY-MM-DD", // Again, optional
+  // "dateModified": "YYYY-MM-DD", // Again, too, optional
+  // Representative images for the article
+  "image": new URL(`${base}/assets/ad-pathology-overview.png`, Astro.site).toString()
+};
+
+/**
+ * Renders text as an inline citation using styled `<code>` tags.
+ * Removes surrounding brackets/parentheses for cleaner presentation.
+ * Ensures citations are visually distinct but readable with high contrast.
+ * @param {string} text - The citation text (e.g., "Author, Year").
+ * @returns {string} HTML string for the styled citation.
+ */
+function renderCitation(text: string): string {
+  const textString = String(text);
+  // Styling uses high contrast colors and a subtle border for distinction.
+  return `<code class="inline-block align-baseline text-[0.7rem] font-normal not-italic bg-slate-200/80 dark:bg-slate-700/80 text-slate-800 dark:text-slate-200 px-1.5 py-0.5 rounded-sm mx-0.5 border border-slate-300/50 dark:border-slate-600/50">${textString.replace(/[\[\]()]/g, '')}</code>`;
+}
+
+// Defines SVG icons used as visual cues for section headings.
+// Accessibility attributes ensure they are ignored by screen readers.
+const infoIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 transition-transform duration-300 ease-out group-hover:scale-110" role="img" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM9 8a1 1 0 0 1 1-1h.01a1 1 0 1 1 0 2H10a1 1 0 0 1-1-1Zm.01 3a1 1 0 1 0 0 2h.002a1 1 0 1 0 0-2h-.002Z" clip-rule="evenodd" /></svg>`;
+const brainIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 transition-transform duration-300 ease-out group-hover:scale-110" role="img" aria-hidden="true"><path d="M13.5 4A1.5 1.5 0 0 0 12 5.5V10h-4V5.5A1.5 1.5 0 0 0 6.5 4h-1A1.5 1.5 0 0 0 4 5.5V10H2.75a.75.75 0 0 0 0 1.5H4v2.5A1.5 1.5 0 0 0 5.5 15.5h1.05a3.001 3.001 0 0 1 5.9 0H13.5A1.5 1.5 0 0 0 15 14v-2.5h1.25a.75.75 0 0 0 0-1.5H15V5.5A1.5 1.5 0 0 0 13.5 4h-1Z" /><path d="M8 10.75A.75.75 0 0 1 8.75 10h2.5a.75.75 0 0 1 0 1.5h-2.5A.75.75 0 0 1 8 10.75Z" /></svg>`;
+const dnaIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 transition-transform duration-300 ease-out group-hover:scale-110" role="img" aria-hidden="true"><path fill-rule="evenodd" d="M10.79 4.72a.75.75 0 0 1 1.42 0l2.5 5.25a.75.75 0 0 1-1.12 1.02l-1.91-1.273a.75.75 0 0 0-.916-.004L10 11.293l-1.684-1.586a.75.75 0 0 0-.916.004l-1.91 1.273a.75.75 0 1 1-1.12-1.02l2.5-5.25a.75.75 0 0 1 .79-.525H7a.75.75 0 0 1 .75.75v1.5h1.5a.75.75 0 0 1 .75.75v3.067l2.06-1.943a.75.75 0 0 1 .98.04Zm-3.47 7.711a.75.75 0 0 1 1.12-1.02l1.91 1.273a.75.75 0 0 0 .916.004L13 11.293l1.684 1.586a.75.75 0 0 0 .916-.004l1.91-1.273a.75.75 0 0 1 1.12 1.02l-2.5 5.25a.75.75 0 0 1-1.42 0l-1.06-2.208a.75.75 0 0 0-.98-.04L10 18.707l-1.684-1.586a.75.75 0 0 0-.98.04l-1.06 2.208a.75.75 0 1 1-1.42 0l-2.5-5.25Z" clip-rule="evenodd" /></svg>`;
+const shieldIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 transition-transform duration-300 ease-out group-hover:scale-110" role="img" aria-hidden="true"><path fill-rule="evenodd" d="M10 1a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM9.008 11.195l-1.416.943a.75.75 0 0 1-1.083-.807l.418-1.622a.75.75 0 0 0-.247-.708l-1.325-1.117a.75.75 0 0 1 .43-1.28l1.65-.118a.75.75 0 0 0 .654-.477l.62-1.58a.75.75 0 0 1 1.342 0l.62 1.58a.75.75 0 0 0 .655.477l1.65.118a.75.75 0 0 1 .43 1.28l-1.325 1.117a.75.75 0 0 0-.247.708l.418 1.622a.75.75 0 0 1-1.083.807l-1.416-.943a.75.75 0 0 0-.846 0Z" clip-rule="evenodd" /></svg>`;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs} schema={articleSchema}>
+    <header class="mb-10 md:mb-16 text-center">
+      <h1 class="mt-0 mb-4 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white transition duration-300 hover:text-blue-600 dark:hover:text-blue-400">{pageTitle}</h1>
+      <p class="text-lg lg:text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed"> {/* Increased contrast */}
+          Demystifying the terms and exploring the intricate biological changes occurring within the brain during normal aging versus those characterizing Alzheimer's Disease.
+      </p>
+    </header>
+
+    <div class="space-y-12 md:space-y-16 lg:space-y-20">
+
+        {/* Section: What is Dementia? */}
+        <section class="group p-6 md:p-8 rounded-xl bg-gradient-to-br from-white to-slate-50 dark:from-slate-800/70 dark:to-slate-800/90 border border-slate-200 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:border-blue-300 dark:hover:border-blue-600/50">
+            <h2 class="text-2xl md:text-3xl font-semibold text-slate-900 dark:text-white mt-0 mb-6 flex items-start gap-x-3 transition-colors group-hover:text-blue-800 dark:group-hover:text-blue-300">
+                <span class="mt-1 text-sky-500 shrink-0 transition-transform group-hover:scale-110"><Fragment set:html={infoIcon} /></span>
+                What is Dementia?
+            </h2>
+            <div class="text-base md:text-lg leading-relaxed text-slate-700 dark:text-slate-300 space-y-5 max-w-prose">
+                <p>
+                    Dementia manifests not as a singular, specific disease entity; rather, it serves as a unifying <strong class="font-semibold text-slate-800 dark:text-slate-100">clinical syndrome</strong>, a designation encompassing a complex constellation of symptoms. Arising as the direct consequence of diverse underlying neuropathological disorders, symptoms progressively impair the brain's intricate structure and essential function. Fundamentally, dementia represents an <strong class="font-semibold text-slate-800 dark:text-slate-100">acquired</strong> condition—meaning it develops later in life, standing in stark contrast to congenital cognitive impairments present from birth. Defined further by its <strong class="font-semibold text-slate-800 dark:text-slate-100">persistent character</strong>, it indicates a continuous, typically inexorable deterioration, not a transient affliction, not a fluctuating state.
+                </p>
+                <p>
+                    At the heart of dementia lies a significant, measurable decline in cognitive faculties. Constituting a spectrum of higher brain functions, faculties demand precise assessment:
+                </p>
+                 <ul class="list-none space-y-4 pl-0 sm:pl-4 mt-6">
+                    <li class="relative pl-8 before:content-['•'] before:absolute before:left-0 before:top-0.5 before:text-sky-500 before:font-bold before:text-xl before:transition-transform before:duration-200 group-hover:before:scale-110">
+                        <strong class="font-semibold text-slate-800 dark:text-slate-100 block mb-0.5">Memory suffers</strong>
+                        <span class="text-slate-600 dark:text-slate-400 text-sm sm:text-base">Revealing difficulty recalling recent occurrences, difficulty learning novel information, difficulty recognizing familiar faces or navigating known places.</span>
+                    </li>
+                    <li class="relative pl-8 before:content-['•'] before:absolute before:left-0 before:top-0.5 before:text-sky-500 before:font-bold before:text-xl before:transition-transform before:duration-200 group-hover:before:scale-110">
+                        <strong class="font-semibold text-slate-800 dark:text-slate-100 block mb-0.5">Language falters (Aphasia)</strong>
+                         <span class="text-slate-600 dark:text-slate-400 text-sm sm:text-base">Presenting as problems finding appropriate words, problems understanding spoken discourse, problems interpreting written text, or problems formulating written expression.</span>
+                    </li>
+                     <li class="relative pl-8 before:content-['•'] before:absolute before:left-0 before:top-0.5 before:text-sky-500 before:font-bold before:text-xl before:transition-transform before:duration-200 group-hover:before:scale-110">
+                        <strong class="font-semibold text-slate-800 dark:text-slate-100 block mb-0.5">Problem-Solving & Executive Function erode</strong>
+                         <span class="text-slate-600 dark:text-slate-400 text-sm sm:text-base">Marked by challenges in planning complex tasks, challenges in organizing sequential actions, challenges in logical reasoning, challenges in sound judgment, and challenges in effective multitasking—impeding the brain's critical management system.</span>
+                    </li>
+                     <li class="relative pl-8 before:content-['•'] before:absolute before:left-0 before:top-0.5 before:text-sky-500 before:font-bold before:text-xl before:transition-transform before:duration-200 group-hover:before:scale-110">
+                        <strong class="font-semibold text-slate-800 dark:text-slate-100 block mb-0.5">Visuospatial Skills diminish</strong>
+                         <span class="text-slate-600 dark:text-slate-400 text-sm sm:text-base">Resulting in difficulty interpreting visual data accurately, difficulty judging spatial distances, or difficulty navigating once-familiar environments.</span>
+                    </li>
+                    <li class="relative pl-8 before:content-['•'] before:absolute before:left-0 before:top-0.5 before:text-sky-500 before:font-bold before:text-xl before:transition-transform before:duration-200 group-hover:before:scale-110">
+                        <strong class="font-semibold text-slate-800 dark:text-slate-100 block mb-0.5">Attention & Concentration weaken</strong>
+                        <span class="text-slate-600 dark:text-slate-400 text-sm sm:text-base">Characterized by an inability to maintain focus, an inability to sustain attention over time, or an inability to shift between cognitive tasks efficiently.</span>
+                    </li>
+                </ul>
+                <p class="mt-6">
+                    Most importantly, a critical criterion determines the definitive threshold for a dementia diagnosis: multifaceted cognitive decline must attain a severity level where it demonstrably and significantly <strong class="font-semibold text-slate-800 dark:text-slate-100">interferes with an individual's capacity to execute routine, everyday activities independently</strong> <Fragment set:html={renderCitation("Arvanitakis et al., 2019")} />. Manifesting in tasks such as managing personal finances meticulously, preparing complete meals safely, maintaining appropriate personal hygiene, operating a vehicle competently, or sustaining established social relationships, interference signifies dementia. Absent pronounced functional impairment, observed cognitive changes might signify Mild Cognitive Impairment (MCI) or reflect normative age-related alterations—but they do not constitute dementia.
+                </p>
+            </div>
+        </section>
+
+        {/* Section: What is Alzheimer's Disease (AD)? */}
+        <section class="group p-6 md:p-8 rounded-xl bg-gradient-to-br from-white to-slate-50 dark:from-slate-800/70 dark:to-slate-800/90 border border-slate-200 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-1 hover:border-indigo-300 dark:hover:border-indigo-600/50">
+            <h2 class="text-2xl md:text-3xl font-semibold text-slate-900 dark:text-white mt-0 mb-6 flex items-start gap-x-3 transition-colors group-hover:text-indigo-800 dark:group-hover:text-indigo-300">
+                 <span class="mt-1 text-indigo-500 shrink-0 transition-transform group-hover:scale-110"><Fragment set:html={brainIcon} /></span>
+                 What is Alzheimer's Disease (AD)? (Detailed Definition)
+            </h2>
+            <div class="text-base md:text-lg leading-relaxed text-slate-700 dark:text-slate-300 space-y-4 max-w-prose">
+                <p>
+                    Alzheimer's Disease (AD) stands identified as the <strong class="font-semibold text-slate-800 dark:text-slate-100">most frequent specific neuropathological cause</strong> precipitating the symptom cluster known as dementia; indeed, it accounts for a substantial majority, an estimated <strong class="font-semibold text-slate-800 dark:text-slate-100">60–80%</strong>, of all dementia cases <Fragment set:html={renderCitation("Alzheimer's Association, 2024")} />. Unlike the broad syndrome 'dementia', AD represents a distinct, progressive neurodegenerative disease.
+                </p>
+                 <p>
+                    <em class="text-slate-600 dark:text-slate-400">Neurodegenerative</em> signifies that the disease entails the gradual, irreversible breakdown and ultimate death of nerve cells—neurons constituting the fundamental units responsible for transmitting electrochemical information throughout the brain and nervous system. <em class="text-slate-600 dark:text-slate-400">Progressive</em> indicates that clinical symptoms intrinsically linked to neuronal loss inevitably worsen over an extended duration, typically spanning years.
+                 </p>
+                 <p>
+                     From a precise biological standpoint, AD is definitively characterized by two primary pathological hallmarks observable within brain tissue:
+                    <ol class="list-decimal list-outside pl-5 sm:pl-6 mt-4 space-y-2 text-sm md:text-base">
+                        <li class="pl-2"><strong class="font-semibold text-slate-800 dark:text-slate-100">Amyloid plaque accumulation:</strong> Dense, insoluble aggregates of a protein fragment termed beta-amyloid (Aβ) manifest, building up extracellularly, in the spaces *outside* of neurons.</li>
+                        <li class="pl-2"><strong class="font-semibold text-slate-800 dark:text-slate-100">Neurofibrillary tangle (NFT) formation:</strong> Twisted intracellular fibers composed primarily of an abnormally modified form of the protein Tau appear, accumulating *inside* neurons.</li>
+                    </ol>
+                </p>
+                <p class="mt-4">
+                    While AD receives primary attention here due to its overwhelming ubiquity, noting the presence of several unique dementia etiologies remains critical. <strong class="font-medium text-slate-800 dark:text-slate-100">Vascular Dementia</strong> is caused by impaired blood flow to the brain, frequently resulting from cerebrovascular events such as strokes; <strong class="font-medium text-slate-800 dark:text-slate-100">Lewy Body Dementia</strong> is distinguished by abnormal intraneuronal protein deposits known as Lewy bodies; and <strong class="font-medium text-slate-800 dark:text-slate-100">Frontotemporal Dementia</strong> primarily affects the frontal and temporal lobes of the brain, causing significant changes in personality, behavior, and language. Furthermore, it is increasingly recognized that many individuals—especially those of advanced age—exhibit <strong class="font-semibold text-slate-800 dark:text-slate-100">mixed pathology</strong>, meaning their brains concurrently display neuropathological features of more than one dementia-causing process, such as AD pathology (plaques and tangles) alongside significant vascular damage <Fragment set:html={renderCitation("Scheltens et al., 2021; Knopman et al., 2021")} />.
+                  </p>                  
+            </div>
+        </section>
+
+        {/* Section: Neurobiology of AD */}
+        <section class="pt-8 md:pt-12">
+            <h2 class="mb-10 text-center text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">The Neurobiology of AD: A Closer Look</h2>
+
+            {/* Image 1: AD Pathology Overview */}
+            <figure class="my-10 md:my-14 group text-center transition duration-300 ease-in-out hover:scale-[1.02]">
+              <img
+                src={`${base}/assets/ad-pathology-overview.png`}
+                alt="Diagram comparing healthy neuron (intact microtubules, stable Tau) vs AD neuron (disrupted microtubules, tangled Tau, extracellular amyloid plaques, activated microglia/astrocytes)."
+                class="mx-auto block max-w-full rounded-xl border border-slate-200 shadow-lg transition-all duration-300 ease-in-out group-hover:shadow-xl dark:border-slate-700 md:max-w-xl lg:max-w-2xl group-hover:border-slate-300 dark:group-hover:border-slate-600 will-change-transform"
+                loading="lazy" width="900" height="500"
+              />
+              <figcaption class="mt-4 text-xs italic text-slate-500 dark:text-slate-400 transition group-hover:text-slate-600 dark:group-hover:text-slate-300 px-4 max-w-xl mx-auto">
+                <strong class="font-semibold not-italic">Fig. 1:</strong> Visualization of Key Pathological Hallmarks Defining Alzheimer's Disease at the Cellular Level.
+              </figcaption>
+            </figure>
+
+            {/* Introductory paragraph for neurobiology */}
+            <p class="leading-relaxed mb-10 md:mb-12 text-slate-700 dark:text-slate-300 max-w-prose mx-auto text-center text-base md:text-lg">
+                 Understanding basic biological alterations is essential: essential not only for explaining clinical symptoms observed in individuals afflicted with AD but also essential for guiding the rational development of targeted diagnostic instruments and innovative therapeutic strategies. Initiating insidiously, damaging processes commence silently within the brain potentially decades before initial cognitive symptoms become clinically apparent. Moreover, not unfolding in isolation, pathological changes intricately interact and reciprocally influence each other, thereby generating a complex, destructive cascade of neurodegeneration:
+            </p>
+
+            {/* Grid container for detailed pathology cards */}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+
+                {/* Card: Amyloid Plaques */}
+                <div class="group p-6 rounded-lg bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/60 shadow-md hover:shadow-lg hover:border-indigo-300 dark:hover:border-indigo-600/60 transition-all duration-300 ease-in-out flex flex-col hover:-translate-y-1">
+                  <h3 class="text-xl font-semibold mb-3 text-indigo-700 dark:text-indigo-200 transition-colors group-hover:text-indigo-800 dark:group-hover:text-indigo-100">Amyloid Plaques (Aβ Pathology)</h3>
+                  <div class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed space-y-3 grow">
+                     <p>Amyloid plaques constitute one of the defining pathological signatures of AD. Composed principally of <strong class="font-medium text-slate-800 dark:text-slate-100">beta-amyloid (Aβ)</strong> protein fragments, dense, insoluble, adhesive clumps form. Accumulating specifically in the <strong class="font-medium text-slate-800 dark:text-slate-100">extracellular</strong> milieu, plaques reside in the space *outside* of the nerve cells (neurons).</p>
+                     <p><strong class="block mb-1 font-semibold text-slate-800 dark:text-slate-100">Formation Mechanism:</strong> Aβ fragments originate from a larger transmembrane protein known as the Amyloid Precursor Protein (APP), participating in functions related to neuronal growth and repair. Within the pathological cascade pertinent to AD, APP undergoes sequential enzymatic cleavage: first by beta-secretase (BACE1), then subsequently by gamma-secretase. Designated the 'amyloidogenic pathway', specific enzymatic processing generates Aβ fragments of varying amino acid lengths. Notably, the Aβ42 fragment exhibits particular propensity for aggregation and is widely considered highly neurotoxic.</p>
+                     <p><strong class="block mb-1 font-semibold text-slate-800 dark:text-slate-100">Early Toxic Species:</strong> Critically, prior to coalescing into large, microscopically visible plaques, Aβ fragments aggregate into smaller, soluble clusters termed <strong class="font-medium text-slate-800 dark:text-slate-100">Aβ oligomers</strong>. Now acknowledged as the most potently poisonous species, oligomers directly interfere with synaptic function by binding to neural receptors, therefore altering the exact communication mechanism at synapses—crucial junctions where neurons relay messages to one another. Believed to represent an early, crucial event causing cognitive decline, synaptic disruption occurs much before extensive plaque deposition becomes visible <Fragment set:html={renderCitation("Selkoe & Hardy, 2016; Shankar & Walsh, 2009")} />.</p>
+                     <p><strong class="block mb-1 font-semibold text-slate-800 dark:text-slate-100">Examples:</strong> In rare, early-onset Familial AD variants, specific mutations within genes encoding APP or components of the gamma-secretase complex (Presenilin 1 and Presenilin 2) directly lead to increased production of the aggregation-prone Aβ42, causing rapid and extensive plaque accumulation. Conversely, in common Late-Onset AD (LOAD), underlying issues are often hypothesized to relate more significantly to impaired Aβ clearance mechanisms rather than solely to overproduction.</p>
+                  </div>
+                </div>
+
+                {/* Card: Neurofibrillary Tangles */}
+                <div class="group p-6 rounded-lg bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/60 shadow-md hover:shadow-lg hover:border-indigo-300 dark:hover:border-indigo-600/60 transition-all duration-300 ease-in-out flex flex-col hover:-translate-y-1">
+                  <h3 class="text-xl font-semibold mb-3 text-indigo-700 dark:text-indigo-200 transition-colors group-hover:text-indigo-800 dark:group-hover:text-indigo-100">Neurofibrillary Tangles (NFTs) (Tau Pathology)</h3>
+                  <div class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed space-y-3 grow">
+                     <p>Neurofibrillary tangles (NFTs) represent the second defining pathological hallmark of AD. Identified *inside* nerve cells, they manifest visually as dense, twisted <strong class="font-medium text-slate-800 dark:text-slate-100">intracellular</strong> filaments.</p>
+                     <p><strong class="block mb-1 font-semibold text-slate-800 dark:text-slate-100">Composition and Formation:</strong> NFTs are primarily constituted by an abnormally modified form of the <strong class="font-medium text-slate-800 dark:text-slate-100">Tau protein</strong>. In its healthy physiological state, Tau protein performs a vital function in stabilizing microtubules. Essential components of the neuron's internal structural support system (the cytoskeleton), microtubules function akin to railroad tracks, forming a critical intracellular transport network for conveying nutrients, neurotransmitters, and other vital cellular components along the axon—the neuron's long signal-transmitting projection.</p>
+                     <p><strong class="block mb-1 font-semibold text-slate-800 dark:text-slate-100">Pathological Modification (Hyperphosphorylation):</strong> Within the context of AD, Tau undergoes a detrimental process termed <strong class="font-medium text-slate-800 dark:text-slate-100">hyperphosphorylation</strong>, wherein an excessive quantity of phosphate groups chemically attach to the Tau protein molecule. Modifying Tau's three-dimensional structure, specific chemical alteration causes it to detach from microtubules and subsequently aggregate with other abnormal Tau molecules. Self-assembling into structures known as paired helical filaments, aggregates ultimately constitute the insoluble NFTs observed pathologically.</p>
+                     <p><strong class="block mb-1 font-semibold text-slate-800 dark:text-slate-100">Consequences:</strong> Detachment of hyperphosphorylated Tau precipitates microtubule destabilization and eventual disintegration. Severely disrupting the neuron's internal transport system, this hinders intracellular communication and impairs the neuron's overall function and viability. Presence and burden of NFTs demonstrate a strong correlation with neuronal dysfunction; ultimately, NFT pathology contributes significantly to neuronal death <Fragment set:html={renderCitation("Goedert & Spillantini, 2006")} />. Following a predictable topographical pattern of spread through interconnected brain regions, NFT pathology's anatomical progression closely correlates with the clinical progression of symptoms observed in patients.</p>
+                     <p><strong class="block mb-1 font-semibold text-slate-800 dark:text-slate-100">Examples (Other Tauopathies):</strong> While prominently featured in AD, abnormal Tau aggregation serves as the primary pathological driver in other distinct neurodegenerative conditions collectively termed 'tauopathies' (such as Progressive Supranuclear Palsy [PSP] and Corticobasal Degeneration [CBD]). Affecting different specific brain regions, each condition consequently causes distinct clinical symptom profiles. Chronic Traumatic Encephalopathy (CTE)—a condition linked mechanistically to repeated head trauma—is also characterized neuropathologically by prominent Tau pathology.</p>
+                  </div>
+                </div>
+
+                 {/* Card: Neuroinflammation */}
+                 <div class="group p-6 rounded-lg bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/60 shadow-md hover:shadow-lg hover:border-indigo-300 dark:hover:border-indigo-600/60 transition-all duration-300 ease-in-out flex flex-col hover:-translate-y-1">
+                   <h3 class="text-xl font-semibold mb-3 text-indigo-700 dark:text-indigo-200 transition-colors group-hover:text-indigo-800 dark:group-hover:text-indigo-100">Neuroinflammation</h3>
+                    <div class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed space-y-3 grow">
+                     <p>Neuroinflammation denotes the inflammatory response occurring specifically within the brain parenchyma. While acute inflammation constitutes a normal, protective physiological response to injury or infection, in the context of AD, inflammatory processes become chronic, sustained, and ultimately detrimental.</p>
+                     <p><strong class="block mb-1 font-semibold text-slate-800 dark:text-slate-100">Cellular Basis:</strong> Brain's primary resident immune cells—<strong class="font-medium text-slate-800 dark:text-slate-100">microglia</strong>—along with supportive glial cells called <strong class="font-medium text-slate-800 dark:text-slate-100">astrocytes</strong>, become activated in response to the presence of accumulating amyloid plaques, forming NFTs, and resultant neuronal damage. Initially, activated microglia attempt to clear Aβ deposits but can become dysfunctional over time. Both activated microglia and astrocytes release potent signaling molecules known as <strong class="font-medium text-slate-800 dark:text-slate-100">pro-inflammatory cytokines</strong> (e.g., TNF-α, IL-1β, IL-6) and various other inflammatory mediators.</p>
+                     <p><strong class="block mb-1 font-semibold text-slate-800 dark:text-slate-100">Mechanism of Damage:</strong> Although initially intended as a protective mechanism, chronic glial activation transforms into a detrimental force. Sustained release of pro-inflammatory cytokines, reactive oxygen species (ROS), and other potentially toxic molecules cultivates a harmful microenvironment. Directly, the environment can inflict damage upon surrounding healthy neurons; it can impair synaptic function; it can exacerbate both amyloid and tau pathologies (thereby creating a destructive positive feedback loop); and it can contribute to the breakdown of the protective blood-brain barrier <Fragment set:html={renderCitation("Heneka et al., 2015")} />.</p>
+                     <p><strong class="block mb-1 font-semibold text-slate-800 dark:text-slate-100">Examples:</strong> Elevated concentrations of specific inflammatory markers are consistently detected in the cerebrospinal fluid and post-mortem brain tissue of AD patients compared to controls. Furthermore, systemic conditions involving chronic inflammation, such as certain persistent infections or autoimmune diseases (e.g., Multiple Sclerosis, which involves CNS inflammation), might influence an individual's risk for developing AD or modulate its rate of progression—underscoring the critical brain-body connection regarding inflammatory processes.</p>
+                   </div>
+                 </div>
+
+                 {/* Card: Synapse Loss */}
+                <div class="group p-6 rounded-lg bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/60 shadow-md hover:shadow-lg hover:border-indigo-300 dark:hover:border-indigo-600/60 transition-all duration-300 ease-in-out flex flex-col hover:-translate-y-1">
+                  <h3 class="text-xl font-semibold mb-3 text-indigo-700 dark:text-indigo-200 transition-colors group-hover:text-indigo-800 dark:group-hover:text-indigo-100">Synapse Loss & Neurodegeneration (N)</h3>
+                   <div class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed space-y-3 grow">
+                    <p><strong class="font-medium text-slate-800 dark:text-slate-100">Synapses</strong> represent the fundamental points of intercellular communication between neurons, facilitating the precise transmission of electrochemical signals. <strong class="font-medium text-slate-800 dark:text-slate-100">Neurodegeneration</strong> refers specifically to the progressive loss of neuronal structure and function—culminating ultimately in neuron death.</p>
+                    <p><strong class="block mb-1 font-semibold text-slate-800 dark:text-slate-100">Significance in AD:</strong> Loss of synapses constitutes an early and critically important feature of AD pathophysiology. Indeed, synaptic density is widely considered the <strong class="font-medium text-slate-800 dark:text-slate-100">strongest biological correlate</strong> of the cognitive decline observed clinically in patients <Fragment set:html={renderCitation("Selkoe, 2002")} />. Manifesting demonstrably well before widespread neuronal death and significant macroscopic brain shrinkage (atrophy) become readily apparent on structural brain imaging, synaptic compromise is evident early <Fragment set:html={renderCitation("Scheff et al., 2006")} />.</p>
+                    <p><strong class="block mb-1 font-semibold text-slate-800 dark:text-slate-100">Causes:</strong> Synapse loss in AD is driven by a confluence of multiple pathological factors: direct toxic effects exerted by Aβ oligomers at the synaptic terminal; functional disruption caused by tau pathology propagating into synaptic compartments; and damaging consequences of the chronic neuroinflammatory microenvironment.</p>
+                    <p><strong class="block mb-1 font-semibold text-slate-800 dark:text-slate-100">Examples:</strong> When comparing AD patients to age-matched controls, post-mortem investigations that measure the amounts of synaptic proteins in brain tissue consistently show large decreases. Advanced imaging methods show distinctive decreases in certain brain areas that are significantly impacted by AD disease. One such method is Positron Emission Tomography (PET) scans, which measure regional metabolic activity, closely mirroring aggregate synaptic performance. Other neurodegenerative diseases, like Frontotemporal Dementia (FTD) or Amyotrophic Lateral Sclerosis (ALS), also involve significant synapse loss and neurodegeneration—however, these typically occur in distinct anatomical patterns and affect different primary brain regions, thus leading to disparate clinical presentations compared to AD.</p>
+                </div>
+                </div>
+
+                {/* Card: Vascular Dysfunction */}
+                 <div class="group p-6 rounded-lg bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/60 shadow-md hover:shadow-lg hover:border-indigo-300 dark:hover:border-indigo-600/60 transition-all duration-300 ease-in-out flex flex-col hover:-translate-y-1">
+                   <h3 class="text-xl font-semibold mb-3 text-indigo-700 dark:text-indigo-200 transition-colors group-hover:text-indigo-800 dark:group-hover:text-indigo-100">Vascular Dysfunction</h3>
+                   <div class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed space-y-3 grow">
+                    <p>Accumulating evidence increasingly highlights the significant contribution of pathologies within the brain's intricate network of blood vessels (the cerebrovascular system) to the overall pathophysiology of AD.</p>
+                    <p><strong class="block mb-1 font-semibold text-slate-800 dark:text-slate-100">Manifestations:</strong> Vascular dysfunction within the AD context can encompass several distinct issues:</p>
+                    <ol class="list-decimal list-outside pl-4 space-y-1 text-xs sm:text-sm">
+                        <li>Reduced <strong class="font-medium text-slate-800 dark:text-slate-100">Cerebral Blood Flow (CBF)</strong>: Insufficient perfusion delivering blood to specific brain regions, thereby depriving neurons of requisite oxygen and glucose for optimal function and survival.</li>
+                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Blood-Brain Barrier (BBB) Breakdown</strong>: Compromise of the BBB—a highly specialized layer of endothelial cells lining brain capillaries that meticulously regulates the passage of substances between the circulating blood and the brain parenchyma—can occur or become "leaky" in AD. Consequently, potentially harmful blood-borne components (such as inflammatory cells or toxic proteins) infiltrate the brain tissue.</li>
+                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Cerebral Amyloid Angiopathy (CAA)</strong>: A specific condition characterized by the deposition of Aβ protein aggregates within the walls of cerebral arteries and capillaries. Weakening the vessel walls, accumulation consequently increases the risk of cerebral microbleeds or larger intracerebral hemorrhages.</li>
+                    </ol>
+                    <p><strong class="block mb-1 font-semibold text-slate-800 dark:text-slate-100">Consequences:</strong> Vascular disorders have considerable negative consequences. Reduced cerebral blood flow directly inhibits neuronal function and hampers cellular energy consumption. BBB collapse facilitates the entry of harmful chemicals and inflammatory mediators from the periphery, therefore worsening local neuroinflammation. Critically, impaired vascular function (including potentially compromised perivascular lymphatic drainage pathways) hinders the brain's intrinsic ability to effectively clear metabolic waste products—including Aβ itself—thus potentially contributing directly to plaque accumulation<Fragment set:html={renderCitation("Zlokovic, 2011; Sweeney et al., 2018")} />. Furthermore, nutrient delivery to energy-demanding neurons is also compromised.</p>
+                    <p><strong class="block mb-1 font-semibold text-slate-800 dark:text-slate-100">Examples:</strong> Vascular Dementia results directly from primary cerebrovascular disease (e.g., multiple lacunar infarcts or large strategic strokes). However, cerebrovascular pathology is exceedingly common alongside AD pathology (resulting in mixed dementia), suggesting potential synergistic detrimental effects between the two processes. Established risk factors for cardiovascular disease (such as chronic hypertension, diabetes mellitus) also represent strong risk factors for developing AD, further underscoring this critical vascular link.</p>
+                   </div>
+                 </div>
+
+                 {/* Card: Other Contributing Cellular Pathologies */}
+                 <div class="group p-6 rounded-lg bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/60 shadow-md hover:shadow-lg hover:border-indigo-300 dark:hover:border-indigo-600/60 transition-all duration-300 ease-in-out flex flex-col hover:-translate-y-1">
+                   <h3 class="text-xl font-semibold mb-3 text-indigo-700 dark:text-indigo-200 transition-colors group-hover:text-indigo-800 dark:group-hover:text-indigo-100">Other Contributing Cellular Pathologies</h3>
+                   <div class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed space-y-3 grow">
+                    <p>Beyond the primary neuropathological hallmarks (plaques and tangles) and significant vascular contributions, other fundamental cellular processes become dysfunctional in the AD brain, contributing substantially to the overall neurodegenerative cascade:</p>
+                    <ul class="list-disc list-outside pl-4 space-y-2 text-xs sm:text-sm">
+                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Oxidative Stress:</strong> Signifying a critical imbalance between the production of reactive oxygen species (ROS, or free radicals—highly unstable molecules that inflict damage upon cellular components) and the brain's capacity to neutralize these harmful species using its antioxidant defense systems, oxidative stress is detrimental. Mitochondria (the cell's primary energy producers) represent a major source of ROS generation; mitochondrial dysfunction is frequently observed in AD neurons. Oxidative stress inflicts damage upon cellular lipids, proteins, and DNA within neurons, thereby contributing significantly to cellular dysfunction and eventual death <Fragment set:html={renderCitation("Lin & Beal, 2006")} />.</li>
+                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Metabolic Dysfunction:</strong> Neurons possess exceptionally high energy demands to maintain their function. AD brains frequently exhibit reduced glucose uptake and utilization, particularly within brain regions most affected by the pathology. Linked to underlying issues such as impaired insulin signaling within the brain (sometimes conceptualized as 'Type 3 diabetes') and compromised mitochondrial function, metabolic deficit can lead ultimately to an energy deficit that jeopardizes neuronal survival and function <Fragment set:html={renderCitation("De la Monte & Wands, 2008")} />.</li>
+                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Impaired Proteostasis / Autophagy:</strong> Proteostasis denotes the intricate cellular network responsible for managing protein production, correct folding, intracellular trafficking, and eventual degradation. Autophagy represents a key cellular 'waste disposal' mechanism that removes damaged organelles and aggregated proteins (including pathological species like Aβ and abnormal Tau). In the context of AD, essential quality control systems become progressively less efficient. Leading directly to the accumulation of misfolded, potentially toxic proteins and damaged cellular components, inefficiency further stresses the neuron and contributes to its demise <Fragment set:html={renderCitation("Nixon, 2013")} />.</li>
+                    </ul>
+                   </div>
+                 </div>
+
+            </div> {/* End grid for pathologies */}
+        </section>
+
+        {/* Section: Risk Factors */}
+        {/* Discusses factors influencing the likelihood of developing LOAD. */}
+        <section class="py-8 md:py-12">
+            <h2 class="mb-10 text-center text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">Risk Factors for Late-Onset AD (LOAD)</h2>
+            <p class="mb-10 md:mb-12 text-slate-700 dark:text-slate-300 max-w-prose mx-auto text-center text-base md:text-lg leading-relaxed"> {/* Increased contrast */}
+                Late-Onset Alzheimer's Disease (LOAD)—representing the most prevalent form, typically manifesting clinically after the age of 65—is understood to emerge not from a singular, identifiable cause, but rather from a highly complex, lifelong interplay. Involving factors that cannot be altered (non-modifiable risks) and those related to lifestyle choices, environmental exposures, and overall health status that can potentially be influenced (modifiable risks), interplay occurs throughout life. Accumulating and interacting dynamically across an individual's entire lifespan, diverse factors contribute.
+            </p>
+
+            {/* Image 2: Risk Factors Diagram */}
+            <figure class="my-10 md:my-14 group text-center transition duration-300 ease-in-out hover:scale-[1.02]">
+              <img
+                src={`${base}/assets/ad-risk-factors.png`}
+                alt="Infographic: Dementia Risk Factors Across Lifespan. Non-Modifiable: Age, Genetics (APOE4). Modifiable (Midlife): Hearing Loss, TBI, Hypertension, Alcohol, Obesity. Modifiable (Later Life): Smoking, Depression, Isolation, Inactivity, Air Pollution, Diabetes. Early Life: Lower Education."
+                class="mx-auto block max-w-full rounded-xl border border-slate-200 shadow-lg transition-all duration-300 ease-in-out group-hover:shadow-xl dark:border-slate-700 md:max-w-xl lg:max-w-2xl group-hover:border-slate-300 dark:group-hover:border-slate-600 will-change-transform"
+                loading="lazy" width="850" height="450"
+              />
+              <figcaption class="mt-4 text-xs italic text-slate-500 dark:text-slate-400 transition group-hover:text-slate-600 dark:group-hover:text-slate-300 px-4 max-w-xl mx-auto">
+                <strong class="font-semibold not-italic">Fig. 2:</strong> Key Risk Factors for Late-Onset Alzheimer's Disease (Adapted from Livingston et al., 2020), illustrating influences across the lifespan.
+              </figcaption>
+            </figure>
+
+            {/* Grid for Modifiable vs Non-Modifiable Risk Factor Cards */}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 max-w-5xl mx-auto mt-12">
+                {/* Card: Non-Modifiable Risk Factors */}
+                <div class="group p-6 md:p-8 rounded-lg bg-white dark:bg-slate-800/90 border border-red-200 dark:border-slate-700/60 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out hover:border-red-300 dark:hover:border-red-600/60 hover:-translate-y-0.5">
+                    {/* Card Header */}
+                    <h3 class="text-xl font-semibold text-red-800 dark:text-red-200 mb-4 border-b border-red-300 dark:border-red-700 pb-2 flex items-center gap-x-2">
+                       <span class="text-red-500 transition-transform group-hover:scale-110"><Fragment set:html={dnaIcon} /></span>
+                       Non-Modifiable Risk Factors
+                    </h3>
+                    {/* Definition List for factors */}
+                    <dl class="space-y-4 text-sm"> {/* Reduced spacing */}
+                        <div>
+                            <dt class="font-semibold text-slate-800 dark:text-slate-100 text-base">Age:</dt>
+                            <dd class="ml-0 mt-1 text-slate-700 dark:text-slate-300 leading-relaxed"> {/* Increased contrast */}
+                                Representing the single greatest non-genetic risk factor for developing LOAD, age is paramount. Probability of receiving an AD diagnosis increases substantially, dramatically, with advancing chronological age—approximately doubling every five years subsequent to age 65 <Fragment set:html={renderCitation("Alzheimer's Association, 2024")} />. While the process of aging itself does not directly cause AD, various biological changes intrinsically associated with aging (e.g., increased basal inflammation, reduced cellular repair efficiency, cumulative oxidative stress) likely cultivate a more vulnerable intracerebral environment, one more susceptible to the development and progression of AD pathology.
+                            </dd>
+                        </div>
+                        <div>
+                            <dt class="font-semibold text-slate-800 dark:text-slate-100 text-base">Genetics (APOE ε4):</dt>
+                            <dd class="ml-0 mt-1 text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed">
+                                <span>While numerous genes likely contribute minor effects to overall LOAD susceptibility, the Apolipoprotein E (APOE) gene represents the most significant single genetic risk factor identified specifically for LOAD. Inheriting the <strong class="font-medium text-slate-800 dark:text-slate-100">APOE ε4</strong> allele significantly increases risk (1 copy ~3x, 2 copies ~8-15x) and lowers the average age of onset. However, it's important to remember ε4 does *not* guarantee AD development.</span>
+                                <ul class="list-disc list-outside pl-5 space-y-1 text-xs">
+                                    <li><strong class="font-medium text-slate-700 dark:text-slate-200">APOE ε3:</strong> Most common, considered risk-neutral.</li>
+                                    <li><strong class="font-medium text-slate-700 dark:text-slate-200">APOE ε2:</strong> Less common, appears protective.</li>
+                                </ul>
+                                <span class="block text-xs italic text-slate-500 dark:text-slate-400/80">Other genes likely play smaller roles, interacting with APOE and lifestyle <Fragment set:html={renderCitation("Liu et al., 2013; Wightman et al., 2021")} />.</span>
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+
+                 {/* Card: Modifiable Risk Factors */}
+                 <div class="group p-6 md:p-8 rounded-lg bg-white dark:bg-slate-800/90 border border-green-200 dark:border-slate-700/60 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out hover:border-green-300 dark:hover:border-green-600/60 hover:-translate-y-0.5">
+                     {/* Card Header */}
+                     <h3 class="text-xl font-semibold text-green-800 dark:text-green-200 mb-4 border-b border-green-300 dark:border-green-700 pb-2 flex items-center gap-x-2">
+                        <span class="text-green-500 transition-transform group-hover:scale-110"><Fragment set:html={shieldIcon} /></span>
+                        Potentially Modifiable Risk Factors
+                     </h3>
+                     {/* Definition List for factors */}
+                     <dl class="space-y-4 text-sm"> {/* Reduced spacing */}
+                         <div>
+                             <dt class="font-semibold text-slate-800 dark:text-slate-100 text-base">Cardiovascular & Metabolic Health:</dt>
+                             <dd class="ml-0 mt-1 text-slate-700 dark:text-slate-300 leading-relaxed">
+                                Conditions affecting the heart, vessels, and metabolism significantly increase risk, especially in midlife: <strong class="font-medium text-slate-800 dark:text-slate-100">Hypertension, High Cholesterol (LDL), Type 2 Diabetes, Midlife Obesity, Stroke History</strong>. These likely impact brain health via reduced blood flow, inflammation, and vascular damage <Fragment set:html={renderCitation("Livingston et al., 2020; Vagelatos & Eslick, 2013; Anstey et al., 2011")} />.
+                             </dd>
+                         </div>
+                         <div>
+                             <dt class="font-semibold text-slate-800 dark:text-slate-100 text-base">Lifestyle & Environmental Factors:</dt>
+                             <dd class="ml-0 mt-1 text-slate-700 dark:text-slate-300 leading-relaxed">
+                                Habits and exposures play a cumulative role: <strong class="font-medium text-slate-800 dark:text-slate-100">Smoking, Physical Inactivity, Unhealthy Diet, Poor Sleep, Social Isolation, Lower Education, Untreated Hearing Loss, Later-life Depression, Traumatic Brain Injury, Excessive Alcohol, Air Pollution</strong>. Modifying these can potentially reduce risk or delay onset.
+                             </dd>
+                              {/* Summary statistic */}
+                              <span class="block mt-2 text-xs italic text-slate-500 dark:text-slate-400/80">Together, modifiable factors may account for up to 40% of dementia risk worldwide <Fragment set:html={renderCitation("Summary: Livingston et al., 2020")} />.</span>
+                         </div>
+                     </dl>
+                 </div>
+             </div>
+        </section>
+
+        {/* Section: Prevention */}
+        {/* Addresses the possibility of preventing AD. */}
+        <section class="py-10 md:py-14">
+            <h2 class="mb-8 text-center text-2xl md:text-3xl font-semibold text-slate-900 dark:text-white">Is Alzheimer's Disease Preventable?</h2>
+            {/* Styled blockquote containing the answer */}
+            <blockquote class="mx-auto max-w-3xl rounded-lg border-l-4 border-emerald-500 bg-emerald-50/80 dark:bg-slate-800/80 p-6 shadow-md dark:border-emerald-400 hover:shadow-lg transition-shadow duration-300">
+              {/* Main text separated into paragraphs for readability */}
+              <div class="leading-relaxed text-slate-700 dark:text-slate-300 space-y-4 text-base md:text-lg">
+                  <p>
+                     At present, no definitive method exists, no single guaranteed intervention capable of preventing the onset of Alzheimer's Disease entirely. Profound complexity of the disease—arising from intricate, lifelong interactions between inherent genetic predispositions (such as APOE genotype), inevitable biological processes of aging, and a multitude of diverse environmental and lifestyle influences—renders absolute prevention an elusive objective... for the time being.
+                  </p>
+                  <p class="font-medium text-emerald-800 dark:text-emerald-200">
+                     However, substantial, compelling evidence strongly suggests proactively addressing identified modifiable risk factors throughout the lifespan represents the most effective current strategy available. While absolute prevention remains beyond reach, proactive risk reduction offers significant promise.
+                  </p>
+                  <p class="text-sm italic text-slate-600 dark:text-slate-400">
+                     By making conscious, health-promoting lifestyle choices—choices such as meticulously maintaining cardiovascular health (actively managing blood pressure, cholesterol levels, and diabetes); engaging consistently in regular physical activity; adopting a brain-healthy dietary pattern (e.g., rich in antioxidants, omega-3 fatty acids, and phytonutrients); ensuring sufficient, high-quality sleep; remaining socially engaged and mentally active; rigorously avoiding tobacco use; limiting alcohol consumption; protecting auditory health; and effectively managing chronic stress—individuals can potentially reduce their overall lifetime risk of developing dementia or, at minimum, delay its clinical onset and potentially slow its subsequent rate of progression <Fragment set:html={renderCitation("Livingston et al., 2020; Baumgart et al., 2015")} />. Focusing squarely on promoting overall brain health, a comprehensive approach actively builds resilience against the insidious pathological changes intrinsically associated with AD.
+                  </p>
+               </div>
+            </blockquote>
+        </section>
+
+    </div> {/* End Main Content Sections Container */}
+</BaseLayout>

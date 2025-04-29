@@ -1,0 +1,171 @@
+/* src/styles/global.css */
+
+/* 1. Import Google Fonts (Keep at the very top) */
+/* Ensures fonts are loaded early. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
+/* 2. Import Tailwind CSS v4 */
+/* Includes Tailwind's base, components, and utilities. */
+@import "tailwindcss";
+
+/* 3. Define Custom Dark Mode Variant (Class-based) */
+/* Enables the 'dark:' utility classes when the 'dark' class is on the <html> element. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 4. Define Theme Variables */
+/* Centralizes font definitions for consistency. */
+@theme {
+  /* Font family for general UI text, prioritizing system fonts. */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  /* Font family primarily for headings, providing a distinct typographic style. */
+  --font-serif: 'Lora', Georgia, Cambria, 'Times New Roman', Times, serif;
+
+  /* Add other custom theme variables here if needed */
+  /* Example: --color-brand-primary: oklch(60% 0.2 260); */
+  /* Example: --radius-custom: 10px; */
+}
+
+/* 5. Define Global Base Styles */
+/* Styles applied globally to HTML elements for foundational consistency. */
+@layer base {
+  html {
+    font-family: var(--font-sans); /* Applies the sans-serif font globally. */
+    scroll-behavior: smooth; /* Enables smooth scrolling for anchor links. */
+    -webkit-font-smoothing: antialiased; /* Improves font rendering on WebKit browsers. */
+    -moz-osx-font-smoothing: grayscale; /* Improves font rendering on Firefox. */
+    /* Base background and text colors for light and dark modes. */
+    @apply bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-200;
+    /* Smooth transition for color changes (e.g., theme toggle). */
+    @apply transition-colors duration-300 ease-in-out;
+    /* Default base text size. */
+    @apply text-base;
+    /* Ensures smooth scrolling behavior even when focus jumps within the page. */
+    @apply focus-within:scroll-smooth;
+  }
+
+  body {
+    /* Ensures the body takes at least the full viewport height and enables sticky footer layout. */
+    @apply flex min-h-screen flex-col;
+    /* Default text size and line height for body content, enhancing readability. */
+    @apply text-base leading-relaxed;
+  }
+
+  main {
+    /* Allows the main content area to expand and push the footer down. */
+    @apply flex-grow;
+  }
+
+  /* Headings: Consistent serif font, balanced line wrapping, defined margins. */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif); /* Applies the serif font to headings. */
+    text-wrap: balance; /* Improves text wrapping for multi-line headings. */
+    @apply font-bold leading-tight text-slate-900 dark:text-slate-100; /* Base heading text styling. */
+    @apply mt-0; /* Resets browser default top margin for consistent spacing control. */
+  }
+
+  /* Specific heading level styling (size, margin, border). */
+  h1 { @apply text-4xl sm:text-5xl lg:text-6xl border-b border-slate-300 dark:border-slate-700 pb-3 mb-8; }
+  h2 { @apply text-3xl sm:text-4xl lg:text-5xl mt-12 mb-6; } /* Increased top margin for sections. */
+  h3 { @apply text-2xl sm:text-3xl lg:text-4xl mt-10 mb-5; } /* Increased top margin for sub-sections. */
+  h4 { @apply text-xl sm:text-2xl lg:text-3xl mt-8 mb-4; }
+  h5 { @apply text-lg sm:text-xl lg:text-2xl font-semibold mt-6 mb-3; }
+  h6 { @apply text-base sm:text-lg lg:text-xl font-semibold text-slate-700 dark:text-slate-300 mt-5 mb-2; } /* Adjusted contrast for h6 */
+
+  p {
+    /* Default bottom margin for paragraphs, constrained width for optimal reading length. */
+    @apply mb-6 max-w-prose;
+  }
+  /* Removes bottom margin from the *last* child element within common containers to prevent double spacing. */
+   *:where(article, section, aside, main, div, blockquote, li) > :last-child {
+      @apply mb-0;
+   }
+
+  a {
+    /* Base link styling with high-contrast colors and subtle underline. */
+    @apply font-medium text-blue-600 dark:text-blue-400;
+    @apply decoration-blue-600/60 dark:decoration-blue-400/60 underline decoration-2 underline-offset-2;
+    @apply transition duration-150 ease-in-out;
+    /* Enhanced hover state with higher contrast and wavy underline. */
+    @apply hover:text-blue-800 dark:hover:text-blue-300 hover:decoration-current hover:decoration-wavy;
+    /* Focus styles are handled globally by *:focus-visible below. */
+  }
+
+  /* List styling */
+  ul, ol {
+     /* Consistent bottom margin, indentation, and spacing between list items. */
+     @apply list-outside mb-6 pl-5 space-y-2;
+  }
+  ul { @apply list-disc; } /* Default unordered list style. */
+  ol { @apply list-decimal; } /* Default ordered list style. */
+  li::marker {
+     /* Styling for list markers (bullets/numbers). */
+     @apply text-slate-500 dark:text-slate-400 font-semibold;
+  }
+
+  blockquote {
+    /* Distinct styling for blockquotes: border, padding, background, text color, rounded corner. */
+    @apply border-l-4 border-blue-400 dark:border-blue-600 pl-5 pr-4 py-4 my-8 italic bg-blue-50/70 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 rounded-r-lg shadow-sm;
+  }
+
+  hr {
+    /* Horizontal rule styling with increased margin for separation. */
+    @apply border-t border-slate-300 dark:border-slate-700 my-12;
+  }
+
+  code {
+    /* Styling for inline code snippets: background, padding, font, border. High contrast text. */
+    @apply bg-slate-200/80 dark:bg-slate-700/80 text-sm px-1.5 py-1 rounded font-mono break-words text-slate-800 dark:text-slate-200 border border-slate-300/50 dark:border-slate-600/50;
+  }
+
+  pre {
+      /* Styling for preformatted text blocks (code blocks): dark background, padding, rounded corners, overflow handling. */
+      @apply bg-slate-800 dark:bg-gray-950/70 p-4 rounded-lg overflow-x-auto text-sm leading-relaxed my-8 shadow-md border border-slate-700 dark:border-gray-700/80 backdrop-blur-sm;
+  }
+  pre code {
+     /* Resets inline code styles within <pre> blocks for proper code highlighting. */
+     /* Ensures high contrast for code within pre blocks. */
+     @apply block bg-transparent p-0 rounded-none text-inherit border-none shadow-none font-mono whitespace-pre text-slate-200 dark:text-gray-300;
+  }
+
+  /* Ensures images and media elements are responsive by default. */
+  img, video, svg, canvas {
+      @apply max-w-full h-auto block align-middle;
+  }
+
+  /* --- Global Accessibility Focus --- */
+  /* Applies a consistent, high-contrast focus ring for keyboard navigation. */
+  /* Uses focus-visible to avoid showing rings on mouse clicks. */
+  *:focus-visible {
+     @apply outline-none ring-2 ring-offset-2 ring-blue-500 dark:ring-blue-400 ring-offset-white dark:ring-offset-slate-900 rounded-sm; /* Standard rounded focus */
+  }
+  /* Removes the default browser outline only when focus is *not* triggered by keyboard (i.e., likely mouse clicks). */
+   *:focus:not(:focus-visible) {
+      @apply outline-none;
+   }
+}
+
+/* 6. Define Reusable Components */
+/* Defines styles for common UI patterns. */
+@layer components {
+  /* Skip Link Component: Visually hidden until focused. */
+  .skip-link {
+    @apply sr-only;
+  }
+  .skip-link:focus {
+    /* Styles to make the skip link visible and usable when focused. */
+    @apply not-sr-only absolute top-2 left-2 z-[9999] px-4 py-2 bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-300 font-semibold rounded shadow-lg;
+    /* Focus ring appearance is handled by the global *:focus-visible rule. */
+  }
+
+  /* Example Card Component Style (If needed for reuse outside of specific page implementations) */
+  .card {
+      @apply bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm p-6 transition hover:shadow-md;
+  }
+}
+
+/* 7. Define Custom Utilities (if needed) */
+/* For highly specific, reusable utility classes not covered by Tailwind. */
+@layer utilities {
+  /* Example: A utility to apply text balancing. */
+  /* .text-balance { text-wrap: balance; } */
+}

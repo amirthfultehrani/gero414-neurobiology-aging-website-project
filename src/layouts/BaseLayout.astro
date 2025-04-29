@@ -1,0 +1,236 @@
+---
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import ThemeIcon from '../components/ThemeIcon.astro';
+import '../styles/global.css'; // Import for Tailwind styles
+
+interface Breadcrumb {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  breadcrumbs?: Breadcrumb[];
+  schema?: {
+    "@context": string;
+    "@type": string;
+    headline: string;
+    description: string;
+    author: { "@type": string; name: string };
+    publisher: { "@type": string; name: string; logo: { "@type": string; url: string } };
+    image: string;
+  };
+}
+
+const {
+  title,
+  description = "Understanding the Science of Brain Aging, Alzheimer's, and Dementia. Your evidence-based resource for clarity and knowledge.",
+  breadcrumbs = []
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const structuredBreadcrumbs = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbs.map((crumb, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": crumb.label,
+    "item": new URL(crumb.href, Astro.site).toString() // Use absolute URL
+  }))
+};
+---
+<!doctype html>
+<html lang="en" class="scroll-smooth antialiased">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+  <link rel="canonical" href={canonicalURL.toString()} />
+  <meta name="generator" content={Astro.generator} />
+  <title>{title} | CCH-MIC</title>
+  <meta name="description" content={description} />
+
+  {/* Preconnect for potential fonts or external resources */}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  {/* I thought of adding font links here if needed; dont think needed */}
+  {/* <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap" rel="stylesheet"> */}
+
+  {/* Open Graph */}
+  <meta property="og:title" content={`${title} | CCH-MIC`} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalURL.toString()} />
+  <meta property="og:type" content="website" />
+  {/* Add a real OG image URL */}
+  {/* <meta property="og:image" content={new URL('/assets/og-image.png', Astro.site).toString()} /> */}
+  <meta property="og:site_name" content="CCH-MIC" />
+  <meta property="og:locale" content="en_US" />
+
+  {/* Twitter Card */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={`${title} | CCH-MIC`} />
+  <meta name="twitter:description" content={description} />
+  {/* Add a real Twitter image URL */}
+  {/* <meta name="twitter:image" content={new URL('/assets/twitter-image.png', Astro.site).toString()} /> */}
+
+  {/* Structured Data for Breadcrumbs */}
+  {breadcrumbs.length > 0 && (
+    <script type="application/ld+json" set:html={JSON.stringify(structuredBreadcrumbs)} />
+  )}
+
+  <slot name="head" />
+</head>
+<body class="flex min-h-screen flex-col bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200 selection:bg-blue-200 selection:text-blue-900 dark:selection:bg-blue-800 dark:selection:text-blue-100">
+
+  <a href="#main-content" class="skip-link absolute left-[-9999px] top-auto z-[9999] block w-px h-px overflow-hidden text-current focus:static focus:w-auto focus:h-auto focus:px-4 focus:py-2 focus:bg-white dark:focus:bg-slate-800 focus:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 rounded-md">
+    Skip to main content
+  </a>
+
+  <header class="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white/90 backdrop-blur-lg dark:border-slate-700/80 dark:bg-slate-900/90 transition-shadow duration-200 hover:shadow-sm">
+    {/* Container for Nav */}
+    <div class="container mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+      {/* Site Title/Logo Link - Focus State */}
+      <a href={base} class="rounded-sm text-xl font-serif font-bold text-slate-900 transition hover:text-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:text-white dark:hover:text-blue-400 dark:focus-visible:ring-blue-400 dark:focus-visible:ring-offset-slate-900">
+        CCH-MIC
+      </a>
+      {/* Right side controls */}
+      <div class="flex items-center gap-x-2 sm:gap-x-3">
+        <ThemeIcon />
+        <Navigation /> {/* Contains Hamburger + Desktop Nav */}
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="container mx-auto flex-grow px-4 py-8 sm:px-6 md:py-12 lg:px-8 max-w-4xl">
+    {/* Breadcrumb Navigation - Styling */}
+    {breadcrumbs.length > 1 && ( // Only show breadcrumbs if there's more than just 'Home'
+      <nav aria-label="Breadcrumb" class="mb-8 text-sm text-slate-500 dark:text-slate-400">
+        <ol class="flex flex-wrap items-center gap-x-2 gap-y-1">
+          {breadcrumbs.map((crumb, index) => (
+            <li class="flex items-center">
+              {index > 0 && (
+                <svg class="mx-1 h-4 w-4 flex-shrink-0 text-slate-400 dark:text-slate-500" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                </svg>
+              )}
+              {index === breadcrumbs.length - 1 ? (
+                <span class="font-medium text-slate-700 dark:text-slate-300" aria-current="page">{crumb.label}</span>
+              ) : (
+                <a
+                  href={crumb.href}
+                  class="rounded-sm hover:text-slate-700 hover:underline focus:text-slate-700 focus:underline focus:outline-none dark:hover:text-slate-200 dark:focus:text-slate-200 transition-colors"
+                >
+                  {crumb.label}
+                </a>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+    {/* Wrap slotted content in prose for default styling - adjust prose modifiers as needed */}
+    <article class="prose prose-slate dark:prose-invert max-w-none
+                    prose-headings:tracking-tight prose-headings:font-semibold
+                    prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline dark:prose-a:text-blue-400
+                    prose-strong:font-semibold
+                    prose-code:before:content-none prose-code:after:content-none prose-code:rounded prose-code:font-normal prose-code:bg-slate-100 prose-code:px-1 prose-code:py-0.5 dark:prose-code:bg-slate-700/50 dark:prose-code:text-slate-300
+                    lg:prose-lg xl:prose-xl
+                    prose-img:rounded-lg prose-img:shadow-md prose-img:border prose-img:border-slate-200 dark:prose-img:border-slate-700
+                    prose-figure:text-center prose-figcaption:text-xs prose-figcaption:italic prose-figcaption:text-slate-500 dark:prose-figcaption:text-slate-400 prose-figcaption:mt-2
+                    prose-blockquote:border-l-blue-500 dark:prose-blockquote:border-blue-400 prose-blockquote:bg-blue-50/50 dark:prose-blockquote:bg-slate-800/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:shadow-sm">
+        <slot />
+    </article>
+  </main>
+
+  <Footer />
+
+  <script is:inline src={`${base}/scripts/menu.js`}></script>
+
+</body>
+</html>
+
+<style is:global>
+  /* Add global styles for better readability and typography */
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased; /* Smoother fonts on WebKit */
+    -moz-osx-font-smoothing: grayscale; /* Smoother fonts on Firefox */
+  }
+  /* Ensure sufficient contrast in dark mode for prose links */
+  .dark .prose-a {
+      color: var(--color-blue-400); /* Use CSS variable */
+  }
+  .dark .prose-a:hover {
+      color: var(--color-blue-300); /* Use CSS variable */
+  }
+  /* Style for the skip link */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .skip-link:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0.5rem 1rem; /* Tailwind: px-4 py-2 */
+    margin: 0.5rem; /* Add some margin */
+    background-color: white;
+    color: var(--color-slate-900); /* Use CSS variable */
+    box-shadow: var(--shadow-md); /* Use CSS variable */
+    border-radius: var(--radius-md); /* Use CSS variable */
+    z-index: 50; /* Ensure it's on top */
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    ring: 2px;
+    ring-offset: 2px;
+    ring-color: var(--color-blue-500); /* Use CSS variable */
+  }
+  .dark .skip-link:focus {
+    background-color: var(--color-slate-800); /* Use CSS variable */
+    color: var(--color-slate-200); /* Use CSS variable */
+    ring-color: var(--color-blue-400); /* Use CSS variable */
+    ring-offset-color: var(--color-slate-900); /* Use CSS variable */
+  }
+
+   /* Custom scrollbar styling (optional, subtle) - Using CSS variables */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: var(--color-slate-100);
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: var(--color-slate-300);
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--color-slate-400);
+    }
+    .dark ::-webkit-scrollbar-track {
+        background: var(--color-slate-700);
+    }
+    .dark ::-webkit-scrollbar-thumb {
+        background: var(--color-slate-500);
+    }
+    .dark ::-webkit-scrollbar-thumb:hover {
+        background: var(--color-slate-400);
+    }
+     /* Firefox scrollbar styling - Using CSS variables */
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-slate-300) var(--color-slate-100);
+    }
+    .dark * {
+         scrollbar-color: var(--color-slate-500) var(--color-slate-700);
+    }
+</style>

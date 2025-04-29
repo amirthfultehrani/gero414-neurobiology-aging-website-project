@@ -1,0 +1,196 @@
+---
+// src/pages/resources.astro
+// --- Imports ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// --- Configuration ---
+const base = import.meta.env.BASE_URL; // Base URL for link construction.
+const pageTitle = "Resources & Further Learning";
+// SEO Description specific to this page.
+const pageDescription = "Access reliable information, caregiving support, and research updates on Alzheimer's disease and related dementias from reputable organizations like the Alzheimer's Association, NIA, FCA, and ClinicalTrials.gov.";
+
+// --- Data ---
+// Defines breadcrumb navigation structure for this page.
+const breadcrumbs = [
+  { label: "Home", href: `${base}/` },
+  { label: "Resources", href: `${base}/resources/` } // Current page.
+];
+
+// Date stamp for when the resource links were last verified/retrieved.
+const retrievalDate = "April 24, 2025"; // TODO: Update this date when links are verified.
+
+// Array of resource objects, structured for easy rendering and styling.
+// Each object includes name, URL, description, icon SVG, and theme color classes.
+const resources = [
+  {
+    name: "Alzheimer's Association",
+    href: "https://www.alz.org",
+    description: "Leading non-profit dedicated to ending Alzheimer's through research, care, support, and advocacy. Offers extensive resources including a 24/7 helpline (1-800-272-3900) and local chapters.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M9.69 1.147a.75.75 0 0 1 .62 0L18.75 7.25a.75.75 0 0 1 .19 1.05l-1.22 1.758a.75.75 0 0 1-1.219-.041L13.75 6.75V16.5a.75.75 0 0 1-1.5 0V6.75l-2.75 3.928a.75.75 0 0 1-1.219.041L7.06 8.3a.75.75 0 0 1 .19-1.05l8.44-6.104Zm-7.5 5.75a.75.75 0 0 0-1.38-.57l-1.64 2.93a.75.75 0 0 0 1.218 1.106l1.095-.625v8.61a.75.75 0 0 0 1.5 0v-9.39l-.883-.504Z" clip-rule="evenodd" /></svg>`,
+    baseColor: "purple", // Base theme color for Tailwind classes.
+    mainShade: "600",    // Primary shade (e.g., text-purple-600).
+    lightShade: "200",  // Lighter shade (e.g., border-purple-200).
+    darkShade: "400",    // Dark mode text shade (e.g., dark:text-purple-400).
+    gradientFrom: "purple-50/80", // Background gradient start (with opacity).
+    gradientTo: "violet-50/80",   // Background gradient end (with opacity).
+    darkGradientFrom: "slate-800/80", // Dark mode background gradient start.
+    darkGradientTo: "slate-800/90",   // Dark mode background gradient end.
+    darkBorder: "purple-700/60",      // Dark mode border color.
+    darkHoverBorder: "purple-600/70"  // Dark mode hover border color.
+  },
+  {
+    name: "National Institute on Aging (NIA) ADEAR Center",
+    href: "https://www.nia.nih.gov/alzheimers",
+    description: "US government agency (part of NIH) providing research-based information on AD and related dementias, including fact sheets, caregiving tips, and clinical trial details.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 0 0 3 3.5v13A1.5 1.5 0 0 0 4.5 18h11a1.5 1.5 0 0 0 1.5-1.5V7.621a1.5 1.5 0 0 0-.44-1.06l-4.12-4.122A1.5 1.5 0 0 0 11.378 2H4.5Zm4.75 11.75a.75.75 0 0 0 1.5 0v-2.546l.354.353a.75.75 0 0 0 1.06-1.06l-1.75-1.75a.75.75 0 0 0-1.06 0l-1.75 1.75a.75.75 0 1 0 1.06 1.06l.354-.353v2.546Z" clip-rule="evenodd" /><path d="M13 2.25a1.25 1.25 0 0 1 1.25 1.25v2.5A1.25 1.25 0 0 1 13 7.25H9.75A1.25 1.25 0 0 1 8.5 6V3.5A1.25 1.25 0 0 1 9.75 2.25H13Z" /></svg>`,
+    baseColor: "blue",
+    mainShade: "600",
+    lightShade: "200",
+    darkShade: "400",
+    gradientFrom: "blue-50/80",
+    gradientTo: "sky-50/80",
+    darkGradientFrom: "slate-800/80",
+    darkGradientTo: "slate-800/90",
+    darkBorder: "blue-800/60", // Slightly adjusted dark border
+    darkHoverBorder: "blue-700/70"
+  },
+  {
+    name: "Family Caregiver Alliance (FCA)",
+    href: "https://www.caregiver.org",
+    description: "A non-profit offering support, education, policy information, and resources for family caregivers, including personalized tools like CareNav and multilingual resources.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6"><path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM10 11a6 6 0 0 1 6 6H4a6 6 0 0 1 6-6Z" /></svg>`,
+    baseColor: "emerald",
+    mainShade: "600",
+    lightShade: "200",
+    darkShade: "400",
+    gradientFrom: "emerald-50/80",
+    gradientTo: "green-50/80",
+    darkGradientFrom: "slate-800/80",
+    darkGradientTo: "slate-800/90",
+    darkBorder: "emerald-700/60",
+    darkHoverBorder: "emerald-600/70"
+  },
+  {
+    name: "ClinicalTrials.gov",
+    href: "https://www.clinicaltrials.gov",
+    description: "A comprehensive registry and results database of public and private clinical studies worldwide, searchable for Alzheimer's disease and other conditions.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 0 0 3 3.5v13A1.5 1.5 0 0 0 4.5 18h11a1.5 1.5 0 0 0 1.5-1.5V7.621a1.5 1.5 0 0 0-.44-1.06l-4.12-4.122A1.5 1.5 0 0 0 11.378 2H4.5Zm6.25 4.5a.75.75 0 0 0-1.5 0v2.5h-2.5a.75.75 0 0 0 0 1.5h2.5v2.5a.75.75 0 0 0 1.5 0v-2.5h2.5a.75.75 0 0 0 0-1.5h-2.5v-2.5Z" clip-rule="evenodd" /></svg>`,
+    baseColor: "cyan",
+    mainShade: "600",
+    lightShade: "200",
+    darkShade: "400",
+    gradientFrom: "cyan-50/80",
+    gradientTo: "teal-50/80",
+    darkGradientFrom: "slate-800/80",
+    darkGradientTo: "slate-800/90",
+    darkBorder: "cyan-700/60",
+    darkHoverBorder: "cyan-600/70"
+  }
+];
+
+// Defines SVG icon markup for external links, used within the resource card titles.
+const externalLinkIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="inline-block w-3 h-3 ml-0.5 align-baseline text-current/80 group-hover:text-current transition-colors duration-150 ease-in-out"><path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 0 0 3 3.5v9A1.5 1.5 0 0 0 4.5 14h9a1.5 1.5 0 0 0 1.5-1.5v-5a.75.75 0 0 0-1.5 0v5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h5a.75.75 0 0 0 0-1.5h-5ZM10 .75A.75.75 0 0 1 10.75 0h4.5A.75.75 0 0 1 16 .75v4.5a.75.75 0 0 1-1.5 0V1.56l-4.97 4.97a.75.75 0 0 1-1.06-1.06L14.44 1H10.75A.75.75 0 0 1 10 .75Z" clip-rule="evenodd" /></svg>`;
+---
+
+{/* Apply BaseLayout with page-specific title, description, and breadcrumbs */}
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+    {/* Page Header */}
+    <header class="mb-10 md:mb-12 text-center">
+      <h1 class="mt-0 mb-4">{pageTitle}</h1>
+      <p class="text-lg lg:text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto"> {/* Increased contrast */}
+          Explore these reputable organizations for reliable information, caregiving support, and the latest research on Alzheimer's disease and related dementias.
+      </p>
+    </header>
+
+    {/* Grid container for resource cards */}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 lg:gap-12">
+      {/* Map over the resources array to generate each card */}
+      {resources.map(resource => {
+        // Dynamically construct Tailwind class lists based on the resource data.
+        const cardClasses = [
+          "group", "relative", "flex", "flex-col", "rounded-xl", "border", "p-6", "md:py-8", "md:px-7",
+          "shadow-md", "transition-all", "duration-300", "ease-in-out", "transform",
+          "hover:shadow-xl", "hover:-translate-y-1.5", "hover:scale-[1.02]", // Enhanced hover
+          `border-${resource.baseColor}-${resource.lightShade}`,
+          `dark:border-${resource.darkBorder}`,
+          `bg-gradient-to-br from-${resource.gradientFrom} to-${resource.gradientTo}`,
+          `dark:from-${resource.darkGradientFrom} dark:to-${resource.darkGradientTo}`,
+          `hover:border-${resource.baseColor}-300`,
+          `dark:hover:border-${resource.darkHoverBorder}`,
+          // Focus-within styles provide visual feedback when the link inside is focused.
+          `focus-within:ring-4 focus-within:ring-${resource.baseColor}-${resource.mainShade}/30 dark:focus-within:ring-${resource.baseColor}-${resource.darkShade}/40 focus-within:ring-offset-2 dark:focus-within:ring-offset-slate-900 focus-within:outline-none focus-within:border-${resource.baseColor}-400 dark:focus-within:border-${resource.baseColor}-500`,
+          "overflow-hidden"
+        ];
+        const iconContainerClasses = [
+            "inline-flex", "p-2.5", "rounded-full", "transition-all duration-300 ease-out",
+            `text-${resource.baseColor}-${resource.mainShade}`,
+            `dark:text-${resource.baseColor}-${resource.darkShade}`,
+            `bg-${resource.baseColor}-100/80`, // Use slightly transparent background
+            `dark:bg-${resource.baseColor}-900/50`, // Adjusted dark mode background
+            "group-hover:scale-110 group-hover:rotate-[-8deg] group-hover:shadow-md",
+            `group-hover:bg-${resource.baseColor}-100 dark:group-hover:bg-${resource.baseColor}-900/70` // Enhanced hover background
+        ];
+        const titleClasses = [
+            "text-xl", "font-semibold", "mb-3", "mt-0",
+            `text-${resource.baseColor}-800`, // Themed title color
+            `dark:text-${resource.baseColor}-100`, // High contrast dark mode title
+            "transition-colors duration-200 ease-in-out",
+            `group-hover:text-${resource.baseColor}-900 dark:group-hover:text-${resource.baseColor}-50` // Title color change on hover
+        ];
+        const linkClasses = [
+            "focus:outline-none", // Focus handled by parent focus-within
+            "after:absolute", "after:inset-0", "after:rounded-xl", // Stretched link technique
+             // Subtle inner ring appears on focus-within for extra feedback
+            `after:ring-inset after:ring-2 after:ring-transparent group-focus-within:after:ring-${resource.baseColor}-${resource.mainShade}/40 dark:group-focus-within:after:ring-${resource.baseColor}-${resource.darkShade}/50 after:transition-shadow after:duration-200`
+        ];
+        const descriptionClasses = [
+            "text-sm", "leading-relaxed", "flex-grow", "mb-4",
+            `text-slate-700`, // Consistent description color
+            `dark:text-slate-300`
+        ];
+        const footerClasses = [
+            "mt-auto", "pt-3", "border-t",
+            `border-${resource.baseColor}-200/60 dark:border-slate-700/50`, // Themed border
+            "text-xs", `text-slate-500 dark:text-slate-400/80`, // Subtler footer text
+        ];
+        // Removes default code background/padding for cleaner footer presentation.
+        const codeClasses = ["font-normal", "bg-transparent dark:bg-transparent", "p-0", "border-none"];
+
+        return (
+            // Render the card container with dynamic classes
+            <div class:list={cardClasses}>
+              {/* Card Header: Icon and Title */}
+              <div class="flex items-start gap-x-4 mb-4">
+                {/* Icon Container */}
+                <div class:list={iconContainerClasses}>
+                  <Fragment set:html={resource.icon} />
+                </div>
+                {/* Title (contains the stretched link) */}
+                <h2 class:list={titleClasses}>
+                  <a href={resource.href} target="_blank" rel="noopener noreferrer" class:list={linkClasses}>
+                    {resource.name}
+                    <Fragment set:html={externalLinkIcon} /> {/* Add external icon */}
+                  </a>
+                </h2>
+              </div>
+              {/* Card Description */}
+              <p class:list={descriptionClasses}>
+                {resource.description}
+              </p>
+              {/* Card Footer with Retrieval Date */}
+              <p class:list={footerClasses}>
+                <code class:list={codeClasses}>[(Retrieved {retrievalDate})]</code>
+              </p>
+            </div>
+        );
+      })}
+    </div>
+</BaseLayout>
+
+{/* Optional Global Styles */}
+<style is:global>
+    /* Ensure smooth scrolling for any potential internal page jumps */
+    html {
+        scroll-behavior: smooth;
+    }
+</style>

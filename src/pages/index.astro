@@ -1,0 +1,207 @@
+---
+// src/pages/index.astro
+// --- Imports ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// --- Configuration ---
+const base = import.meta.env.BASE_URL; // Base URL for link construction.
+const pageTitle = "Welcome to CCH-MIC";
+// SEO Description specific to the homepage.
+const pageDescription = "Your evidence-based resource for understanding brain aging, Alzheimer's disease, and related dementias. Explore causes, diagnosis, treatments, and reliable resources.";
+
+// --- Data ---
+// Defines breadcrumb structure (only Home for the index page).
+const breadcrumbs = [{ label: "Home", href: `${base}/` }];
+
+// Defines data for the feature cards displayed on the homepage.
+// Includes title, description, icon SVG, and styling classes for visual theming.
+const features = [
+  {
+    id: "causes", // Unique identifier for the section this card links to or represents.
+    title: "Causes & Risk Factors",
+    description: "Dive into the underlying biology and contributing factors for Alzheimer's Disease and Related Dementias (ADRD).",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L10 9.293l4.646-4.647a.5.5 0 1 1 .708.708L10.707 10l4.647 4.646a.5.5 0 1 1-.708.708L10 10.707l-4.646 4.647a.5.5 0 0 1-.708-.708L9.293 10 4.646 5.354a.5.5 0 0 1 0-.708z" clip-rule="evenodd" /></svg>`, // Icon representing 'Causes/Risk'.
+    // Tailwind classes defining the card's border, background gradient, and hover states.
+    colorClasses: "border-red-200 dark:border-red-700/50 bg-gradient-to-br from-red-50/80 to-orange-50/80 dark:from-slate-800/80 dark:to-slate-800/70 hover:border-red-300 dark:hover:border-red-600/80",
+    hoverBgGradient: "hover:bg-gradient-to-br hover:from-red-50 hover:to-orange-100 dark:hover:from-slate-800 dark:hover:to-slate-700/90",
+    iconColorClass: "text-red-600 dark:text-red-400" // Specific color class for the icon SVG.
+  },
+  {
+    id: "diagnosis",
+    title: "Diagnostic Approaches",
+    description: "Learn how cognitive decline and dementia are evaluated using clinical methods and advanced biomarker testing.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6"><path d="M3.25 4A2.25 2.25 0 0 0 1 6.25v7.5A2.25 2.25 0 0 0 3.25 16h13.5A2.25 2.25 0 0 0 19 13.75v-7.5A2.25 2.25 0 0 0 16.75 4H3.25ZM10 6.5a.75.75 0 0 1 .75.75v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 .75-.75ZM10 12a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5Z" /></svg>`, // Icon representing 'Diagnosis'.
+    colorClasses: "border-cyan-200 dark:border-cyan-700/50 bg-gradient-to-br from-cyan-50/80 to-sky-50/80 dark:from-slate-800/80 dark:to-slate-800/70 hover:border-cyan-300 dark:hover:border-cyan-600/80",
+    hoverBgGradient: "hover:bg-gradient-to-br hover:from-cyan-50 hover:to-sky-100 dark:hover:from-slate-800 dark:hover:to-slate-700/90",
+    iconColorClass: "text-cyan-600 dark:text-cyan-400"
+  },
+  {
+    id: "treatment",
+    title: "Treatment Strategies",
+    description: "Explore current drugs, lifestyle changes, new therapeutics, and management strategies for AD.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M8.5 4.75a.75.75 0 0 0-1.5 0v2.5h-2.5a.75.75 0 0 0 0 1.5h2.5v2.5a.75.75 0 0 0 1.5 0v-2.5h2.5a.75.75 0 0 0 0-1.5h-2.5v-2.5Z" clip-rule="evenodd" /><path fill-rule="evenodd" d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16ZM3 10a7 7 0 1 1 14 0 7 7 0 0 1-14 0Z" clip-rule="evenodd" /></svg>`, // Icon representing 'Treatment'.
+    colorClasses: "border-emerald-200 dark:border-emerald-700/50 bg-gradient-to-br from-emerald-50/80 to-green-50/80 dark:from-slate-800/80 dark:to-slate-800/70 hover:border-emerald-300 dark:hover:border-emerald-600/80",
+    hoverBgGradient: "hover:bg-gradient-to-br hover:from-emerald-50 hover:to-green-100 dark:hover:from-slate-800 dark:hover:to-slate-700/90",
+    iconColorClass: "text-emerald-600 dark:text-emerald-400"
+  },
+  {
+    id: "resources",
+    title: "Reliable Resources",
+    description: "Access connections to trustworthy organizations giving assistance, education, and additional information.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6"><path d="M12.232 4.232a2.5 2.5 0 0 1 3.536 3.536l-1.225 1.224a.75.75 0 0 0 1.061 1.06l1.224-1.224a4 4 0 0 0-5.656-5.656l-3 3a4 4 0 0 0 .225 5.865.75.75 0 0 0 .977-1.138 2.5 2.5 0 0 1-.142-3.667l3-3Z" /><path d="M11.603 7.963a.75.75 0 0 0-.977 1.138 2.5 2.5 0 0 1 .142 3.667l-3 3a2.5 2.5 0 0 1-3.536-3.536l1.225-1.224a.75.75 0 0 0-1.061-1.06l-1.224 1.224a4 4 0 0 0 5.656 5.656l3-3a4 4 0 0 0-.225-5.865Z" /></svg>`, // Icon representing 'Resources'.
+    colorClasses: "border-purple-200 dark:border-purple-700/50 bg-gradient-to-br from-purple-50/80 to-violet-50/80 dark:from-slate-800/80 dark:to-slate-800/70 hover:border-purple-300 dark:hover:border-purple-600/80",
+    hoverBgGradient: "hover:bg-gradient-to-br hover:from-purple-50 hover:to-violet-100 dark:hover:from-slate-800 dark:hover:to-slate-700/90",
+    iconColorClass: "text-purple-600 dark:text-purple-400"
+  }
+];
+---
+
+{/* Apply BaseLayout with homepage title, description, and breadcrumbs */}
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+
+    {/* Hero Section */}
+    <section class="text-center relative overflow-hidden"> {/* Added padding */}
+        {/* Background Gradient Layer */}
+        <div class="absolute inset-0 -z-10 bg-gradient-to-br from-blue-100/60 via-white to-indigo-50/60 dark:from-slate-900 dark:via-slate-900/95 dark:to-slate-800/90 opacity-90 dark:opacity-100"></div>
+
+        {/* Heading with animation */}
+        <h1 class="mt-0 mb-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 opacity-0 animate-fade-in animate-slide-in-down">
+            Cognitive Health & Memory Center
+        </h1>
+        {/* Subtitle/Description with animation */}
+        <p class="text-lg sm:text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto mb-10 opacity-0 animate-fade-in animate-slide-in-down animation-delay-100"> {/* Increased text contrast */}
+            {pageDescription}
+        </p>
+        {/* Call to Action Buttons with animation */}
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            {/* Primary Button */}
+            <a
+              href={`${base}/understanding-ad/`}
+              class="inline-block transform rounded-lg bg-blue-600 px-8 py-3 text-center text-lg font-semibold text-white shadow-lg motion-safe:transition-all motion-safe:duration-200 ease-in-out hover:-translate-y-1 hover:scale-[1.03] hover:bg-blue-700 hover:shadow-xl active:translate-y-0 active:scale-95 active:bg-blue-800 active:shadow-md focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300 dark:focus-visible:ring-blue-800 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 opacity-0 animate-fade-in animate-slide-in-up animation-delay-200"
+            >
+              Explore Topics
+            </a>
+            {/* Secondary Button */}
+            <a
+              href={`${base}/about/`}
+              class="inline-block transform rounded-lg border-2 border-blue-600 px-8 py-3 text-center text-lg font-medium text-blue-700 motion-safe:transition-all motion-safe:duration-200 ease-in-out hover:border-blue-700 hover:bg-blue-50/70 hover:scale-[1.03] hover:-translate-y-0.5 active:translate-y-0 active:scale-95 active:bg-blue-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:border-blue-400 dark:text-blue-300 dark:hover:bg-slate-800/70 dark:active:bg-slate-700/80 dark:focus:ring-offset-slate-900 dark:hover:border-blue-500 dark:hover:text-blue-200 opacity-0 animate-fade-in animate-slide-in-up animation-delay-300"
+            >
+              About Brain Health
+            </a>
+        </div>
+    </section>
+
+    {/* Divider */}
+    <div class="my-16 h-px bg-gradient-to-r from-transparent via-slate-300 dark:via-slate-700 to-transparent opacity-0 animate-fade-in animation-delay-400"></div> {/* Increased margin */}
+
+    {/* "What We Offer" Section */}
+    <section class="mb-16"> {/* Added bottom margin */}
+        <h2 class="text-center text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-100 mb-12 opacity-0 animate-fade-in animate-slide-in-down animation-delay-500">
+            What We Offer
+        </h2>
+        {/* Grid container for feature cards */}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
+            {/* Map over the features array to generate cards */}
+            {features.map((feature, index) => (
+              <div
+                class:list={[
+                  // Base card styling: flex column, rounded, border, padding, shadow.
+                  "group flex flex-col rounded-xl border p-6 shadow-sm",
+                  // Motion-aware transitions for hover effects.
+                  "motion-safe:transition-all motion-safe:duration-300 motion-safe:ease-out",
+                  // Hover effects: increased shadow, subtle lift and scale.
+                  "hover:shadow-lg hover:-translate-y-1.5 hover:scale-[1.02]",
+                  // Apply dynamic color classes for border and background gradients.
+                  feature.colorClasses,
+                  // Apply dynamic hover background gradient class.
+                  feature.hoverBgGradient,
+                  // Entry animation classes.
+                  "opacity-0 animate-fade-in animate-slide-in-up"
+                ]}
+                style={{ animationDelay: `${index * 150 + 600}ms` }}
+              >
+                {/* Card Header: Icon and Title */}
+                <div class="flex items-center gap-x-3 mb-3">
+                   {/* Icon container with themed background and hover animation. */}
+                   <span class:list={[
+                       "inline-flex p-2 rounded-full bg-current/10", // Base icon background (uses text color with low opacity)
+                       "motion-safe:transition-transform motion-safe:duration-300",
+                       "group-hover:scale-110 group-hover:rotate-[-5deg]", // Icon animation on card hover
+                       feature.iconColorClass // Applies specific text color to the icon container
+                    ]}>
+                       {/* Render the SVG icon markup */}
+                      <Fragment set:html={feature.icon} />
+                   </span>
+                   {/* Card Title */}
+                   <h3 class="text-xl font-semibold text-inherit mt-0 mb-0">{feature.title}</h3>
+                </div>
+                {/* Card Description */}
+                {/* `flex-grow` allows description to push footer down if cards have uneven height. */}
+                {/* Increased contrast for description text. */}
+                <p class="text-sm text-slate-700 dark:text-slate-300 flex-grow leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+        </div>
+    </section>
+
+    {/* Enhanced Divider */}
+    <div class="my-16 h-px bg-gradient-to-r from-transparent via-slate-300 dark:via-slate-700 to-transparent opacity-0 animate-fade-in animation-delay-1000"></div> {}
+
+    {/* Disclaimer Section */}
+    <section class=" opacity-0 animate-fade-in animation-delay-1100 mb-8 md:mb-12"> {}
+        {/* Styled blockquote for the disclaimer */}
+        <blockquote class="mx-auto max-w-2xl text-center p-6 rounded-lg bg-slate-100/80 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 shadow-inner">
+            <p class="text-base italic text-slate-600 dark:text-slate-400 leading-relaxed">
+                <strong class="font-medium not-italic text-slate-700 dark:text-slate-200">Disclaimer:</strong> "This website is not a Neurology Group Website. The Website is a Project for an upper Division Undergraduate Course at USC entitled 'The Neurobiology of Aging'"
+            </p>
+        </blockquote>
+    </section>
+
+</BaseLayout>
+
+{/* Global Animation Styles (Define in global.css or BaseLayout for cleaner separation - did it in baselayout pretty sure) */}
+<style is:global>
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideInDown {
+    from { transform: translateY(-15px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes slideInUp {
+    from { transform: translateY(15px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* Animation utility classes */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  .animate-slide-in-down {
+    animation: slideInDown 0.6s ease-out forwards;
+  }
+  .animate-slide-in-up {
+    animation: slideInUp 0.6s ease-out forwards;
+  }
+
+  /* Animation delay utility classes */
+  .animation-delay-100 { animation-delay: 100ms; }
+  .animation-delay-200 { animation-delay: 200ms; }
+  .animation-delay-300 { animation-delay: 300ms; }
+  .animation-delay-400 { animation-delay: 400ms; }
+  .animation-delay-500 { animation-delay: 500ms; }
+  .animation-delay-600 { animation-delay: 600ms; }
+  /* Added intermediate delays for smoother card staggering */
+  .animation-delay-750 { animation-delay: 750ms; }
+  .animation-delay-900 { animation-delay: 900ms; }
+  .animation-delay-1000 { animation-delay: 1000ms; }
+  .animation-delay-1100 { animation-delay: 1100ms; }
+
+  /* Ensures elements start hidden if they have an animation class */
+  .opacity-0 {
+    opacity: 0;
+  }
+</style>

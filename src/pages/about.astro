@@ -1,0 +1,132 @@
+---
+// src/pages/about.astro
+// --- Imports ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// --- Configuration ---
+const base = import.meta.env.BASE_URL; // Base URL for link construction.
+const pageTitle = "About Us & Our Approach";
+const pageDescription = "Learn about the mission of CCH-MIC, the evidence-based foundation of our content, and why understanding Alzheimer's and dementia is crucial.";
+
+// --- Data ---
+// Defines breadcrumb navigation structure for this page.
+const breadcrumbs = [
+  { label: "Home", href: `${base}/` },
+  { label: "About", href: `${base}/about/` } // Current page.
+];
+
+// Defines SVG icons used in this page's sections.
+// Includes accessibility attributes (role, aria-hidden).
+const goalIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6" role="img" aria-hidden="true"><path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 0 1-9.124 0 5.5 5.5 0 0 1 9.124 0ZM10 2.5a7.5 7.5 0 1 1 0 15 7.5 7.5 0 0 1 0-15Z" clip-rule="evenodd" /></svg>`;
+const sourceIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6" role="img" aria-hidden="true"><path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" /></svg>`;
+const whyIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6" role="img" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM9 8a1 1 0 0 1 1-1h.01a1 1 0 1 1 0 2H10a1 1 0 0 1-1-1Zm.01 3a1 1 0 1 0 0 2h.002a1 1 0 1 0 0-2h-.002Z" clip-rule="evenodd" /></svg>`;
+
+/**
+ * Renders text as an inline citation using styled `<code>` tags.
+ * Removes surrounding brackets/parentheses for cleaner presentation.
+ * Ensures citations are visually distinct but readable.
+ * @param {string} text - The citation text (e.g., "Author, Year").
+ * @returns {string} HTML string for the styled citation.
+ */
+function renderCitation(text: string): string {
+  const textString = String(text); // Ensure input is treated as a string.
+  // Styling provides a subtle background, border, and padding for visual distinction.
+  // Uses high-contrast text colors for light/dark modes.
+  return `<code class="inline-block align-baseline text-[0.7rem] font-normal not-italic bg-slate-200/70 dark:bg-slate-700/80 text-slate-800 dark:text-slate-200 px-1.5 py-0.5 rounded-sm mx-0.5 border border-slate-300/50 dark:border-slate-600/50">${textString.replace(/[\[\]()]/g, '')}</code>`;
+}
+---
+
+{/* Use BaseLayout, passing title, description, and breadcrumbs */}
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+
+    {/* Page Header Section */}
+    <header class="mb-12 md:mb-16 text-center opacity-0 animate-fade-in [--animation-delay:100ms]">
+      {/* Main page heading */}
+      <h1 class="mt-0 mb-4">{pageTitle}</h1> {}}
+      {/* Subtitle providing context */}
+      <p class="text-lg lg:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
+        Clarifying our mission and the foundation of the information provided on this site.
+      </p>
+    </header>
+
+    {/* Main Content Sections Container */}
+    <div class="space-y-10 md:space-y-12">
+
+      {/* Section 1: Our Goal */}
+      <section class="group rounded-xl border border-slate-200 bg-gradient-to-br from-blue-50/90 to-indigo-50/90 p-6 md:p-8 shadow-sm transition-all duration-300 ease-in-out hover:shadow-lg dark:border-slate-700/50 dark:from-slate-800/70 dark:to-slate-800/90 hover:border-blue-300 dark:hover:border-blue-600/70 transform hover:-translate-y-1 hover:scale-[1.01] opacity-0 animate-fade-in-up [--animation-delay:200ms]">
+        {/* Section Header with Icon */}
+        <div class="flex items-start gap-x-4 mb-4">
+            <span class="mt-1 flex-shrink-0 rounded-full bg-blue-100 dark:bg-blue-900/50 p-2.5 text-blue-600 dark:text-blue-400 transition-transform duration-300 ease-out group-hover:scale-110 group-hover:rotate-[-5deg]">
+                <Fragment set:html={goalIcon} />
+            </span>
+            <h2 class="text-2xl font-semibold text-slate-900 dark:text-slate-100 mt-0 mb-0 transition-colors duration-300 group-hover:text-blue-800 dark:group-hover:text-blue-300">Our Goal</h2>
+        </div>
+        {/* Section Content */}
+        <div class="pl-10 md:pl-12"> {/* Indents content relative to the icon/heading */}
+            <p class="text-base leading-relaxed text-slate-700 dark:text-slate-300 max-w-prose prose-strong:font-medium prose-strong:text-slate-800 dark:prose-strong:text-slate-100"> {/* Ensure strong text contrast */}
+              Functioning as an educational resource, we integrate rigorously validated scientific knowledge concerning brain aging's multifaceted nature—examining specific cellular senescence pathways and detailing synaptic plasticity mechanism alterations—and active preservation of high-level cognitive faculties. Central to our objective is explaining complex biological sequences—for instance, the molecular steps of amyloidogenesis, cell-to-cell propagation characteristic of tauopathy, and sustained microglial reactivity patterns—constituting the foundation of neurodegenerative disorders such as Alzheimer's disease, incorporating granular evidence derived from neurobiology (pinpointing protein-protein interactions), gerontology (charting age-related systemic physiological changes), and public health epidemiology (quantifying population-level risk factor contributions).
+            </p>
+        </div>
+      </section>
+
+      {/* Section 2: Information Source */}
+      <section class="group rounded-xl border border-slate-200 bg-gradient-to-br from-teal-50/90 to-cyan-50/90 p-6 md:p-8 shadow-sm transition-all duration-300 ease-in-out hover:shadow-lg dark:border-slate-700/50 dark:from-slate-800/70 dark:to-slate-800/90 hover:border-teal-300 dark:hover:border-teal-600/70 transform hover:-translate-y-1 hover:scale-[1.01] opacity-0 animate-fade-in-up [--animation-delay:350ms]">
+         {/* Section Header with Icon */}
+         <div class="flex items-start gap-x-4 mb-4">
+            <span class="mt-1 flex-shrink-0 rounded-full bg-teal-100 dark:bg-teal-900/50 p-2.5 text-teal-600 dark:text-teal-400 transition-transform duration-300 ease-out group-hover:scale-110 group-hover:rotate-[5deg]">
+                <Fragment set:html={sourceIcon} />
+            </span>
+            <h2 class="text-2xl font-semibold text-slate-900 dark:text-slate-100 mt-0 mb-0 transition-colors duration-300 group-hover:text-teal-800 dark:group-hover:text-teal-300">Information Source</h2>
+        </div>
+        {/* Section Content */}
+        <div class="pl-10 md:pl-12">
+          <p class="text-base leading-relaxed text-slate-700 dark:text-slate-300 max-w-prose prose-strong:font-medium prose-strong:text-slate-800 dark:prose-strong:text-slate-100">
+            Grounded in established scientific evidence, all content directly reflects the best of modern research and medical understanding, drawing from key review articles that synthesize wide-ranging empirical landscapes, individual research studies, and official reports from leading health organizations (like the NIA and Alzheimer's Association). The goal is to maintain a clear line between this information and direct advice. Sources are cited using <Fragment set:html={renderCitation("(Author, Year)")} /> to ensure credibility and adhere to academic attribution standards. A full list of all sources is available on the
+            <a href={`${base}/references/`} target="_blank" rel="noopener noreferrer" class="font-medium text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 underline decoration-teal-500/50 hover:decoration-teal-500 underline-offset-2 transition-all duration-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-teal-500 rounded-sm">References page</a>.
+          </p>
+        </div>
+      </section>
+
+      {/* Section 3: Why This Matters */}
+      <section class="group rounded-xl border border-slate-200 bg-gradient-to-br from-amber-50/90 to-yellow-50/90 p-6 md:p-8 shadow-sm transition-all duration-300 ease-in-out hover:shadow-lg dark:border-slate-700/50 dark:from-slate-800/70 dark:to-slate-800/90 hover:border-amber-300 dark:hover:border-amber-600/70 transform hover:-translate-y-1 hover:scale-[1.01] opacity-0 animate-fade-in-up [--animation-delay:500ms]">
+         {/* Section Header with Icon */}
+         <div class="flex items-start gap-x-4 mb-4">
+            <span class="mt-1 flex-shrink-0 rounded-full bg-amber-100 dark:bg-amber-900/50 p-2.5 text-amber-600 dark:text-amber-400 transition-transform duration-300 ease-out group-hover:scale-110 group-hover:rotate-[-5deg]">
+                <Fragment set:html={whyIcon} />
+            </span>
+            <h2 class="text-2xl font-semibold text-slate-900 dark:text-slate-100 mt-0 mb-0 transition-colors duration-300 group-hover:text-amber-800 dark:group-hover:text-amber-300">Why This Information Matters</h2>
+        </div>
+         {/* Section Content */}
+         <div class="pl-10 md:pl-12">
+            <p class="text-base leading-relaxed text-slate-700 dark:text-slate-300 max-w-prose prose-strong:font-medium prose-strong:text-slate-800 dark:prose-strong:text-slate-100">
+              To enable a more complete understanding of the fundamental neurobiology underlying Alzheimer's Disease and Related Dementias (ADRD), one must know the specific molecular and cellular processes that drive the development and progression of these diseases—specifically, the neuropathological mechanisms involved — which is essential for evaluating advancements in diagnostics, potential treatments, and strategies to promote brain health effectively.
+            </p>
+        </div>
+      </section>
+
+    </div> {/* End Main Content Sections Container */}
+</BaseLayout>
+
+{/* Global keyframes for animations (can be in global.css or BaseLayout <style is:global> - I think I ultimately decided baselayout) */}
+{/* Included here for component self-containment -- global definition is often cleaner */}
+<style is:global>
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  /* Utility classes to apply the animations with optional delays */
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out forwards;
+    /* Allows delay control via inline style or CSS custom property */
+    animation-delay: var(--animation-delay, 0ms);
+  }
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out forwards;
+    /* Allows delay control via inline style or CSS custom property */
+    animation-delay: var(--animation-delay, 0ms);
+  }
+</style>

@@ -1,0 +1,111 @@
+---
+// src/components/ThemeIcon.astro
+// --- Component Definition ---
+// This component renders a button to toggle between light and dark color themes.
+// It uses localStorage to persist the user's preference and applies a 'dark' class to the <html> element.
+// Icons are conditionally displayed using CSS based on the presence of the 'dark' class.
+---
+
+{/* Theme Toggle Button */}
+<button
+  id="themeToggle"
+  type="button"
+  aria-label="Toggle light and dark theme"
+  class="group rounded-full p-2 text-slate-600 transition-all duration-200 ease-in-out hover:bg-slate-100/80 hover:text-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:text-slate-400 dark:hover:bg-slate-700/50 dark:hover:text-blue-400 dark:focus-visible:ring-blue-400 dark:focus-visible:ring-offset-slate-900 transform hover:scale-110 hover:rotate-12 active:scale-95 active:rotate-0"
+>
+  {/* Provides accessible text for screen readers */}
+  <span class="sr-only">Toggle theme</span>
+
+  {/* Container for the Sun/Moon icons */}
+  {/* SVG uses currentColor, allowing color changes via parent text color classes */}
+  <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="transition-transform duration-300 ease-out group-hover:rotate-[30deg]">
+
+    {/* Sun Icon: Displayed by default (light mode) */}
+    {/* Hidden when the 'dark' class is present on a parent element */}
+    <path
+      class="inline dark:hidden"
+      d="M12 17.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 1.5a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm12-7a.8.8 0 0 1-.8.8h-2.4a.8.8 0 0 1 0-1.6h2.4a.8.8 0 0 1 .8.8zM4 12a.8.8 0 0 1-.8.8H.8a.8.8 0 0 1 0-1.6h2.5a.8.8 0 0 1 .8.8zm16.5-8.5a.8.8 0 0 1 0 1l-1.8 1.8a.8.8 0 0 1-1-1l1.7-1.8a.8.8 0 0 1 1 0zM6.3 17.7a.8.8 0 0 1 0 1l-1.7 1.8a.8.8 0 1 1-1-1l1.7-1.8a.8.8 0 0 1 1 0zM12 0a.8.8 0 0 1 .8.8v2.5a.8.8 0 0 1-1.6 0V.8A.8.8 0 0 1 12 0zm0 20a.8.8 0 0 1 .8.8v2.4a.8.8 0 0 1-1.6 0v-2.4a.8.8 0 0 1 .8-.8zM3.5 3.5a.8.8 0 0 1 1 0l1.8 1.8a.8.8 0 1 1-1 1L3.5 4.6a.8.8 0 0 1 0-1zm14.2 14.2a.8.8 0 0 1 1 0l1.8 1.7a.8.8 0 0 1-1 1l-1.8-1.7a.8.8 0 0 1 0-1z"
+    />
+    {/* Moon Icon: Hidden by default, displayed when 'dark' class is present */}
+    <path
+      class="hidden dark:inline"
+      d="M16.5 6A10.5 10.5 0 0 1 4.7 16.4 8.5 8.5 0 1 0 16.4 4.7l.1 1.3zm-1.7-2a9 9 0 0 1 .2 2 9 9 0 0 1-11 8.8 9.4 9.4 0 0 1-.8-.3c-.4 0-.8.3-.7.7a10 10 0 0 0 .3.8 10 10 0 0 0 9.2 6 10 10 0 0 0 4-19.2 9.7 9.7 0 0 0-.9-.3c-.3-.1-.7.3-.6.7a9 9 0 0 1 .3.8z"
+    />
+  </svg>
+</button>
+
+{/* Inline Script for Theme Logic */}
+{/* `is:inline` prevents Astro from processing/bundling; runs early in the browser. */}
+{/* Script is minified for slightly better performance. */}
+<script is:inline>
+  // Wrapped in strict mode for potential optimizations and stricter error handling.
+  "use strict";
+  // Define constants for keys and class names for clarity and easier maintenance.
+  const themeStorageKey="theme", darkClassName="dark", lightValue="light", darkValue="dark", htmlElement=document.documentElement;
+
+  // Function to apply the stored or preferred theme on page load.
+  function applyTheme(){
+    let themeToApply = lightValue; // Default to light theme.
+    try {
+      // Get theme preference from localStorage.
+      const storedTheme = localStorage.getItem(themeStorageKey);
+      // Check system preference for dark mode.
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      // Determine the theme: Use stored value if set, otherwise use system preference.
+      if (storedTheme === darkValue || (storedTheme === null && prefersDark)) {
+        themeToApply = darkValue;
+      } else {
+        themeToApply = lightValue;
+      }
+
+      // Apply the determined theme class to the <html> element.
+      if (themeToApply === darkValue) {
+        htmlElement.classList.add(darkClassName);
+      } else {
+        htmlElement.classList.remove(darkClassName);
+      }
+
+      // If no theme was explicitly stored, save the detected preference.
+      if (storedTheme === null) {
+        localStorage.setItem(themeStorageKey, themeToApply);
+      }
+    } catch (error) {
+      // Log errors during theme application (e.g., localStorage access denied).
+      console.error("ThemeIcon script: Error in applyTheme():", error);
+    }
+  }
+
+  // Apply the theme immediately on script execution.
+  applyTheme();
+
+  // Add event listener after the DOM is fully loaded to handle button clicks.
+  document.addEventListener("DOMContentLoaded", () => {
+    try {
+      // Get the theme toggle button element.
+      const toggleButton = document.getElementById("themeToggle");
+      if (toggleButton) {
+        // Attach click event listener to the button.
+        toggleButton.addEventListener("click", () => {
+          try {
+            // Toggle the 'dark' class on the <html> element.
+            htmlElement.classList.toggle(darkClassName);
+            // Check if the 'dark' class is now present.
+            const isDarkMode = htmlElement.classList.contains(darkClassName);
+            // Update localStorage with the new theme preference.
+            localStorage.setItem(themeStorageKey, isDarkMode ? darkValue : lightValue);
+          } catch (error) {
+             // Log errors during theme toggling (e.g., localStorage access denied).
+            console.error("ThemeIcon script: Error in click handler:", error);
+          }
+        });
+      } else {
+        // Log an error if the button isn't found after DOM load.
+        console.error("ThemeIcon script: Theme toggle button (#themeToggle) not found after DOMContentLoaded.");
+      }
+    } catch (error) {
+      // Log errors related to the DOMContentLoaded listener setup.
+      console.error("ThemeIcon script: Error in DOMContentLoaded handler:", error);
+    }
+  });
+</script>

@@ -1,0 +1,81 @@
+---
+// src/pages/ai-use.astro
+// --- Imports ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// --- Configuration ---
+const base = import.meta.env.BASE_URL; // Base URL for link construction.
+const pageTitle = "AI Use Statement";
+// SEO Description specific to this page.
+const pageDescription = "Clarification on the use of Artificial Intelligence (AI) in the development of the written content for the CCH-MIC website, a GERO 414 project.";
+
+// --- Data ---
+// Defines breadcrumb navigation for this page.
+const breadcrumbs = [
+  { label: "Home", href: `${base}/` },
+  { label: "AI Use", href: `${base}/ai-use/` } // Current page.
+];
+
+// SVG Icon used for emphasis in the statement block.
+const checkIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 md:w-10 md:h-10 shrink-0 text-emerald-500 dark:text-emerald-400 transition-transform duration-300 ease-out group-hover:scale-110"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>`;
+---
+
+{/* Apply BaseLayout with page-specific title, description, and breadcrumbs */}
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+
+    {/* Page Header */}
+    <header class="mb-10 md:mb-16 text-center">
+        {/* Main page heading */}
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 mt-0 mb-4 transition duration-300 ease-in-out hover:text-blue-600 dark:hover:text-blue-400">
+            {pageTitle}
+        </h1>
+        {/* Subtitle explaining the page's purpose */}
+        <p class="text-lg lg:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
+            Transparency regarding the role of Artificial Intelligence in the creation of this website's content.
+        </p>
+    </header>
+
+    {/* Primary Statement Block */}
+    <div
+        class="group relative mb-12 md:mb-16 rounded-xl border border-emerald-300/50 dark:border-emerald-700/50 bg-gradient-to-br from-emerald-50/90 via-white to-emerald-50/90 p-8 md:p-12 shadow-lg dark:from-slate-800/80 dark:via-slate-800/70 dark:to-slate-900/80 overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:border-emerald-400 dark:hover:border-emerald-600 hover:-translate-y-1 hover:scale-[1.01]"
+    >
+        {/* Optional decorative background element */}
+        <div class="absolute inset-0 -z-10 opacity-[0.04] dark:opacity-[0.03]" aria-hidden="true">
+             {/* Animated radial gradient for subtle background texture */}
+             <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_theme(colors.emerald.100)_0%,_transparent_50%),radial-gradient(circle_at_bottom_right,_theme(colors.emerald.200)_0%,_transparent_50%)] dark:bg-[radial-gradient(circle_at_top_left,_theme(colors.emerald.900/40)_0%,_transparent_50%),radial-gradient(circle_at_bottom_right,_theme(colors.emerald.800/30)_0%,_transparent_50%)] opacity-60 animate-pulse duration-[5000ms]"></div>
+        </div>
+
+        {/* Blockquote containing the core statement */}
+        <blockquote class="text-center relative z-10 flex flex-col items-center gap-y-5 md:gap-y-6">
+            {/* Checkmark Icon */}
+            <div class="transition-transform duration-300 ease-out group-hover:rotate-[-5deg]">
+              <Fragment set:html={checkIcon} />
+            </div>
+            {/* The statement itself, styled for emphasis */}
+            <p class="text-xl md:text-2xl lg:text-3xl font-semibold leading-snug text-emerald-800 dark:text-emerald-200 transition-colors duration-200 group-hover:text-emerald-600 dark:group-hover:text-emerald-100">
+                "No artificial intelligence (AI) tools were used in the generation of this written content."
+            </p>
+        </blockquote>
+    </div>
+
+    {/* Explanatory Paragraph */}
+    <div class="text-center text-base text-slate-700 dark:text-slate-300 max-w-xl mx-auto mt-8 md:mt-10 leading-relaxed">
+        <p>
+            This statement confirms that the text, analysis, and synthesis presented on this website were authored solely by <strong class="font-medium text-slate-800 dark:text-slate-100">human effort</strong> as part of the GERO 414 course project requirements.
+        </p>
+    </div>
+
+</BaseLayout>
+
+{/* Keyframes for optional background pulse animation */}
+{/* Define globally (e.g., in global.css) if used elsewhere, or keep scoped here */}
+<style is:global>
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; } /* Adjusted opacity for visibility */
+    50% { opacity: 0.3; }
+  }
+  .animate-pulse {
+    /* Applies the pulse animation infinitely */
+    animation: pulse 5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+</style>
