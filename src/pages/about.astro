@@ -81,7 +81,7 @@ function renderCitation(text: string): string {
         {/* Section Content */}
         <div class="pl-10 md:pl-12">
           <p class="text-base leading-relaxed text-slate-700 dark:text-slate-300 max-w-prose prose-strong:font-medium prose-strong:text-slate-800 dark:prose-strong:text-slate-100">
-            Grounded in established scientific evidence, all content directly reflects the best of modern research and medical understanding, drawing from key review articles that synthesize wide-ranging empirical landscapes, individual research studies, and official reports from leading health organizations (like the NIA and Alzheimer's Association). The goal is to maintain a clear line between this information and direct advice. Sources are cited using <Fragment set:html={renderCitation("(Author, Year)")} /> to ensure credibility and adhere to academic attribution standards. A full list of all sources is available on the
+            Grounded in established scientific evidence, all content directly reflects the best of modern research and medical understanding, drawing from key review articles that synthesize wide-ranging empirical landscapes, individual research studies, and official reports from leading health organizations (like the NIA and Alzheimer's Association). The goal is to maintain a clear line between this information and direct advice. Sources are cited using <Fragment set:html={renderCitation("(Author, Year)")} /> to ensure credibility and adhere to exacting academic attribution standards, and a full list of all these sources is available on the
             <a href={`${base}/references/`} target="_blank" rel="noopener noreferrer" class="font-medium text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 underline decoration-teal-500/50 hover:decoration-teal-500 underline-offset-2 transition-all duration-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-teal-500 rounded-sm">References page</a>.
           </p>
         </div>
@@ -99,7 +99,7 @@ function renderCitation(text: string): string {
          {/* Section Content */}
          <div class="pl-10 md:pl-12">
             <p class="text-base leading-relaxed text-slate-700 dark:text-slate-300 max-w-prose prose-strong:font-medium prose-strong:text-slate-800 dark:prose-strong:text-slate-100">
-              To enable a more complete understanding of the fundamental neurobiology underlying Alzheimer's Disease and Related Dementias (ADRD), one must know the specific molecular and cellular processes that drive the development and progression of these diseases—specifically, the neuropathological mechanisms involved — which is essential for evaluating advancements in diagnostics, potential treatments, and strategies to promote brain health effectively.
+               To enable a more complete understanding of the fundamental neurobiology underlying Alzheimer's Disease and Related Dementias (ADRD), one must know the specific molecular and cellular processes that drive the development and progression of these diseases—specifically, the neuropathological mechanisms involved — which is essential for evaluating advancements in diagnostics, potential treatments, and strategies to promote brain health effectively.
             </p>
         </div>
       </section>
@@ -108,7 +108,7 @@ function renderCitation(text: string): string {
 </BaseLayout>
 
 {/* Global keyframes for animations (can be in global.css or BaseLayout <style is:global> - I think I ultimately decided baselayout) */}
-{/* Included here for component self-containment -- global definition is often cleaner */}
+{/* Included here for component self-containment -- global definition is cleaner apparently */}
 <style is:global>
   @keyframes fade-in {
     from { opacity: 0; }

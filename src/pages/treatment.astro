@@ -9,14 +9,13 @@ const breadcrumbs = [
   { label: "Treatment", href: `${base}/treatment/` }
 ];
 
-// Helper function to render inline citations consistently.
+// Helper function to render inline citations consistently - High contrast
 function renderCitation(text: string): string {
   const textString = String(text);
-  // Added subtle hover effect
-  return `<code class="inline-block align-baseline text-[0.7rem] font-normal not-italic bg-slate-200/70 dark:bg-slate-700/70 px-1 py-0.5 rounded mx-0.5 transition-colors duration-150 hover:bg-slate-300 dark:hover:bg-slate-600">${textString.replace(/[\[\]()]/g, '')}</code>`;
+  return `<code class="inline-block align-baseline text-[0.7rem] font-normal not-italic bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 px-1.5 py-0.5 rounded-sm mx-0.5 border border-slate-300 dark:border-slate-600 transition-colors duration-150 hover:bg-slate-300 dark:hover:bg-slate-600">${textString.replace(/[\[\]()]/g, '')}</code>`;
 }
 
-// SVG Icons for section headings
+// SVG Icons (Reusing from previous version, assuming they are standard SVGs)
 const symptomIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M11.25 5.5A1.25 1.25 0 1 0 8.75 5.5a1.25 1.25 0 0 0 2.5 0ZM10 10.5a.75.75 0 0 0-1.5 0v1.167l-1.083 1.083a.75.75 0 1 0 1.06 1.06L9.25 13.06l.001.09a.75.75 0 0 0 1.5 0l-.001-.09 1.146 1.146a.75.75 0 1 0 1.06-1.06L11.5 11.667V10.5ZM10 18a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15ZM10 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z" clip-rule="evenodd" /></svg>`;
 const modifyIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6"><path d="M15.98 1.804a1 1 0 0 0-1.96 0l-.148.59a.946.946 0 0 1-1.406.832l-.467-.467a1 1 0 1 0-1.414 1.414l.467.467a.946.946 0 0 1-.832 1.406l-.59.148a1 1 0 0 0 0 1.96l.59.148a.946.946 0 0 1 .832 1.406l-.467.467a1 1 0 1 0 1.414 1.414l.467-.467a.946.946 0 0 1 1.406.832l.148.59a1 1 0 0 0 1.96 0l.148-.59a.946.946 0 0 1 1.406-.832l.467.467a1 1 0 1 0 1.414-1.414l-.467-.467a.946.946 0 0 1 .832-1.406l.59-.148a1 1 0 0 0 0-1.96l-.59-.148a.946.946 0 0 1-.832-1.406l.467-.467a1 1 0 1 0-1.414-1.414l-.467.467a.946.946 0 0 1-1.406-.832l-.148-.59ZM10 6.25a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5ZM4.02 1.804a1 1 0 0 0-1.96 0l-.148.59c-.28.04-.56.09-.832.15l-.467-.467a1 1 0 1 0-1.414 1.414l.467.467c-.06.272-.11.552-.15.832L.02 6.944a1 1 0 0 0 0 1.96l.59.148c.04.28.09.56.15.832l-.467.467a1 1 0 1 0 1.414 1.414l.467-.467c.272.06.552.11.832.15l.148.59a1 1 0 0 0 1.96 0l.148-.59c.28-.04.56-.09.832-.15l.467.467a1 1 0 1 0 1.414-1.414l-.467-.467c.06-.272.11-.552.15-.832l.59-.148a1 1 0 0 0 0-1.96l-.59-.148c-.04-.28-.09-.56-.15-.832l.467-.467a1 1 0 1 0-1.414-1.414l-.467.467c-.272-.06-.552-.11-.832-.15L4.02 1.804Z" /></svg>`;
 const behaviorIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-5.5-2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 12a5.99 5.99 0 0 0-4.793 2.39A6.483 6.483 0 0 0 10 16.5a6.483 6.483 0 0 0 4.793-2.11A5.99 5.99 0 0 0 10 12Z" clip-rule="evenodd" /></svg>`;
@@ -25,13 +24,35 @@ const supportIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
 const planningIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M5.5 4.75a.75.75 0 0 1 .75-.75h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1-.75-.75ZM8.5 4a.75.75 0 0 0-.75.75v.5a.75.75 0 0 0 1.5 0v-.5A.75.75 0 0 0 8.5 4Z" clip-rule="evenodd" /><path d="M2 6.25A2.25 2.25 0 0 1 4.25 4h7.5A2.25 2.25 0 0 1 14 6.25v7.5A2.25 2.25 0 0 1 11.75 16h-7.5A2.25 2.25 0 0 1 2 13.75v-7.5ZM4.25 5.5c-.69 0-1.25.56-1.25 1.25v7.5c0 .69.56 1.25 1.25 1.25h7.5c.69 0 1.25-.56 1.25-1.25v-7.5c0-.69-.56-1.25-1.25-1.25h-7.5Z" /></svg>`;
 const monitorIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M1 5.25A2.25 2.25 0 0 1 3.25 3h13.5A2.25 2.25 0 0 1 19 5.25v9.5A2.25 2.25 0 0 1 16.75 17H3.25A2.25 2.25 0 0 1 1 14.75v-9.5Zm1.5 0v7.5a.75.75 0 0 0 .75.75H10A.75.75 0 0 0 10 12h6.75a.75.75 0 0 0 .75-.75v-7.5a.75.75 0 0 0-.75-.75H3.25a.75.75 0 0 0-.75.75Zm14 8.25v1.75a.75.75 0 0 1-1.5 0v-1.75a.75.75 0 0 1 1.5 0Z" clip-rule="evenodd" /></svg>`;
 const trialsIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 0 0 3 3.5v13A1.5 1.5 0 0 0 4.5 18h11a1.5 1.5 0 0 0 1.5-1.5V7.621a1.5 1.5 0 0 0-.44-1.06l-4.12-4.122A1.5 1.5 0 0 0 11.378 2H4.5Zm6.25 4.5a.75.75 0 0 0-1.5 0v2.5h-2.5a.75.75 0 0 0 0 1.5h2.5v2.5a.75.75 0 0 0 1.5 0v-2.5h2.5a.75.75 0 0 0 0-1.5h-2.5v-2.5Z" clip-rule="evenodd" /></svg>`;
+
+// High contrast text classes
+const headingClass = "text-slate-900 dark:text-white";
+const subHeadingClass = "text-slate-800 dark:text-slate-100";
+const bodyTextClass = "text-slate-700 dark:text-slate-300";
+const mutedTextClass = "text-slate-600 dark:text-slate-400";
+const strongTextClass = "font-semibold text-slate-800 dark:text-slate-100"; // High contrast strong
+const labelTextClass = "font-semibold text-slate-700 dark:text-slate-200"; // For labels like "Mechanism:"
+const exampleTextClass = "text-xs italic text-slate-500 dark:text-slate-400"; // For example scenarios
+
+// High contrast accent colors (ensure sufficient contrast against background)
+const blueAccentText = "text-blue-700 dark:text-blue-300";
+const purpleAccentText = "text-purple-700 dark:text-purple-300";
+const orangeAccentText = "text-orange-700 dark:text-orange-300";
+const greenAccentText = "text-green-700 dark:text-green-300";
+const redAlertText = "text-red-700 dark:text-red-400"; // For warnings/risks
+const amberWarnText = "text-amber-800 dark:text-amber-300"; // For considerations title
+const amberWarnBodyText = "text-amber-700 dark:text-slate-300"; // For considerations body
+
+// Backgrounds (ensure text on them has contrast)
+const lightBg = "bg-white dark:bg-slate-800/70"; // Main section background
+const subtleBg = "bg-slate-50 dark:bg-slate-700/40"; // Details/sub-section background
+const warnBg = "bg-amber-50 dark:bg-slate-800/80"; // Warning/consideration box background
 ---
 <BaseLayout title={pageTitle} breadcrumbs={breadcrumbs}>
     <header class="mb-10 md:mb-12 text-center">
-      {/* Added subtle gradient to title */}
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent mt-0 mb-4 pb-1">{pageTitle}</h1>
-      <p class="text-lg lg:text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-3xl mx-auto">
-          Currently, no definitive cure exists for Alzheimer's Disease (AD): a relentless, progressive neurodegenerative disorder invariably characterized by gradual erosion of essential cognitive functions—memory, thinking, reasoning—and accompanied by profound changes in behavior and personality. Ultimately, AD culminates in a complete inability to perform even basic activities of daily living independently. However, despite the absence of a cure, a multi-faceted, highly individualized management approach can effectively address debilitating symptoms; can significantly enhance quality of life for both the person living with AD and their dedicated caregivers; and, in certain specific contexts with newer therapies, may potentially decelerate underlying disease progression. Integrating several crucial domains, a comprehensive, holistic strategy necessarily includes: targeted lifestyle modifications meticulously aimed at promoting overall brain health; specific pharmacological interventions (medications) addressing both clinical symptoms and, more recently, underlying disease pathology; emerging therapeutic approaches currently under active investigation; and robust, indispensable systems providing comprehensive caregiver support and essential education. Precise combination and relative emphasis of diverse strategies must be meticulously tailored—customized to the individual's specific stage of AD (mild, moderate, severe), overall co-existing health status, unique profile of presenting symptoms, and articulated personal values and preferences <Fragment set:html={renderCitation("Adapted from Cummings et al., 2021; Alzheimer's Association, 2024; Arvanitakis et al., 2019")} />.
+      <h1 class:list={[headingClass, "text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent mt-0 mb-4 pb-1"]}>{pageTitle}</h1>
+      <p class:list={[mutedTextClass, "text-lg lg:text-xl leading-relaxed max-w-3xl mx-auto"]}>
+          Currently, no definitive cure exists for Alzheimer's Disease (AD): a relentless, progressive neurodegenerative disorder invariably characterized by gradual erosion of essential cognitive functions... and accompanied by profound changes in behavior and personality... However, despite the absence of a cure, a multi-faceted, highly individualized management approach can effectively address debilitating symptoms; can significantly enhance quality of life...; and, in certain specific contexts with newer therapies, may potentially decelerate underlying disease progression. Integrating several crucial domains, a comprehensive, holistic strategy necessarily includes: targeted lifestyle modifications..., specific pharmacological interventions (medications)..., emerging therapeutic approaches..., and robust, indispensable systems providing comprehensive caregiver support and essential education. Precise combination and relative emphasis of diverse strategies must be meticulously tailored... <Fragment set:html={renderCitation("Adapted from Cummings et al., 2021; Alzheimer's Association, 2024; Arvanitakis et al., 2019")} />.
       </p>
     </header>
 
@@ -40,18 +61,18 @@ const trialsIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" 
       <img
         src={`${base}/assets/ad-treatment-summary.jpeg`}
         alt="Circular diagram: Key Components of Early-Stage Alzheimer's Management. Center circle 'Person with AD'. Surrounding elements: Medications (Symptomatic & DMTs), Healthy Lifestyle (Diet, Exercise, Sleep), Caregiver Support & Education, Monitoring & Follow-up, Advance Care Planning, Cognitive & Social Stimulation."
-        class="mx-auto block max-w-full rounded-xl border border-slate-200 shadow-lg transition duration-300 ease-in-out group-hover:shadow-xl dark:border-slate-700 md:max-w-xl lg:max-w-2xl group-hover:scale-[1.03]" 
+        class="mx-auto block max-w-full rounded-xl border border-slate-200 shadow-lg transition duration-300 ease-in-out group-hover:shadow-xl dark:border-slate-700 md:max-w-xl lg:max-w-2xl group-hover:scale-[1.03]"
         loading="lazy" width="700" height="700"
       />
-      <figcaption class="mt-4 text-xs italic text-slate-500 dark:text-slate-400 transition group-hover:text-slate-600 dark:group-hover:text-slate-300 px-4 max-w-xl mx-auto">
-        <strong class="font-semibold not-italic">Fig. 1: Comprehensive Management Components for Early-Stage Alzheimer's Disease.</strong> Visually conceptualizing the requisite holistic, integrated approach, Figure 1 provides a framework. At the very center resides the individual undergoing treatment for early-stage AD. Encircling the core focus are six essential, interconnected, and dynamically interacting components:
-        <ul class="list-disc list-inside text-left mt-2 space-y-0.5">
-            <li><strong class="font-medium">Cognitive Stimulation</strong> (Red Segment, Brain Icon): Highlighting the fundamental necessity of consistently engaging in mentally challenging and stimulating activities (e.g., solving complex puzzles, learning novel skills or information), cognitive stimulation aims specifically to maintain existing cognitive function and potentially bolster cognitive reserve.</li>
-            <li><strong class="font-medium">Medications</strong> (Orange Segment, Pills Icon): Referring specifically to pharmacological treatments, medications primarily encompass established cholinesterase inhibitors and memantine for managing cognitive and functional symptoms, potentially including newer disease-modifying therapies designed to target underlying amyloid pathology in eligible individuals.</li>
-            <li><strong class="font-medium">Healthy Lifestyle</strong> (Green Segment, Dumbbell Icon): Emphasizing the critical role of consistent physical activity, adherence to beneficial nutrition patterns (e.g., brain-healthy diets like Mediterranean or MIND), ensuring adequate restorative sleep, and diligently managing vascular risk factors (like hypertension, diabetes), this component supports overall brain health and potentially slows disease progression.</li>
-            <li><strong class="font-medium">Caregiver Support</strong> (Purple Segment, Heart/Hand Icon): Underscoring the absolutely critical importance of proactively providing essential resources, targeted education, and vital emotional support to family members and other individuals undertaking the demanding role of providing care, caregiver support explicitly recognizes the significant physical, emotional, and financial burdens inherent in the role.</li>
-            <li><strong class="font-medium">Monitoring and Follow-Up</strong> (Blue Segment, Checklist Icon): Stressing the non-negotiable need for regular, systematic assessments conducted by healthcare professionals, monitoring and follow-up is essential. Serving to meticulously track disease progression over time, rigorously evaluate the effectiveness of implemented treatments, effectively manage any co-existing medical conditions, and appropriately adjust the comprehensive care plan as individual needs inevitably evolve, assessments are crucial.</li>
-            <li><strong class="font-medium">Advance Care Planning</strong> (Pink Segment, Calendar/Document Icon): Pointing directly to the profound importance of initiating early, open discussions and completing formal documentation regarding individual future healthcare preferences, core values concerning quality of life, and formal designation of a trusted healthcare decision-maker (proxy) for a time when they may no longer be capable of making such decisions themselves, advance care planning is vital.</li>
+      <figcaption class:list={[exampleTextClass, "mt-4 transition group-hover:text-slate-600 dark:group-hover:text-slate-300 px-4 max-w-xl mx-auto"]}>
+        <strong class="font-semibold not-italic text-slate-600 dark:text-slate-300">Fig. 1: Comprehensive Management Components for Early-Stage Alzheimer's Disease.</strong> Visually conceptualizing the requisite holistic, integrated approach, Figure 1 provides a framework. At the very center resides the individual undergoing treatment for early-stage AD. Encircling the core focus are six essential, interconnected, and dynamically interacting components:
+        <ul class="list-disc list-inside text-left mt-2 space-y-0.5 text-xs text-slate-600 dark:text-slate-400"> {/* Ensure list text is readable */}
+             <li><strong class:list={[labelTextClass, "text-xs"]}>Cognitive Stimulation</strong> (Red Segment, Brain Icon): Highlighting the fundamental necessity of consistently engaging in mentally challenging and stimulating activities... aims specifically to maintain existing cognitive function and potentially bolster cognitive reserve.</li>
+             <li><strong class:list={[labelTextClass, "text-xs"]}>Medications</strong> (Orange Segment, Pills Icon): Referring specifically to pharmacological treatments, medications primarily encompass established cholinesterase inhibitors and memantine... potentially including newer disease-modifying therapies...</li>
+             <li><strong class:list={[labelTextClass, "text-xs"]}>Healthy Lifestyle</strong> (Green Segment, Dumbbell Icon): Emphasizing the critical role of consistent physical activity, adherence to beneficial nutrition patterns..., ensuring adequate restorative sleep..., and diligently managing vascular risk factors..., this component supports overall brain health and potentially slows disease progression.</li>
+             <li><strong class:list={[labelTextClass, "text-xs"]}>Caregiver Support</strong> (Purple Segment, Heart/Hand Icon): Underscoring the absolutely critical importance of proactively providing essential resources, targeted education, and vital emotional support to family members... explicitly recognizes the significant physical, emotional, and financial burdens...</li>
+             <li><strong class:list={[labelTextClass, "text-xs"]}>Monitoring and Follow-Up</strong> (Blue Segment, Checklist Icon): Stressing the non-negotiable need for regular, systematic assessments conducted by healthcare professionals... Serving to meticulously track disease progression..., rigorously evaluate the effectiveness of implemented treatments..., effectively manage any co-existing medical conditions..., and appropriately adjust the comprehensive care plan...</li>
+             <li><strong class:list={[labelTextClass, "text-xs"]}>Advance Care Planning</strong> (Pink Segment, Calendar/Document Icon): Pointing directly to the profound importance of initiating early, open discussions and completing formal documentation regarding individual future healthcare preferences..., core values concerning quality of life..., and formal designation of a trusted healthcare decision-maker (proxy)...</li>
         </ul>
          Circular arrangement implies components are not static but rather interactive and ongoing facets, continuously informing and shaping a truly comprehensive, person-centered care plan.
       </figcaption>
@@ -59,243 +80,254 @@ const trialsIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" 
     {/* --- End Image --- */}
 
     {/* --- Main Sections Container --- */}
-    <div class="space-y-16 md:space-y-20 lg:space-y-24"> {/* Increased spacing */}
+    <div class="space-y-12 md:space-y-16 lg:space-y-20"> {/* Consistent spacing */}
 
         {/* == Symptomatic Medications Section == */}
-        <section class="group p-6 md:p-8 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800/70 dark:to-slate-800/90 border border-blue-200 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-1">
-            <h2 class="text-2xl md:text-3xl font-semibold text-blue-900 dark:text-blue-200 mb-6 mt-0 flex items-start gap-x-3"> {/* Increased margin */}
-                 <span class="mt-1 text-blue-500 shrink-0 transition-transform duration-300 group-hover:scale-110"><Fragment set:html={symptomIcon} /></span>
+        <section class:list={[lightBg, "group p-6 md:p-8 rounded-xl border border-blue-200 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-1"]}>
+            <h2 class:list={[headingClass, "text-2xl md:text-3xl font-semibold mb-6 mt-0 flex items-start gap-x-3"]}>
+                 <span class="mt-1 text-blue-500 dark:text-blue-400 shrink-0 transition-transform duration-300 group-hover:scale-110"><Fragment set:html={symptomIcon} /></span>
                  <div>
                    Symptomatic Medications
-                   <span class="block text-sm font-normal text-blue-700 dark:text-blue-300">Addressing Cognitive Changes</span>
+                   <span class:list={[blueAccentText, "block text-sm font-normal"]}>Addressing Cognitive Changes</span>
                  </div>
             </h2>
-            <p class="mb-6 text-slate-600 dark:text-slate-400 max-w-prose text-base leading-relaxed">
-                Specific pharmacological treatments formally approved by regulatory agencies, such as the U.S. Food and Drug Administration (FDA), symptomatic medications are explicitly designed to alleviate cognitive symptoms (e.g., demonstrable memory loss, measurable attention deficits) intrinsically associated with AD. Crucially, understand that medications do *not* halt or reverse fundamental underlying neurodegenerative processes responsible for causing progressive brain cell damage and death—their primary therapeutic function is restricted to managing clinical *manifestations* of the disease, corresponding conceptually to the 'Medications' component illustrated in Figure 1, but distinct from disease-modifying agents.
+            <p class:list={[mutedTextClass, "mb-8 max-w-prose text-base leading-relaxed"]}> {/* Increased bottom margin */}
+                Specific pharmacological treatments formally approved by regulatory agencies, such as the U.S. Food and Drug Administration (FDA), symptomatic medications are explicitly designed to alleviate cognitive symptoms... Crucially, understand that medications do <strong class={strongTextClass}>*not*</strong> halt or reverse fundamental underlying neurodegenerative processes... corresponding conceptually to the 'Medications' component illustrated in Figure 1, but distinct from disease-modifying agents.
             </p>
-            <div class="space-y-6 text-base text-slate-700 dark:text-slate-300 max-w-prose">
-                {/* Sub-section with enhanced details/summary */}
-                <details class="group/details rounded-lg bg-slate-50 dark:bg-slate-700/30 p-4 open:ring-1 open:ring-black/10 open:dark:ring-white/10 open:shadow-sm transition duration-300 hover:bg-slate-100 dark:hover:bg-slate-700/50">
-                    <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 transition duration-200 ease-in-out hover:text-blue-700 dark:hover:text-blue-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-700 rounded-sm">
-                        <span class="transition duration-300 ease-in-out group-open/details:rotate-90">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
-                        </span>
-                        Cholinesterase Inhibitors
-                    </summary>
-                    <div class="mt-4 pl-6 text-sm text-slate-600 dark:text-slate-400 space-y-3 leading-relaxed">
-                        <p>(Specific examples include: Donepezil [marketed as Aricept®], Rivastigmine [marketed as Exelon® - available as capsules or a transdermal patch], Galantamine [marketed as Razadyne®]): An established class of drugs, cholinesterase inhibitors represent the standard, first-line pharmacologic treatment approach for individuals diagnosed with <strong class="font-medium text-slate-700 dark:text-slate-100">mild to moderate stages of AD</strong>. (Clinical severity stages—mild, moderate, severe—are classifications based primarily on observed degree of cognitive impairment and resultant impact on functional independence in daily life.)</p>
-                        <p><em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Mechanism of Action:</em> Functioning pharmacologically by specifically inhibiting the enzyme acetylcholinesterase, these drugs target acetylcholine breakdown. Acetylcholinesterase normally performs the physiological function of breaking down <strong class="font-medium text-slate-700 dark:text-slate-100">acetylcholine</strong>: a critical neurotransmitter (a chemical messenger facilitating signal transmission between nerve cells) fundamentally essential for efficient neural communication, particularly within brain circuits heavily involved in memory formation, memory consolidation, new learning processes, and sustained attention. By effectively reducing enzymatic breakdown of acetylcholine, inhibitor drugs consequently increase its ambient concentration and prolong its duration of action within the synaptic cleft (the microscopic space between communicating neurons)—thereby aiming to enhance cholinergic neurotransmission, known to be deficient in AD.</p>
-                        <p><em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Effect & Limitations:</em> Leading in some individuals to modest, objectively measurable, yet temporary improvements in cognitive function (manifesting, for example, as slightly better performance on standardized memory tests, potentially increased ability to focus attention, or temporary stabilization rather than continued decline in cognitive scores), pharmacological enhancement of cholinergic signaling offers limited benefit. However, therapeutic benefit derived is purely symptomatic and inherently time-limited; underlying disease process relentlessly continues to destroy cholinergic neurons, eventually rendering the drugs progressively less effective over time. Furthermore, gastrointestinal side effects are relatively common and can include nausea, vomiting, diarrhea, and loss of appetite, sometimes necessitating dose adjustments or discontinuation <Fragment set:html={renderCitation("Birks, 2006; Arvanitakis et al., 2019")} />.</p>
-                        <p><em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Example Scenarios:</em> (1) A person diagnosed with early-stage AD experiencing mild but noticeable forgetfulness might initiate treatment with Donepezil—and subsequently observe a slight, temporary improvement in their ability to recall recent events or conversations, lasting perhaps for several months. (2) Another individual diagnosed with moderate AD might find initiating Rivastigmine helps maintain their ability to actively participate in conversations for a slightly longer duration compared to their pre-treatment trajectory. (3) Conversely, a different patient might experience significant, intolerable gastrointestinal side effects (e.g., severe nausea) upon starting an oral cholinesterase inhibitor—requiring either discontinuation of the drug or potentially switching to an alternative formulation (e.g., the Rivastigmine transdermal patch, often reducing GI issues).</p>
+            <div class="space-y-6 text-base max-w-prose"> {/* Consistent spacing */}
+                {/* Sub-section for Cholinesterase Inhibitors */}
+                <div class:list={[subtleBg, "rounded-lg p-5 border border-slate-200 dark:border-slate-600/50 shadow-sm"]}>
+                    <h3 class:list={[subHeadingClass, "text-xl font-semibold mb-3"]}>Cholinesterase Inhibitors</h3>
+                    <div class:list={[bodyTextClass, "pl-2 text-sm space-y-3 leading-relaxed"]}>
+                        <p><strong class={labelTextClass}>Examples:</strong> Donepezil (Aricept®), Rivastigmine (Exelon® - capsules or patch), Galantamine (Razadyne®).</p>
+                        <p><strong class={labelTextClass}>Indication:</strong> Standard, first-line treatment for <strong class={strongTextClass}>mild to moderate stages of AD</strong>.</p>
+                        <p><strong class={labelTextClass}>Mechanism of Action:</strong> Inhibit the enzyme acetylcholinesterase, increasing the levels and duration of action of the neurotransmitter <strong class={strongTextClass}>acetylcholine</strong>, which is crucial for memory and attention and is deficient in AD.</p>
+                        <p><strong class={labelTextClass}>Effect & Limitations:</strong> May provide modest, <strong class={strongTextClass}>*temporary*</strong> improvements or stabilization of cognitive function in some individuals. Benefits are <strong class={strongTextClass}>*symptomatic*</strong> and time-limited as the disease progresses. Common side effects include:</p>
+                        <ul class="list-disc list-outside pl-5 text-xs space-y-1">
+                            <li>Nausea</li>
+                            <li>Vomiting</li>
+                            <li>Diarrhea</li>
+                            <li>Loss of appetite</li>
+                        </ul>
+                         <p class={exampleTextClass + " mt-2"}>Dose adjustments or switching drugs may be necessary due to side effects <Fragment set:html={renderCitation("Birks, 2006; Arvanitakis et al., 2019")} />.</p>
+                        <p><strong class={labelTextClass}>Example Scenarios:</strong> (1) Early-stage AD: Donepezil might offer slight, temporary memory improvement. (2) Moderate AD: Rivastigmine might help maintain conversational ability longer. (3) Side Effects: Severe nausea might require stopping the drug or trying the patch form.</p>
                     </div>
-                </details>
-                {/* Sub-section for NMDA antagonist */}
-                 <details class="group/details rounded-lg bg-slate-50 dark:bg-slate-700/30 p-4 open:ring-1 open:ring-black/10 open:dark:ring-white/10 open:shadow-sm transition duration-300 hover:bg-slate-100 dark:hover:bg-slate-700/50">
-                     <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 transition duration-200 ease-in-out hover:text-blue-700 dark:hover:text-blue-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-700 rounded-sm">
-                         <span class="transition duration-300 ease-in-out group-open/details:rotate-90">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
-                        </span>
-                        NMDA Receptor Antagonist
-                    </summary>
-                     <div class="mt-4 pl-6 text-sm text-slate-600 dark:text-slate-400 space-y-3 leading-relaxed">
-                         <p>(Specific example: Memantine [marketed as Namenda®]): Possessing a distinct mechanism of action, Memantine is typically indicated for individuals diagnosed with <strong class="font-medium text-slate-700 dark:text-slate-100">moderate to severe stages of AD</strong>. Frequently prescribed as an adjunct therapy (meaning used concurrently *in combination with* a cholinesterase inhibitor), it can also be utilized as monotherapy (administered alone) in certain clinical situations.</p>
-                         <p><em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Mechanism of Action:</em> Memantine functions by modulating the activity of <strong class="font-medium text-slate-700 dark:text-slate-100">glutamate</strong>: another principal excitatory neurotransmitter crucially involved in fundamental learning and memory processes throughout the brain. In the context of AD, damaged or dying neurons can lead to excessive, unregulated release of glutamate into the synaptic space. Resulting in persistent overstimulation of specific glutamate receptors known as NMDA (N-methyl-D-aspartate) receptors, chronic oversupply of glutamate is detrimental. Termed excitotoxicity, the pathological state of chronic receptor overstimulation is hypothesized to contribute further to neuronal damage and dysfunction. Memantine acts pharmacologically as a low-affinity, uncompetitive antagonist of the NMDA receptor. Allowing selective blocking of pathological, continuous (tonic) activation of NMDA receptors caused by excessive ambient glutamate, while critically still permitting normal, brief (phasic) activation required for physiological learning and memory processes, this specific mode of action is key.</p>
-                         <p><em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Effect & Limitations:</em> By effectively regulating glutamate activity and mitigating excitotoxicity, Memantine aims to provide a degree of neuroprotection for remaining viable neurons and potentially improve the signal-to-noise ratio within glutamatergic neurotransmission pathways. Modestly aiding learning capacity, memory function, and overall global functioning, particularly during later stages of AD progression, modulation may offer some benefit. Any observed benefits are generally considered modest and primarily symptomatic; focus is often on stabilizing or slightly slowing the rate of decline in ability to perform basic daily functions, such as dressing or feeding oneself independently. Importantly, Memantine does *not* halt underlying progression of the disease itself. Common potential side effects associated with Memantine include dizziness, headache, confusion, and constipation <Fragment set:html={renderCitation("McShane et al., 2019; Arvanitakis et al., 2019")} />.</p>
-                         <p><em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Example Scenarios:</em> (1) An individual diagnosed with severe AD, already receiving treatment with Donepezil, might have Memantine added to their regimen specifically to help manage increasing symptoms of confusion or agitation related to advanced cognitive decline. (2) Someone clinically transitioning from moderate to severe stage AD might initiate treatment with Memantine—and subsequently demonstrate a slightly slower rate of worsening in their ability to perform basic activities of daily living compared to projections based on their previous trajectory without the drug. (3) A contrasting clinical case could involve an individual experiencing intolerable dizziness upon starting Memantine, necessitating either a reduction in dosage or complete cessation of the medication.</p>
+                </div>
+                {/* Sub-section for NMDA Receptor Antagonist */}
+                 <div class:list={[subtleBg, "rounded-lg p-5 border border-slate-200 dark:border-slate-600/50 shadow-sm"]}>
+                     <h3 class:list={[subHeadingClass, "text-xl font-semibold mb-3"]}>NMDA Receptor Antagonist</h3>
+                     <div class:list={[bodyTextClass, "pl-2 text-sm space-y-3 leading-relaxed"]}>
+                         <p><strong class={labelTextClass}>Example:</strong> Memantine (Namenda®).</p>
+                         <p><strong class={labelTextClass}>Indication:</strong> Typically used for <strong class={strongTextClass}>moderate to severe stages of AD</strong>, often in combination with a cholinesterase inhibitor.</p>
+                         <p><strong class={labelTextClass}>Mechanism of Action:</strong> Modulates the activity of the neurotransmitter <strong class={strongTextClass}>glutamate</strong>. In AD, excessive glutamate can overstimulate NMDA receptors, leading to "excitotoxicity". Memantine selectively blocks this harmful chronic overstimulation while allowing normal signaling needed for learning and memory.</p>
+                         <p><strong class={labelTextClass}>Effect & Limitations:</strong> Aims to provide some neuroprotection and may <strong class={strongTextClass}>*modestly*</strong> aid learning, memory, and daily function, particularly in later stages. Benefits are generally modest and <strong class={strongTextClass}>*symptomatic*</strong>, often stabilizing or slightly slowing functional decline. Does <strong class={strongTextClass}>*not*</strong> halt disease progression. Common side effects include:</p>
+                         <ul class="list-disc list-outside pl-5 text-xs space-y-1">
+                             <li>Dizziness</li>
+                             <li>Headache</li>
+                             <li>Confusion</li>
+                             <li>Constipation</li>
+                         </ul>
+                         <p class={exampleTextClass + " mt-2"}><Fragment set:html={renderCitation("McShane et al., 2019; Arvanitakis et al., 2019")} /></p>
+                         <p><strong class={labelTextClass}>Example Scenarios:</strong> (1) Severe AD: Memantine added to Donepezil to help manage confusion/agitation. (2) Moderate-to-Severe Transition: Memantine started, potentially slowing decline in daily activities slightly. (3) Side Effects: Intolerable dizziness might require stopping or reducing the dose.</p>
                      </div>
-                 </details>
+                 </div>
             </div>
         </section>
 
         {/* == Disease-Modifying Therapies Section == */}
-        <section class="group p-6 md:p-8 rounded-xl bg-gradient-to-br from-purple-50 to-violet-50 dark:from-slate-800/70 dark:to-slate-800/90 border border-purple-200 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-1">
-            <h2 class="text-2xl md:text-3xl font-semibold text-purple-900 dark:text-purple-200 mb-5 mt-0 flex items-start gap-x-3">
-                <span class="mt-1 text-purple-500 shrink-0 transition-transform duration-300 group-hover:scale-110"><Fragment set:html={modifyIcon} /></span>
+        <section class:list={[lightBg, "group p-6 md:p-8 rounded-xl border border-purple-200 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-1"]}>
+            <h2 class:list={[headingClass, "text-2xl md:text-3xl font-semibold mb-6 mt-0 flex items-start gap-x-3"]}>
+                <span class="mt-1 text-purple-500 dark:text-purple-400 shrink-0 transition-transform duration-300 group-hover:scale-110"><Fragment set:html={modifyIcon} /></span>
                 <div>
                     Disease-Modifying Therapies (Anti-Amyloid mAbs)
-                    <span class="block text-sm font-normal text-purple-700 dark:text-purple-300">Targeting Underlying Pathology</span>
+                    <span class:list={[purpleAccentText, "block text-sm font-normal"]}>Targeting Underlying Pathology</span>
                 </div>
             </h2>
-            <p class="mb-6 text-slate-600 dark:text-slate-400 max-w-prose text-base leading-relaxed">
-                Representing a fundamentally distinct, newer category of pharmacological treatment meticulously designed to specifically target underlying biological processes (core neuropathology) hypothesized to actively drive AD progression—rather than merely managing resultant clinical symptoms, DMTs offer a different approach. Ambitious therapeutic goal of DMTs is to demonstrably slow down the inexorable rate at which the disease worsens over time. Falling under the broad conceptual umbrella of 'Medications' (as depicted in Fig. 1), agents possess a fundamentally different mechanism of action and therapeutic objective compared to purely symptomatic treatments like cholinesterase inhibitors or memantine. Currently available DMTs approved for AD primarily target amyloid pathology accumulation within the brain.
+            <p class:list={[mutedTextClass, "mb-8 max-w-prose text-base leading-relaxed"]}>
+                 Representing a fundamentally distinct, newer category of pharmacological treatment meticulously designed to specifically target underlying biological processes (core neuropathology) hypothesized to actively drive AD progression—rather than merely managing resultant clinical symptoms, DMTs offer a different approach. Ambitious therapeutic goal of DMTs is to demonstrably slow down the inexorable rate at which the disease worsens over time. Falling under the broad conceptual umbrella of 'Medications' (as depicted in Fig. 1), agents possess a fundamentally different mechanism of action and therapeutic objective compared to purely symptomatic treatments like cholinesterase inhibitors or memantine. Currently available DMTs approved for AD primarily target amyloid pathology accumulation within the brain.
             </p>
-            <div class="space-y-4 max-w-prose text-base text-slate-700 dark:text-slate-300 leading-relaxed">
-                <p>
-                    <strong class="font-semibold text-slate-800 dark:text-slate-100">Lecanemab (Leqembi®) & Donanemab:</strong> Specific examples of monoclonal antibodies (mAbs)—complex, laboratory-engineered proteins precisely designed to recognize and bind with high specificity to particular molecular targets—Lecanemab and Donanemab target amyloid. In the context of AD therapies, targets are specific forms of the amyloid-beta (Aβ) protein. (Aβ protein abnormally accumulates in the brains of individuals with AD, aggregating to form characteristic amyloid plaques—a defining pathological hallmark of the disease.) Having received formal regulatory approval (Lecanemab currently holds FDA approval) or being in final stages of clinical development and regulatory review (Donanemab), specific therapies are utilized within a carefully defined patient population: specifically, individuals diagnosed with <strong class="font-semibold">Mild Cognitive Impairment (MCI) due to AD</strong> (a clinical stage where cognitive changes are objectively detectable but do not yet significantly impair independent daily functioning) or those diagnosed with <strong class="font-semibold">mild-stage AD dementia</strong>. Critically, eligibility for initiating the therapies mandates definitive confirmation of existing amyloid pathology within the patient's brain—a requirement typically fulfilled through either cerebrospinal fluid (CSF) analysis demonstrating the characteristic AD biomarker signature or via a positive amyloid Positron Emission Tomography (PET) scan visually confirming plaque deposition.
-                </p>
-                <p><em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Mechanism of Action:</em> Administered via intravenous (IV) infusion, monoclonal antibody therapies circulate within the bloodstream. Subsequently circulating within the bloodstream, they need to effectively cross the protective blood-brain barrier to reach their target within the brain parenchyma. Once in the brain, binding with high affinity to specific conformational forms of Aβ occurs (e.g., Lecanemab preferentially targets soluble Aβ protofibrils, considered highly neurotoxic species; Donanemab targets a specific pyroglutamate form of Aβ found within established plaques). Effectively 'tagging' targeted Aβ species for subsequent clearance and removal by the brain's resident immune cells, primarily microglia, binding facilitates removal. By actively reducing overall Aβ burden within the brain, the therapeutic aim is to consequently lessen downstream toxic effects (such as propagation of tau pathology and progressive neuronal dysfunction) and thereby demonstrably slow the otherwise relentless decline in cognitive abilities and functional independence characteristic of AD progression <Fragment set:html={renderCitation("van Dyck et al., 2023; Sims et al., 2023")} />.</p>
-                <p><em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Effect & Limitations:</em> Rigorous, large-scale Phase 3 clinical trials have successfully demonstrated that anti-amyloid antibody therapies can indeed modestly slow the average rate of cognitive and functional decline (for example, Lecanemab showed a statistically significant 27% slowing of decline over an 18-month period, as measured by the primary outcome scale, the Clinical Dementia Rating-Sum of Boxes [CDR-SB]) when compared directly to placebo administration in the specifically eligible patient population. However, absolutely crucial is emphasizing that therapies do *not* halt the decline entirely, nor reverse any existing neurological damage or provide a cure for the disease. Observed effect size, while statistically significant in group analyses, remains subject to ongoing debate regarding its practical clinical meaningfulness for individual patients facing the disease. Nonetheless, therapies represent a significant, tangible advancement in the field of AD treatment—offering the first approved agents targeting underlying pathology, but are definitively not a universal solution applicable to all individuals with AD.</p>
+            <div class="space-y-6 max-w-prose text-base leading-relaxed">
+                <div class:list={[subtleBg, "rounded-lg p-5 border border-slate-200 dark:border-slate-600/50 shadow-sm"]}>
+                    <h3 class:list={[subHeadingClass, "text-xl font-semibold mb-3"]}>Lecanemab (Leqembi®) & Donanemab</h3>
+                    <div class:list={[bodyTextClass, "pl-2 text-sm space-y-3 leading-relaxed"]}>
+                        <p><strong class={labelTextClass}>Type:</strong> Monoclonal antibodies (mAbs) targeting forms of amyloid-beta (Aβ) protein.</p>
+                        <p><strong class={labelTextClass}>Indication:</strong> Approved (Lecanemab) or in late-stage review (Donanemab) for individuals with <strong class={strongTextClass}>Mild Cognitive Impairment (MCI) due to AD</strong> or <strong class={strongTextClass}>mild-stage AD dementia</strong>. <strong class={redAlertText + " font-semibold"}>Requires biomarker confirmation</strong> (CSF or Amyloid PET) of brain amyloid pathology.</p>
+                        <p><strong class={labelTextClass}>Mechanism of Action:</strong> Administered via IV infusion, these antibodies bind to specific Aβ forms in the brain, 'tagging' them for removal by the brain's immune cells (microglia). The goal is to reduce Aβ burden and slow downstream toxic effects <Fragment set:html={renderCitation("van Dyck et al., 2023; Sims et al., 2023")} />.</p>
+                        <p><strong class={labelTextClass}>Effect & Limitations:</strong> Clinical trials showed these therapies can <strong class={strongTextClass}>*modestly*</strong> slow the average rate of cognitive and functional decline compared to placebo in eligible patients. They do <strong class={strongTextClass}>*not*</strong> halt decline, reverse damage, or cure AD. The clinical meaningfulness for individuals is debated. They represent an advance but are not a universal solution.</p>
+                    </div>
+                </div>
                 {/* Considerations Box - Enhanced */}
-                <div class="mt-6 rounded-lg border border-amber-300 dark:border-amber-600/60 bg-amber-50 dark:bg-slate-800/80 p-5 ring-1 ring-amber-100 dark:ring-amber-900/30 shadow-md transition-shadow hover:shadow-lg">
-                    <p class="text-base font-semibold text-amber-900 dark:text-amber-300 mb-3 flex items-center gap-x-1.5">
+                <div class:list={[warnBg, "mt-6 rounded-lg border border-amber-300 dark:border-amber-600/60 p-5 ring-1 ring-amber-100 dark:ring-amber-900/30 shadow-md transition-shadow hover:shadow-lg"]}>
+                    <h4 class:list={[amberWarnText, "text-lg font-semibold mb-3 flex items-center gap-x-1.5"]}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-5 h-5 shrink-0"><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm-.75-10.25a.75.75 0 0 1 1.5 0v4a.75.75 0 0 1-1.5 0v-4Zm.75 7a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" /></svg>
-                        Key Considerations & Requirements:
-                    </p>
-                    <ul class="list-disc list-outside ml-6 text-sm text-amber-800 dark:text-slate-300/90 leading-relaxed space-y-2">
-                        <li><strong class="font-medium">Administration:</strong> Treatment necessitates regular intravenous (IV) infusions—typically administered every two weeks (Lecanemab) or every four weeks (Donanemab)—which must be conducted within specialized healthcare settings (such as hospital outpatient infusion centers or appropriately equipped neurology clinics). Inherently posing significant logistical challenges and time commitments for both patients and their caregivers, the requirement is demanding.</li>
-                        <li><strong class="font-medium">Monitoring for ARIA:</strong> Mandatory, serial Magnetic Resonance Imaging (MRI) scans of the brain are absolutely essential for safety monitoring. Including a baseline MRI prior to initiating treatment, followed by several additional MRIs performed at specific intervals during initial months and first year of therapy, monitoring is intensive. Primary purpose of intensive monitoring is to detect potential occurrence of Amyloid-Related Imaging Abnormalities (ARIA). ARIA refers to specific radiological findings observed on MRI scans known as potential side effects associated with anti-amyloid antibody therapies. ARIA can manifest in two primary forms: ARIA-E (indicating vasogenic Edema or sulcal effusions, often reflecting temporary fluid changes across the blood-brain barrier) or ARIA-H (representing Hemosiderin deposition, suggestive of cerebral microhemorrhages or superficial siderosis [bleeding on the brain surface]). While ARIA is frequently asymptomatic and resolves spontaneously following brief interruption of medication, it may occasionally induce clinical symptoms, including headache, disorientation, dizziness, visual abnormalities, nausea, and, in rare occasions, seizures or more serious neurological disorders. Standardized protocols dictate ARIA management, typically involving temporary suspension or permanent discontinuation of antibody treatment based on radiological severity and presence or absence of clinical symptoms <Fragment set:html={renderCitation("Sperling et al., 2011")} />.</li>
-                        <li><strong class="font-medium">Patient Eligibility:</strong> Strict eligibility criteria must be met for initiating the therapies. Invariably including definitive biomarker confirmation of brain amyloid pathology and a clinical diagnosis falling within specific disease stages of MCI due to AD or mild AD dementia, criteria are rigorous. Furthermore, individuals possessing certain pre-existing medical conditions (e.g., bleeding disorders, concurrent use of anticoagulant medications) or specific genetic factors (e.g., individuals homozygous for the APOE ε4 allele—demonstrating a significantly higher risk of developing ARIA) may require particularly careful risk-benefit assessment or may be excluded from treatment eligibility altogether.</li>
-                        <li><strong class="font-medium">Cost and Access:</strong> Currently holding a very high financial cost, new medicines create obstacles; insurance coverage regulations and reimbursement criteria are constantly changing and vary greatly. Practical access to treatment may also be limited by geographical availability of specialized diagnostic facilities (required for PET scans or CSF analysis), appropriately equipped infusion centers, and neurology practices possessing necessary expertise and infrastructure to manage complex monitoring requirements associated with the treatments <Fragment set:html={renderCitation("Kuller & Lopez, 2023")} />.</li>
+                        Key Considerations & Requirements
+                    </h4>
+                    <ul class:list={[amberWarnBodyText, "list-disc list-outside ml-6 text-sm leading-relaxed space-y-2"]}>
+                        <li><strong class="font-medium text-amber-900 dark:text-amber-200">Administration:</strong> Requires regular IV infusions (e.g., every 2-4 weeks) in specialized healthcare settings, posing logistical challenges.</li>
+                        <li><strong class="font-medium text-amber-900 dark:text-amber-200">Monitoring for ARIA:</strong> <strong class={redAlertText + " font-semibold"}>Mandatory</strong> serial brain MRI scans are essential to detect Amyloid-Related Imaging Abnormalities (ARIA), potential side effects.
+                            <ul class="list-circle list-outside ml-4 text-xs mt-1 space-y-0.5 text-slate-600 dark:text-slate-400"> {/* Muted list */}
+                                <li>ARIA-E (Edema/effusions - fluid changes)</li>
+                                <li>ARIA-H (Hemosiderin - microhemorrhages/bleeding)</li>
+                            </ul>
+                             <span class="text-xs block mt-1 text-slate-600 dark:text-slate-400">While often asymptomatic, ARIA can sometimes cause symptoms (headache, confusion, dizziness, rarely seizures). Management involves temporary or permanent treatment cessation based on severity <Fragment set:html={renderCitation("Sperling et al., 2011")} />.</span>
+                        </li>
+                        <li><strong class="font-medium text-amber-900 dark:text-amber-200">Patient Eligibility:</strong> Strict criteria apply, including biomarker confirmation and specific disease stage (MCI due to AD or mild AD dementia). Exclusions may apply based on medical conditions (e.g., bleeding disorders) or genetics (e.g., higher ARIA risk in APOE ε4 homozygotes).</li>
+                        <li><strong class="font-medium text-amber-900 dark:text-amber-200">Cost and Access:</strong> Very high cost, variable insurance coverage, and limited availability of specialized facilities and expertise pose significant barriers <Fragment set:html={renderCitation("Kuller & Lopez, 2023")} />.</li>
                     </ul>
-                    <p class="text-xs text-amber-700 dark:text-slate-400 mt-3"><em class="italic">Example Scenarios:</em> (1) A 68-year-old with confirmed amyloid PET and MCI related to AD begins Lecanemab. MRIs reveal no ARIA. Over 18 months, cognitive decline is somewhat slower than usual for untreated people. (2) A 72-year-old with moderate AD develops asymptomatic ARIA-E on MRI; medication is discontinued, ARIA disappears, and treatment is carefully reintroduced. (3) A patient in a remote region lacks access to infusion facilities or MRI monitoring, making therapy difficult despite eligibility.</p>
+                    <p class={exampleTextClass + " mt-3"}><strong class="not-italic font-medium text-amber-800 dark:text-amber-300">Example Scenarios:</strong> (1) Eligible patient starts Lecanemab, shows slightly slower decline, no ARIA on MRIs. (2) Patient develops asymptomatic ARIA-E, treatment paused, resumes after resolution. (3) Eligible patient lacks access to infusion/MRI facilities.</p>
                 </div>
             </div>
         </section>
 
          {/* == BPSD Section == */}
-        <section class="group p-6 md:p-8 rounded-xl bg-gradient-to-br from-orange-50 to-amber-50 dark:from-slate-800/70 dark:to-slate-800/90 border border-orange-200 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-1">
-             <h2 class="text-2xl md:text-3xl font-semibold text-orange-900 dark:text-orange-200 mb-5 mt-0 flex items-start gap-x-3">
-                <span class="mt-1 text-orange-500 shrink-0 transition-transform duration-300 group-hover:scale-110"><Fragment set:html={behaviorIcon} /></span>
+        <section class:list={[lightBg, "group p-6 md:p-8 rounded-xl border border-orange-200 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-1"]}>
+             <h2 class:list={[headingClass, "text-2xl md:text-3xl font-semibold mb-6 mt-0 flex items-start gap-x-3"]}>
+                <span class="mt-1 text-orange-500 dark:text-orange-400 shrink-0 transition-transform duration-300 group-hover:scale-110"><Fragment set:html={behaviorIcon} /></span>
                  <div>
                     Managing Behavioral and Psychological Symptoms of Dementia (BPSD)
-                     <span class="block text-sm font-normal text-orange-700 dark:text-orange-300">Improving Daily Life & Well-being</span>
+                     <span class:list={[orangeAccentText, "block text-sm font-normal"]}>Improving Daily Life & Well-being</span>
                  </div>
             </h2>
-            <p class="mb-6 text-slate-600 dark:text-slate-400 max-w-prose text-base leading-relaxed">
-                BPSD encompass a spectrum of non-cognitive symptoms common in AD, including agitation, apathy, depression, anxiety, delusions, hallucinations, sleep disturbances, and disinhibition. Managing these is crucial for the well-being of both the person with AD and their caregivers.
+            <p class:list={[mutedTextClass, "mb-8 max-w-prose text-base leading-relaxed"]}>
+                BPSD encompass a spectrum of non-cognitive symptoms common in AD, including <strong class={strongTextClass}>agitation, apathy, depression, anxiety, delusions, hallucinations, sleep disturbances, and disinhibition</strong>. Managing these is crucial for the well-being of both the person with AD and their caregivers.
             </p>
-             <ol class="list-none space-y-8 text-base text-slate-700 dark:text-slate-300 max-w-prose"> {/* Increased spacing */}
-                 {/* BPSD Item 1 - Enhanced */}
-                <li class="group/item relative pl-10 before:content-['1'] before:absolute before:left-0 before:top-0 before:size-7 before:bg-orange-200 dark:before:bg-orange-700 before:text-orange-700 dark:before:text-orange-200 before:rounded-full before:font-bold before:flex before:items-center before:justify-center transition-transform duration-200 ease-out group-hover/item:scale-105">
-                    <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-2 mt-0 transition-colors duration-200 ease-in-out group-hover/item:text-orange-700 dark:group-hover/item:text-orange-300">Non-pharmacological Interventions (First-Line Approach):</h3>
-                     <p class="text-sm text-slate-600 dark:text-slate-400 mt-1.5 leading-relaxed space-y-2">
-                        <span>Universally recommended first, this <strong class="font-medium text-slate-700 dark:text-slate-100">person-centered approach</strong> prioritizes understanding the individual and identifying the cause behind the behavior before using medication.</span>
-                        <span class="block mb-1 font-semibold text-slate-700 dark:text-slate-200"><em class="italic">Core Strategies & Rationale:</em></span>
-                        <ul class="list-disc list-outside pl-5 space-y-1">
-                            <li><strong class="font-medium text-slate-700 dark:text-slate-200">Identifying & Modifying Triggers:</strong> Systematically observe to find factors (internal like pain/infection, or external like noise/clutter/complex tasks) causing the behavior and mitigate them. BPSD often signal distress or unmet needs.</li>
-                            <li><strong class="font-medium text-slate-700 dark:text-slate-200">Environmental Modifications:</strong> Adjust surroundings to be safe, calm, familiar (reduce clutter/noise, use signage, familiar objects). Reduces stressors and confusion.</li>
-                            <li><strong class="font-medium text-slate-700 dark:text-slate-200">Structured Activities & Routine:</strong> Establish consistent daily routines and engage in activities tailored to interests/abilities (simple chores, music, reminiscence, gentle exercise). Provides structure, reduces anxiety, promotes engagement.</li>
-                            <li><strong class="font-medium text-slate-700 dark:text-slate-200">Sensory Engagement:</strong> Use appropriate sensory stimulation (music therapy, aromatherapy, tactile objects, pet therapy) to evoke positive emotions and reduce agitation.</li>
-                            <li><strong class="font-medium text-slate-700 dark:text-slate-200">Caregiver Education & Support:</strong> Equip caregivers with knowledge (communication techniques, stress management, disease progression) and access to support systems (support groups, respite care). Supported caregivers provide better care and can delay institutionalization <Fragment set:html={renderCitation("Livingston et al., 2017; Gitlin et al., 2012; Arvanitakis et al., 2019")} />.</li>
+             <div class="space-y-8 text-base max-w-prose"> {/* Increased spacing */}
+                 {/* BPSD Sub-section 1 */}
+                <div class:list={[subtleBg, "relative pl-10 p-5 rounded-lg border border-slate-200 dark:border-slate-600/50 shadow-sm before:content-['1'] before:absolute before:left-3 before:top-5 before:size-7 before:bg-orange-200 dark:before:bg-orange-700 before:text-orange-700 dark:before:text-orange-200 before:rounded-full before:font-bold before:flex before:items-center before:justify-center"]}>
+                    <h3 class:list={[subHeadingClass, "text-xl font-semibold mb-3 mt-0"]}>Non-pharmacological Interventions (<strong class={orangeAccentText}>First-Line Approach</strong>)</h3>
+                     <div class:list={[bodyTextClass, "text-sm space-y-3 leading-relaxed"]}>
+                        <p>Universally recommended first, this <strong class={strongTextClass}>person-centered approach</strong> prioritizes understanding the individual and identifying the underlying cause or trigger of the behavior before resorting to medication.</p>
+                        <p><strong class={labelTextClass}>Core Strategies & Rationale:</strong></p>
+                        <ul class="list-disc list-outside pl-5 space-y-1.5">
+                            <li><strong class={strongTextClass}>Identify & Modify Triggers:</strong> Systematically observe to find factors (internal: pain, infection, constipation; external: noise, clutter, complex tasks, change in routine) causing the behavior and mitigate them. BPSD often signal distress or unmet needs.</li>
+                            <li><strong class={strongTextClass}>Environmental Modifications:</strong> Adjust surroundings to be safe, calm, and familiar (e.g., reduce clutter/noise, use clear signage, incorporate familiar objects, ensure adequate lighting). Reduces potential stressors and confusion.</li>
+                            <li><strong class={strongTextClass}>Structured Activities & Routine:</strong> Establish consistent daily routines. Engage the person in activities tailored to their remaining abilities and interests (e.g., simple chores, listening to music, looking at photos, gentle exercise, art). Provides structure, reduces anxiety, promotes engagement, and can improve mood.</li>
+                            <li><strong class={strongTextClass}>Sensory Engagement:</strong> Use appropriate sensory stimulation (e.g., music therapy, aromatherapy with calming scents, providing objects with pleasant textures, pet therapy) to evoke positive emotions, provide comfort, and reduce agitation.</li>
+                            <li><strong class={strongTextClass}>Caregiver Education & Support:</strong> Equip caregivers with knowledge about the disease, effective communication techniques (e.g., validation therapy, avoiding confrontation), stress management strategies, and access to support systems (support groups, respite care). Supported caregivers provide better care and experience less burnout <Fragment set:html={renderCitation("Livingston et al., 2017; Gitlin et al., 2012; Arvanitakis et al., 2019")} />.</li>
                         </ul>
-                        <span class="block mb-1 font-semibold text-slate-700 dark:text-slate-200"><em class="italic">Example Scenarios:</em></span>
-                        <p>(1) 'Sundowning' (late-day pacing/anxiety) minimized by recognizing fatigue/noise as triggers and adopting afternoon rest/quiet time. (2) Resistance to bathing improved by caregiver utilizing calm communication, maintaining comfort, playing music, providing easy options. (3) Apathy mitigated by engaging individual in modest, familiar tasks like washing laundry or listening to preferred music. (4) Sudden severe agitation necessitates evaluation for acute medical reasons (such UTI) initially.</p>
-                    </p>
-                </li>
-                {/* BPSD Item 2 - Enhanced */}
-                 <li class="group/item relative pl-10 before:content-['2'] before:absolute before:left-0 before:top-0 before:size-7 before:bg-orange-200 dark:before:bg-orange-700 before:text-orange-700 dark:before:text-orange-200 before:rounded-full before:font-bold before:flex before:items-center before:justify-center transition-transform duration-200 ease-out group-hover/item:scale-105">
-                    <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-2 mt-0 transition-colors duration-200 ease-in-out group-hover/item:text-orange-700 dark:group-hover/item:text-orange-300">Pharmacological Interventions (Second-Line, Used Cautiously):</h3>
-                     <p class="text-sm text-slate-600 dark:text-slate-400 mt-1.5 leading-relaxed space-y-2">
-                         <span>Considered *only* when non-pharmacological approaches fail for severe, dangerous, or highly distressing symptoms. Guiding principle: <strong class="font-semibold">"start low, go slow"</strong> (lowest effective dose, titrate gradually, reassess need, shortest duration).</span>
-                         <span class="block mb-1 font-semibold text-slate-700 dark:text-slate-200"><em class="italic">Potential Options & Significant Risks:</em></span>
-                        <ul class="list-disc list-outside pl-5 space-y-1">
-                            <li><strong class="font-medium text-slate-700 dark:text-slate-200">Antidepressants (SSRIs):</strong> Often first-line for depression, anxiety, sometimes agitation (e.g., Citalopram, Sertraline). Generally better tolerated than antipsychotics in this population.</li>
-                            <li><strong class="font-medium text-slate-700 dark:text-slate-200">Antipsychotics:</strong> (e.g., Risperidone, Olanzapine) considered cautiously for severe agitation/aggression/psychosis unresponsive to other methods. Carry <strong class="font-semibold text-red-600 dark:text-red-400">significant risks</strong> in dementia patients (increased mortality, stroke, sedation, falls, cognitive worsening, movement problems). Benefits must clearly outweigh risks <Fragment set:html={renderCitation("Kales et al., 2015; Tampi et al., 2016; Arvanitakis et al., 2019")} />.</li>
-                            <li><strong class="font-medium text-slate-700 dark:text-slate-200">Other classes:</strong> Mood stabilizers or benzodiazepines occasionally used but have significant risks (sedation, falls, dependence).</li>
+                        <p><strong class={labelTextClass}>Example Scenarios:</strong></p>
+                        <p class={exampleTextClass}>(1) 'Sundowning' (increased confusion/agitation in late afternoon/evening) might be minimized by identifying fatigue or overstimulation as triggers and implementing strategies like ensuring adequate daytime rest, reducing noise/activity in the evening, and providing a calming, familiar routine before bedtime. (2) Resistance to bathing could be improved by using a calm, reassuring approach, ensuring the room is warm, playing familiar music, simplifying the task, and offering choices when possible. (3) Apathy might be mitigated by gently encouraging participation in simple, familiar, enjoyable activities like folding laundry, listening to favorite music, or going for a short walk. (4) Sudden onset of severe agitation should prompt evaluation for underlying medical causes like a urinary tract infection (UTI), pain, or medication side effect.</p>
+                    </div>
+                </div>
+                {/* BPSD Sub-section 2 */}
+                 <div class:list={[subtleBg, "relative pl-10 p-5 rounded-lg border border-slate-200 dark:border-slate-600/50 shadow-sm before:content-['2'] before:absolute before:left-3 before:top-5 before:size-7 before:bg-orange-200 dark:before:bg-orange-700 before:text-orange-700 dark:before:text-orange-200 before:rounded-full before:font-bold before:flex before:items-center before:justify-center"]}>
+                    <h3 class:list={[subHeadingClass, "text-xl font-semibold mb-3 mt-0"]}>Pharmacological Interventions (<strong class={orangeAccentText}>Second-Line, Used Cautiously</strong>)</h3>
+                     <div class:list={[bodyTextClass, "text-sm space-y-3 leading-relaxed"]}>
+                         <p>Considered <strong class={strongTextClass}>*only*</strong> when non-pharmacological approaches have failed and symptoms are severe, persistent, dangerous (to self or others), or causing significant distress. The guiding principle is <strong class={strongTextClass}>"start low, go slow"</strong>: use the lowest effective dose, titrate (increase) gradually, regularly reassess the need for the medication, and aim for the shortest possible duration.</p>
+                         <p><strong class={labelTextClass}>Potential Options & Significant Risks:</strong></p>
+                        <ul class="list-disc list-outside pl-5 space-y-1.5">
+                            <li><strong class={strongTextClass}>Antidepressants (SSRIs):</strong> Often considered first-line *among medications* for treating depression, anxiety, or sometimes agitation in AD (e.g., Citalopram, Sertraline). Generally better tolerated than antipsychotics.</li>
+                            <li><strong class={strongTextClass}>Antipsychotics:</strong> (e.g., Risperidone, Olanzapine) Should be considered cautiously and typically only for severe agitation, aggression, or psychosis unresponsive to other methods. They carry <strong class={redAlertText + " font-semibold"}>significant risks (including FDA boxed warnings)</strong> in older adults with dementia, such as increased risk of mortality (death), stroke, sedation, falls, cognitive worsening, and movement problems. Benefits must clearly outweigh risks <Fragment set:html={renderCitation("Kales et al., 2015; Tampi et al., 2016; Arvanitakis et al., 2019")} />.</li>
+                            <li><strong class={strongTextClass}>Other classes:</strong> Mood stabilizers or benzodiazepines are occasionally used off-label but also carry significant risks (sedation, falls, confusion, dependence).</li>
                         </ul>
-                        <span class="block mb-1 font-semibold text-slate-700 dark:text-slate-200"><em class="italic">Example Scenarios:</em></span>
-                        <p>(1) Severe, distressing delusions/aggression unresponsive to non-drug methods might warrant a cautious trial of a low-dose antipsychotic with close monitoring. (2) Clear clinical depression alongside AD might benefit from an SSRI. (3) Using antipsychotics for mild restlessness without trying other methods first is generally inappropriate. Always attempt to taper/discontinue psychotropics when possible.</p>
-                    </p>
-                </li>
-            </ol>
+                        <p><strong class={labelTextClass}>Example Scenarios:</strong></p>
+                        <p class={exampleTextClass}>(1) Severe, persistent delusions or aggression posing a safety risk might warrant a cautious, low-dose antipsychotic trial with close monitoring. (2) Clear major depression alongside AD might benefit from an SSRI. (3) Using antipsychotics for mild restlessness without trying non-drug methods first is generally inappropriate. Always attempt periodic tapering/discontinuation.</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         {/* == Lifestyle Section == */}
-        <section class="group p-6 md:p-8 rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 dark:from-slate-800/70 dark:to-slate-800/90 border border-green-200 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-1">
-            <h2 class="text-2xl md:text-3xl font-semibold text-green-900 dark:text-green-200 mb-5 mt-0 flex items-start gap-x-3">
-                <span class="mt-1 text-green-500 shrink-0 transition-transform duration-300 group-hover:scale-110"><Fragment set:html={lifestyleIcon} /></span>
+        <section class:list={[lightBg, "group p-6 md:p-8 rounded-xl border border-green-200 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-1"]}>
+            <h2 class:list={[headingClass, "text-2xl md:text-3xl font-semibold mb-6 mt-0 flex items-start gap-x-3"]}>
+                <span class="mt-1 text-green-500 dark:text-green-400 shrink-0 transition-transform duration-300 group-hover:scale-110"><Fragment set:html={lifestyleIcon} /></span>
                 <div>
                     Lifestyle Modifications & Brain Health
-                    <span class="block text-sm font-normal text-green-700 dark:text-green-300">Supporting Overall Well-being</span>
+                    <span class:list={[greenAccentText, "block text-sm font-normal"]}>Supporting Overall Well-being</span>
                 </div>
             </h2>
-            <p class="mb-6 text-slate-600 dark:text-slate-400 max-w-prose text-base leading-relaxed">
+            <p class:list={[mutedTextClass, "mb-8 max-w-prose text-base leading-relaxed"]}>
                 Lifestyle factors significantly influence brain health throughout life and can impact AD risk and progression. These strategies are fundamental to comprehensive AD management ('Healthy Lifestyle' and 'Cognitive Stimulation' in Fig. 1). While not a cure, they aim to optimize remaining function, enhance resilience, manage risk factors, and improve quality of life.
             </p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 text-sm text-slate-700 dark:text-slate-300 max-w-prose">
-                {/* Lifestyle Item 1 - Enhanced */}
-                <div class="group/item flex items-start gap-x-3 transition-colors duration-200 hover:text-green-800 dark:hover:text-green-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5 text-green-600 dark:text-green-400 mt-0.5 shrink-0 transition-transform duration-200 group-hover/item:scale-110"><path fill-rule="evenodd" d="M13.133 4.014a.75.75 0 0 1 .413.97l-2.25 6a.75.75 0 0 1-1.392-.52l1.584-4.224a.75.75 0 0 1-.548-.858l.23-1.459a1.5 1.5 0 0 1 1.963-.88ZM6.867 4.014a.75.75 0 0 0-.413.97l2.25 6a.75.75 0 1 0 1.392-.52L8.515 5.24a.75.75 0 0 0 .548-.858l-.23-1.459a1.5 1.5 0 0 0-1.963-.88Z" clip-rule="evenodd" /></svg>
-                    <div><strong class="font-semibold text-slate-800 dark:text-slate-100 block">Physical Exercise:</strong> Consistently engaging in regular physical activity, tailored to individual capabilities. <em class="block mt-1 font-semibold text-slate-700 dark:text-slate-200">Benefits:</em> Improves cerebral blood flow, promotes cardiovascular health, regulates sleep, reduces stress, elevates mood, and may stimulate neurotrophic factors supporting neuron health and plasticity <Fragment set:html={renderCitation("Groot et al., 2016")} />. <em class="block mt-1 font-semibold text-slate-700 dark:text-slate-200">Examples:</em> Brisk walks, supervised classes (chair yoga, Tai Chi), gardening, dancing, swimming (adapted as needed).</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8 text-sm max-w-prose"> {/* Increased gap */}
+                {/* Lifestyle Item 1 */}
+                <div class="group/item flex flex-col space-y-2">
+                    <div class="flex items-center gap-x-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5 text-green-600 dark:text-green-400 shrink-0 transition-transform duration-200 group-hover/item:scale-110"><path fill-rule="evenodd" d="M13.133 4.014a.75.75 0 0 1 .413.97l-2.25 6a.75.75 0 0 1-1.392-.52l1.584-4.224a.75.75 0 0 1-.548-.858l.23-1.459a1.5 1.5 0 0 1 1.963-.88ZM6.867 4.014a.75.75 0 0 0-.413.97l2.25 6a.75.75 0 1 0 1.392-.52L8.515 5.24a.75.75 0 0 0 .548-.858l-.23-1.459a1.5 1.5 0 0 0-1.963-.88Z" clip-rule="evenodd" /></svg>
+                        <h4 class:list={[subHeadingClass, "font-semibold text-base"]}>Physical Exercise</h4>
+                    </div>
+                    <p class:list={[bodyTextClass, "pl-7 leading-relaxed"]}>Consistently engaging in regular physical activity, tailored to individual capabilities. <strong class={labelTextClass + " block mt-1"}>Benefits:</strong> Improves cerebral blood flow, promotes cardiovascular health, regulates sleep, reduces stress, elevates mood, may stimulate neurotrophic factors <Fragment set:html={renderCitation("Groot et al., 2016")} />. <strong class={labelTextClass + " block mt-1"}>Examples:</strong> Brisk walks, chair yoga, Tai Chi, gardening, dancing, swimming (adapted).</p>
                 </div>
-                 {/* Lifestyle Item 2 - Enhanced */}
-                <div class="group/item flex items-start gap-x-3 transition-colors duration-200 hover:text-green-800 dark:hover:text-green-300">
-                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5 text-green-600 dark:text-green-400 mt-0.5 shrink-0 transition-transform duration-200 group-hover/item:scale-110"><path d="M5.5 3.5A1.5 1.5 0 0 1 7 2h2a1.5 1.5 0 0 1 1.5 1.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 0-.5-.5H7a.5.5 0 0 0-.5.5v1a.5.5 0 0 1-1 0v-1ZM9.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5ZM3 7.5a.5.5 0 0 0 1 0V7a.5.5 0 0 0-1 0v.5ZM6.5 11a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Z" /><path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13Z" clip-rule="evenodd" /></svg>
-                    <div><strong class="font-semibold text-slate-800 dark:text-slate-100 block">Healthy Diet (Nutrition):</strong> Adopting patterns like the Mediterranean or MIND diets (rich in fruits, vegetables, whole grains, fish, nuts, olive oil; limited red meat, sweets, processed foods). <em class="block mt-1 font-semibold text-slate-700 dark:text-slate-200">Benefits:</em> Provides antioxidants, anti-inflammatory compounds, vitamins, and healthy fats to combat oxidative stress, support vascular health, and maintain brain cells <Fragment set:html={renderCitation("Scarmeas et al., 2018")} />. <em class="block mt-1 font-semibold text-slate-700 dark:text-slate-200">Examples:</em> Swap processed snacks for nuts/berries, eat fatty fish (salmon) twice weekly, include leafy greens, ensure hydration. Adapt textures if needed.</div>
+                 {/* Lifestyle Item 2 */}
+                <div class="group/item flex flex-col space-y-2">
+                    <div class="flex items-center gap-x-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5 text-green-600 dark:text-green-400 shrink-0 transition-transform duration-200 group-hover/item:scale-110"><path d="M5.5 3.5A1.5 1.5 0 0 1 7 2h2a1.5 1.5 0 0 1 1.5 1.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 0-.5-.5H7a.5.5 0 0 0-.5.5v1a.5.5 0 0 1-1 0v-1ZM9.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5ZM3 7.5a.5.5 0 0 0 1 0V7a.5.5 0 0 0-1 0v.5ZM6.5 11a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Z" /><path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13Z" clip-rule="evenodd" /></svg>
+                        <h4 class:list={[subHeadingClass, "font-semibold text-base"]}>Healthy Diet (Nutrition)</h4>
+                    </div>
+                    <p class:list={[bodyTextClass, "pl-7 leading-relaxed"]}>Adopting patterns like the <strong class={strongTextClass}>Mediterranean</strong> or <strong class={strongTextClass}>MIND</strong> diets (rich in fruits, vegetables, whole grains, fish, nuts, olive oil; limited red meat, sweets, processed foods). <strong class={labelTextClass + " block mt-1"}>Benefits:</strong> Provides antioxidants, anti-inflammatory compounds, vitamins, healthy fats; supports vascular health <Fragment set:html={renderCitation("Scarmeas et al., 2018")} />. <strong class={labelTextClass + " block mt-1"}>Examples:</strong> Swap snacks for nuts/berries, eat fatty fish (salmon) weekly, include leafy greens, hydrate. Adapt textures if needed.</p>
                  </div>
-                 {/* Lifestyle Item 3 - Enhanced */}
-                 <div class="group/item flex items-start gap-x-3 transition-colors duration-200 hover:text-green-800 dark:hover:text-green-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5 text-green-600 dark:text-green-400 mt-0.5 shrink-0 transition-transform duration-200 group-hover/item:scale-110"><path d="M10 3.75a2.25 2.25 0 1 0-4.5 0 2.25 2.25 0 0 0 4.5 0ZM8.5 5.75a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0v-1.5ZM4.375 9.75a.75.75 0 0 0 0 1.5h7.25a.75.75 0 0 0 0-1.5h-7.25Z" /></svg>
-                    <div><strong class="font-semibold text-slate-800 dark:text-slate-100 block">Cognitive & Social Stimulation:</strong> Actively engaging the mind (puzzles, games, reading, learning new things) and maintaining social connections (visits, groups, conversations). <em class="block mt-1 font-semibold text-slate-700 dark:text-slate-200">Benefits:</em> May strengthen neural connections, build cognitive reserve, improve mood, and maintain functional abilities longer <Fragment set:html={renderCitation("Livingston et al., 2020")} />. Simplify activities for later stages.</div>
+                 {/* Lifestyle Item 3 */}
+                 <div class="group/item flex flex-col space-y-2">
+                    <div class="flex items-center gap-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5 text-green-600 dark:text-green-400 shrink-0 transition-transform duration-200 group-hover/item:scale-110"><path d="M10 3.75a2.25 2.25 0 1 0-4.5 0 2.25 2.25 0 0 0 4.5 0ZM8.5 5.75a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0v-1.5ZM4.375 9.75a.75.75 0 0 0 0 1.5h7.25a.75.75 0 0 0 0-1.5h-7.25Z" /></svg>
+                        <h4 class:list={[subHeadingClass, "font-semibold text-base"]}>Cognitive & Social Stimulation</h4>
+                    </div>
+                    <p class:list={[bodyTextClass, "pl-7 leading-relaxed"]}>Actively engaging the mind (puzzles, games, reading, learning) and maintaining social connections (visits, groups, conversations). <strong class={labelTextClass + " block mt-1"}>Benefits:</strong> May strengthen neural connections, build cognitive reserve, improve mood, maintain function longer <Fragment set:html={renderCitation("Livingston et al., 2020")} />. Simplify activities for later stages.</p>
                  </div>
-                  {/* Lifestyle Item 4 - Enhanced */}
-                 <div class="group/item flex items-start gap-x-3 transition-colors duration-200 hover:text-green-800 dark:hover:text-green-300">
-                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5 text-green-600 dark:text-green-400 mt-0.5 shrink-0 transition-transform duration-200 group-hover/item:scale-110"><path fill-rule="evenodd" d="M11.444 2.688a3.01 3.01 0 0 0-4.888 0L.56 8.233a1.004 1.004 0 0 0 1.789 1.004l1.011-.562v1.443a.5.5 0 0 0 .5.5h8.278a.5.5 0 0 0 .5-.5V8.675l1.01.562a1.004 1.004 0 0 0 1.79-1.004l-5.996-5.545Zm1.023 7.013a.75.75 0 0 0-1.267-.81L8 11.918l-2.2-.314a.75.75 0 0 0-.7-.018l-2 1A.75.75 0 0 0 4 13.25V14a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-.75a.75.75 0 0 0-.733-.749Z" clip-rule="evenodd" /></svg>
-                    <div><strong class="font-semibold text-slate-800 dark:text-slate-100 block">Adequate Sleep:</strong> Ensuring sufficient, high-quality sleep. <em class="block mt-1 font-semibold text-slate-700 dark:text-slate-200">Benefits:</em> Crucial for memory consolidation and brain waste clearance (including Aβ via the glymphatic system). Poor sleep is linked to Aβ accumulation <Fragment set:html={renderCitation("Shi et al., 2018")} />. Address sleep disturbances (insomnia, sleep apnea) and practice good sleep hygiene (consistent schedule, calming routine, optimized environment).</div>
+                  {/* Lifestyle Item 4 */}
+                 <div class="group/item flex flex-col space-y-2">
+                    <div class="flex items-center gap-x-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5 text-green-600 dark:text-green-400 shrink-0 transition-transform duration-200 group-hover/item:scale-110"><path fill-rule="evenodd" d="M11.444 2.688a3.01 3.01 0 0 0-4.888 0L.56 8.233a1.004 1.004 0 0 0 1.789 1.004l1.011-.562v1.443a.5.5 0 0 0 .5.5h8.278a.5.5 0 0 0 .5-.5V8.675l1.01.562a1.004 1.004 0 0 0 1.79-1.004l-5.996-5.545Zm1.023 7.013a.75.75 0 0 0-1.267-.81L8 11.918l-2.2-.314a.75.75 0 0 0-.7-.018l-2 1A.75.75 0 0 0 4 13.25V14a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-.75a.75.75 0 0 0-.733-.749Z" clip-rule="evenodd" /></svg>
+                        <h4 class:list={[subHeadingClass, "font-semibold text-base"]}>Adequate Sleep</h4>
+                    </div>
+                    <p class:list={[bodyTextClass, "pl-7 leading-relaxed"]}>Ensuring sufficient, high-quality sleep. <strong class={labelTextClass + " block mt-1"}>Benefits:</strong> Crucial for memory consolidation and brain waste clearance (including Aβ). Poor sleep linked to Aβ accumulation <Fragment set:html={renderCitation("Shi et al., 2018")} />. Address sleep disturbances (insomnia, sleep apnea) and practice good sleep hygiene (consistent schedule, calming routine, optimized environment).</p>
                  </div>
              </div>
         </section>
 
        {/* == Ongoing Management & Support Section == */}
-      <section class="p-6 md:p-8 rounded-xl bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 shadow-md">
-          <h2 class="text-2xl md:text-3xl font-semibold text-slate-800 dark:text-slate-200 mb-8 mt-0 text-center">
+      <section class:list={[subtleBg, "p-6 md:p-8 rounded-xl border border-slate-200 dark:border-slate-700/60 shadow-md"]}>
+          <h2 class:list={[headingClass, "text-2xl md:text-3xl font-semibold mb-8 mt-0 text-center"]}>
               Ongoing Management, Support & Future Planning
           </h2>
-           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-             {/* Grid Cards - Added hover effects and transition */}
+           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-8"> {/* Adjusted grid for better spacing */}
              {/* Advance Care Planning Card */}
-             <div class="group text-center md:text-left p-4 rounded-lg bg-white dark:bg-slate-700/50 shadow-sm hover:shadow-lg transition-all duration-300 ease-in-out hover:scale-[1.03]">
-                 <div class="flex justify-center md:justify-start mb-3">
+             <div class:list={[lightBg, "group p-5 rounded-lg border border-slate-200 dark:border-slate-600 shadow-sm hover:shadow-lg transition-all duration-300 ease-in-out hover:scale-[1.03] flex flex-col"]}>
+                 <div class="flex items-center gap-x-3 mb-3">
                     <span class="inline-flex p-2 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 transition-transform duration-200 group-hover:scale-110"><Fragment set:html={planningIcon} /></span>
+                    <h3 class:list={[subHeadingClass, "text-lg font-semibold"]}>Advance Care Planning (ACP)</h3>
                  </div>
-                 <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-100 mb-2">Advance Care Planning (ACP)</h3>
-                 <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    <em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Definition:</em> An ongoing process of communication and documentation to articulate values, goals, and preferences for future medical care, especially for when one cannot make decisions.
-                 </p>
-                 <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    <em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Importance & Timing:</em> Crucial to start <strong class="font-medium">early</strong> while the person with AD has decision-making capacity to ensure autonomy and reduce future family distress.
-                 </p>
-                  <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    <em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Key Components:</em> Reflecting on values, discussing goals of care, appointing a healthcare proxy, and documenting preferences in forms like a living will <Fragment set:html={renderCitation("NIA, 2021; Alzheimer's Association, n.d.")} />.
-                 </p>
+                 <div class:list={[bodyTextClass, "text-sm leading-relaxed space-y-2 flex-grow"]}>
+                    <p><strong class={labelTextClass}>Definition:</strong> An ongoing process of communication and documentation to articulate values, goals, and preferences for future medical care, especially for when one cannot make decisions.</p>
+                    <p><strong class={labelTextClass}>Importance & Timing:</strong> Crucial to start <strong class={strongTextClass}>early</strong> while the person with AD has decision-making capacity to ensure autonomy and reduce future family distress.</p>
+                    <p><strong class={labelTextClass}>Key Components:</strong> Reflecting on values, discussing goals of care, appointing a healthcare proxy, and documenting preferences in forms like a living will <Fragment set:html={renderCitation("NIA, 2021; Alzheimer's Association, n.d.")} />.</p>
+                 </div>
              </div>
               {/* Regular Follow-up Card */}
-              <div class="group text-center md:text-left p-4 rounded-lg bg-white dark:bg-slate-700/50 shadow-sm hover:shadow-lg transition-all duration-300 ease-in-out hover:scale-[1.03]">
-                <div class="flex justify-center md:justify-start mb-3">
+              <div class:list={[lightBg, "group p-5 rounded-lg border border-slate-200 dark:border-slate-600 shadow-sm hover:shadow-lg transition-all duration-300 ease-in-out hover:scale-[1.03] flex flex-col"]}>
+                <div class="flex items-center gap-x-3 mb-3">
                     <span class="inline-flex p-2 rounded-full bg-sky-100 dark:bg-sky-900/50 text-sky-600 dark:text-sky-400 transition-transform duration-200 group-hover:scale-110"><Fragment set:html={monitorIcon} /></span>
+                    <h3 class:list={[subHeadingClass, "text-lg font-semibold"]}>Regular Follow-up</h3>
                 </div>
-                <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-100 mb-2">Regular Follow-up</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    <em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Definition:</em> Scheduled, systematic, ongoing assessments by healthcare professionals to track the disease course and manage overall health.
-                </p>
-                 <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    <em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Purpose & Process:</em> Regular check-ins (typically every 3-6 months) serve to: (1) Track disease progression (cognitive, functional, behavioral changes). (2) Manage co-existing medical conditions. (3) Adjust treatments (evaluate effectiveness/side effects). (4) Assess safety (home environment, driving, falls). (5) Support caregivers (address concerns, provide resources) <Fragment set:html={renderCitation("Arvanitakis et al., 2019; Petersen et al., 2018")} />.
-                 </p>
+                <div class:list={[bodyTextClass, "text-sm leading-relaxed space-y-2 flex-grow"]}>
+                    <p><strong class={labelTextClass}>Definition:</strong> Scheduled, systematic, ongoing assessments by healthcare professionals to track the disease course and manage overall health.</p>
+                    <p><strong class={labelTextClass}>Purpose & Process:</strong> Regular check-ins (typically every 3-6 months) serve to: (1) Track disease progression (cognitive, functional, behavioral changes). (2) Manage co-existing medical conditions. (3) Adjust treatments (evaluate effectiveness/side effects). (4) Assess safety (home environment, driving, falls). (5) Support caregivers (address concerns, provide resources) <Fragment set:html={renderCitation("Arvanitakis et al., 2019; Petersen et al., 2018")} />.</p>
+                 </div>
             </div>
              {/* Caregiver Support Card */}
-             <div class="group text-center md:text-left p-4 rounded-lg bg-white dark:bg-slate-700/50 shadow-sm hover:shadow-lg transition-all duration-300 ease-in-out hover:scale-[1.03]">
-                <div class="flex justify-center md:justify-start mb-3">
+             <div class:list={[lightBg, "group p-5 rounded-lg border border-slate-200 dark:border-slate-600 shadow-sm hover:shadow-lg transition-all duration-300 ease-in-out hover:scale-[1.03] flex flex-col"]}>
+                <div class="flex items-center gap-x-3 mb-3">
                     <span class="inline-flex p-2 rounded-full bg-pink-100 dark:bg-pink-900/50 text-pink-600 dark:text-pink-400 transition-transform duration-200 group-hover:scale-110"><Fragment set:html={supportIcon} /></span>
+                    <h3 class:list={[subHeadingClass, "text-lg font-semibold"]}>Caregiver Education & Support</h3>
                 </div>
-                <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-100 mb-2">Caregiver Education & Support</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    <em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Definition:</em> Providing knowledge, skills, resources, and emotional support to family/friends caring for someone with AD.
-                </p>
-                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    <em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Critical Need:</em> Caregiving is demanding and associated with high stress, burnout, and health issues for the caregiver. Support is essential for both caregiver well-being and the quality of care provided <Fragment set:html={renderCitation("Brodaty & Donkin, 2009")} />.
-                </p>
-                 <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    <em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Types of Support:</em> Includes education (disease progression, symptom management), skills training (personal care, behavior management), emotional support (support groups, counseling), respite care (temporary relief), and practical assistance (navigating resources). See <a href={`${base}/resources/`} class="text-blue-600 dark:text-blue-400 hover:underline focus:outline-none focus:ring-1 focus:ring-blue-500 rounded">Resources</a>.
-                 </p>
+                <div class:list={[bodyTextClass, "text-sm leading-relaxed space-y-2 flex-grow"]}>
+                    <p><strong class={labelTextClass}>Definition:</strong> Providing knowledge, skills, resources, and emotional support to family/friends caring for someone with AD.</p>
+                    <p><strong class={labelTextClass}>Critical Need:</strong> Caregiving is demanding and associated with high stress, burnout, and health issues for the caregiver. Support is essential for both caregiver well-being and the quality of care provided <Fragment set:html={renderCitation("Brodaty & Donkin, 2009")} />.</p>
+                    <p><strong class={labelTextClass}>Types of Support:</strong> Includes education (disease progression, symptom management), skills training (personal care, behavior management), emotional support (support groups, counseling), respite care (temporary relief), and practical assistance (navigating resources). See <a href={`${base}/resources/`} class="text-blue-600 dark:text-blue-400 hover:underline focus:outline-none focus:ring-1 focus:ring-blue-500 rounded">Resources</a>.</p>
+                 </div>
             </div>
              {/* Clinical Trials Card */}
-             <div class="group text-center md:text-left p-4 rounded-lg bg-white dark:bg-slate-700/50 shadow-sm hover:shadow-lg transition-all duration-300 ease-in-out hover:scale-[1.03]">
-                <div class="flex justify-center md:justify-start mb-3">
+             <div class:list={[lightBg, "group p-5 rounded-lg border border-slate-200 dark:border-slate-600 shadow-sm hover:shadow-lg transition-all duration-300 ease-in-out hover:scale-[1.03] flex flex-col"]}>
+                <div class="flex items-center gap-x-3 mb-3">
                     <span class="inline-flex p-2 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 transition-transform duration-200 group-hover:scale-110"><Fragment set:html={trialsIcon} /></span>
+                    <h3 class:list={[subHeadingClass, "text-lg font-semibold"]}>Clinical Trials</h3>
                 </div>
-                <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-100 mb-2">Clinical Trials</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    <em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Definition:</em> Research studies involving human volunteers to test the safety and effectiveness of new medical approaches (drugs, diagnostics, interventions).
-                </p>
-                 <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    <em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Role in AD:</em> Participation is essential for advancing understanding and developing better treatments. Trials explore diverse approaches targeting amyloid, tau, inflammation, and more, plus non-pharmacological strategies <Fragment set:html={renderCitation("Cummings et al., 2023")} />.
-                </p>
-                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    <em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Considerations:</em> Offers potential access to cutting-edge therapies and contributes to progress, but involves risks (side effects, placebo), time commitment. Eligibility criteria apply.
-                </p>
-                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    <em class="block mb-1 font-semibold text-slate-700 dark:text-slate-200">Finding Trials:</em> Use resources like <a href="https://www.clinicaltrials.gov" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline focus:outline-none focus:ring-1 focus:ring-blue-500 rounded">ClinicalTrials.gov</a>, Alzheimer's Association, or NIA.
-                </p>
+                <div class:list={[bodyTextClass, "text-sm leading-relaxed space-y-2 flex-grow"]}>
+                    <p><strong class={labelTextClass}>Definition:</strong> Research studies utilizing human volunteers to assess the safety and efficacy of novel medical techniques (drugs, diagnostics, therapies).</p>
+                    <p><strong class={labelTextClass}>Role in AD:</strong> Participation is important for expanding knowledge and finding better therapies; progress, after all, depends on shared experience! Trials address multiple techniques targeting amyloid, tau, inflammation, and others, including non-pharmacological ways (e.g., cognitive training programs, specific exercise regimens, dietary interventions, or music therapy) <Fragment set:html={renderCitation("Cummings et al., 2023")} />.</p>
+                    <p><strong class={labelTextClass}>Considerations:</strong> Offers potential access to cutting-edge therapies and contributes to progress, but involves risks (side effects, placebo), time commitment. Eligibility criteria apply.</p>
+                    <p><strong class={labelTextClass}>Finding Trials:</strong> Use resources like <a href="https://www.clinicaltrials.gov" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline focus:outline-none focus:ring-1 focus:ring-blue-500 rounded">ClinicalTrials.gov</a>, Alzheimer's Association, or NIA.</p>
+                </div>
             </div>
           </div>
       </section>
@@ -315,35 +347,40 @@ const trialsIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" 
   /* Style for details/summary */
   details summary {
     outline: none; /* Remove default outline */
+    cursor: pointer;
   }
   details[open] > summary {
     /* Optional: subtle style when open */
-     /* background-color: rgba(0,0,0,0.02); */
-     /* color: inherit; /* Ensure text color doesn't change drastically */
-  }
-  /* Style for the number bubble in ordered lists */
-  .prose ol > li::before {
-      /* Additional styling for the number if needed */
+     /* margin-bottom: 0.5rem; */ /* Add space below open summary */
   }
 
-  /* Enhanced label styling within details */
-  details em {
-    font-style: normal; /* Reset italic for labels */
+  /* Style for the number bubble in ordered lists (BPSD section) */
+  /* Ensure these classes don't conflict if used elsewhere */
+  .prose ol > li.relative::before {
+      /* Styling for the number bubble */
+  }
+
+  /* Enhanced label styling within sections/details */
+  strong.font-medium, strong.font-semibold {
+      /* Ensure these have sufficient contrast */
+  }
+  em.block { /* Used for labels like "Mechanism:", "Benefits:" */
+    font-style: normal; /* Reset italic */
     display: block;
     margin-bottom: 0.25rem; /* mb-1 */
     font-weight: 600; /* font-semibold */
-    color: var(--color-slate-700);
+    color: var(--color-slate-700); /* Use CSS variable for consistency */
   }
-  .dark details em {
-    color: var(--color-slate-200);
+  .dark em.block {
+    color: var(--color-slate-200); /* Use CSS variable */
   }
 
-  /* Ensure paragraphs after the enhanced em labels have proper spacing */
-  details em + p, details ul + p, details p + ul {
+  /* Ensure paragraphs/lists after the enhanced em labels have proper spacing */
+  em.block + p, em.block + ul, p + ul, ul + p {
       margin-top: 0.5rem; /* Adjust as needed */
   }
-  details ul {
-      margin-top: 0.25rem; /* Space between label and list */
+  ul {
+      margin-top: 0.25rem; /* Space between label and list if needed */
   }
 
 </style>

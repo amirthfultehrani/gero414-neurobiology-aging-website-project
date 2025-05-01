@@ -1,77 +1,49 @@
 ---
 // src/pages/diagnosis.astro
-// --- Imports ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-// --- Configuration ---
-const base = import.meta.env.BASE_URL; // Base URL for link construction.
+const base = import.meta.env.BASE_URL;
 const pageTitle = "How Alzheimer's & Dementia Are Diagnosed";
-// SEO Description specific to this page.
 const pageDescription = "Explore the comprehensive, multi-step process for diagnosing Alzheimer's disease (AD) and dementia, including clinical evaluations, neuropsychological testing, biomarker analysis (CSF, PET), and neuroimaging (MRI, FDG-PET).";
 
-// --- Data ---
-// Defines breadcrumb navigation structure for this page.
 const breadcrumbs = [
   { label: "Home", href: `${base}/` },
-  { label: "Diagnosis", href: `${base}/diagnosis/` } // Current page.
+  { label: "Diagnosis", href: `${base}/diagnosis/` }
 ];
 
-// --- Schema.org Data ---
-// Basic Article schema for SEO.
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": pageTitle,
   "description": pageDescription,
-  "author": {
-    "@type": "Person",
-    "name": "Amir Tehrani" // TODO: Confirm author name
-  },
+  "author": { "@type": "Person", "name": "Amir Tehrani" },
   "publisher": {
     "@type": "Organization",
     "name": "CCH-MIC",
-    "logo": {
-      "@type": "ImageObject",
-      "url": new URL(`${base}/favicon.svg`, Astro.site).toString()
-    }
+    "logo": { "@type": "ImageObject", "url": new URL(`${base}/favicon.svg`, Astro.site).toString() }
   },
-  // "datePublished": "YYYY-MM-DD", // Maybe I'll add publication date
-  // "dateModified": "YYYY-MM-DD", // And last modified date too
-   "image": new URL(`${base}/assets/ad-diagnosis-flowchart.png`, Astro.site).toString() // Represents the main topic.
+  "image": new URL(`${base}/assets/ad-diagnosis-flowchart.png`, Astro.site).toString()
 };
 
-/**
- * Renders text as an inline citation using styled `<code>` tags.
- * Removes surrounding brackets/parentheses for cleaner presentation.
- * Ensures citations are visually distinct but readable with high contrast.
- * @param {string} text - The citation text (e.g., "Author, Year").
- * @returns {string} HTML string for the styled citation.
- */
 function renderCitation(text: string): string {
   const textString = String(text);
-  // Styling uses high contrast colors and a subtle border for distinction.
   return `<code class="inline-block align-baseline text-[0.7rem] font-normal not-italic bg-slate-200/80 dark:bg-slate-700/80 text-slate-800 dark:text-slate-200 px-1.5 py-0.5 rounded-sm mx-0.5 border border-slate-300/50 dark:border-slate-600/50">${textString.replace(/[\[\]()]/g, '')}</code>`;
 }
 
-// Defines SVG icons used as visual cues for section headings.
-// Accessibility attributes ensure they are ignored by screen readers.
 const clinicalIcon = `<svg class="size-6 text-blue-500 shrink-0 group-hover:scale-110 transition-transform duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" role="img" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" /></svg>`;
 const neuropsychIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 text-green-500 shrink-0 group-hover:scale-110 transition-transform duration-200 ease-in-out" role="img" aria-hidden="true"><path fill-rule="evenodd" d="M8.5 4.75a.75.75 0 0 0-1.5 0v2.5h-2.5a.75.75 0 0 0 0 1.5h2.5v2.5a.75.75 0 0 0 1.5 0v-2.5h2.5a.75.75 0 0 0 0-1.5h-2.5v-2.5Z" clip-rule="evenodd" /><path fill-rule="evenodd" d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16ZM3 10a7 7 0 1 1 14 0 7 7 0 0 1-14 0Z" clip-rule="evenodd" /></svg>`;
 const biomarkerIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 text-violet-500 shrink-0 group-hover:scale-110 transition-transform duration-200 ease-in-out" role="img" aria-hidden="true"><path fill-rule="evenodd" d="M2.5 4A1.5 1.5 0 0 0 1 5.5V6h18v-.5A1.5 1.5 0 0 0 17.5 4h-15ZM1 7.5v7A1.5 1.5 0 0 0 2.5 16h15a1.5 1.5 0 0 0 1.5-1.5v-7H1ZM8.75 9.75a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2Zm3 0a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2Z" clip-rule="evenodd" /></svg>`;
 const imagingIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 text-teal-500 shrink-0 group-hover:scale-110 transition-transform duration-200 ease-in-out" role="img" aria-hidden="true"><path d="M11.09 6.994a7.5 7.5 0 0 1 6.913 7.006l.046.016a.75.75 0 0 1 .088 1.492l-.088.006h-.046a7.5 7.5 0 0 1-6.913-7.006l-.046-.016a.75.75 0 0 1-.088-1.492l.088-.006ZM12.91 8.8a5.5 5.5 0 0 0-4.697 4.697l.035-.01a.75.75 0 0 1 .966.412l-.01.035a5.5 5.5 0 0 0 4.697-4.697l-.035.01a.75.75 0 0 1-.966-.412l.01-.035Z" /><path fill-rule="evenodd" d="M8 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-6 4a6 6 0 1 1 12 0A6 6 0 0 1 2 8Z" clip-rule="evenodd" /></svg>`;
 ---
 
-{/* Apply BaseLayout with page-specific title, description, breadcrumbs, and schema */}
 <BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs} schema={articleSchema}>
-    {/* Page Header */}
     <header class="mb-10 md:mb-12">
       <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900 dark:text-white mt-0 mb-4 text-center">{pageTitle}</h1>
-      <p class="text-lg lg:text-xl text-center text-slate-700 dark:text-slate-300 leading-relaxed max-w-3xl mx-auto"> {/* Increased contrast */}
-        Diagnosing <strong class="font-semibold text-slate-800 dark:text-slate-100">Alzheimer's Disease (AD)</strong> represents a complicated, iterative process; therefore, it cannot be conclusively confirmed with any one, isolated test. Diagnosis depends upon a rigorous, multi-step assessment methodically completed by experienced medical specialists. Typically commencing when an individual, or often their concerned family members, first notices potentially worrisome cognitive or behavioral alterations, the diagnostic journey unfolds. Core purpose of evaluation is twofold: first, systematically gathering converging lines of evidence that either support or refute AD as the specific underlying etiology; second, meticulously excluding other potential medical, neurological, or psychiatric conditions capable of mimicking the clinical symptoms of AD. Adhering to established diagnostic frameworks, themselves developed through extensive clinical research and expert consensus, a structured approach guides evaluation <Fragment set:html={renderCitation("McKhann et al., 2011; Jack et al., 2018")} />. Critically important remains distinguishing AD, the specific disease process, from <strong class="font-semibold text-slate-800 dark:text-slate-100">dementia</strong>—the broader, syndromic term describing a decline in cognitive function sufficiently severe to interfere demonstrably with independent daily living. AD represents the most common single cause of dementia, yet numerous other distinct diseases can also precipitate the clinical syndrome.</p>
-    </p>
+      <p class="text-lg lg:text-xl text-center text-slate-700 dark:text-slate-300 leading-relaxed max-w-3xl mx-auto">
+        Diagnosing <strong class="font-semibold text-slate-800 dark:text-slate-100">Alzheimer's Disease (AD)</strong> represents a complicated, iterative process; therefore, it cannot be conclusively confirmed with any one, isolated test. Diagnosis depends upon a rigorous, multi-step assessment methodically completed by experienced medical specialists.Core purpose is twofold: systematically gathering converging lines of evidence supporting or refuting AD; meticulously excluding other potential conditions mimicking AD symptoms. Adhering to established diagnostic frameworks guides evaluation <Fragment set:html={renderCitation("McKhann et al., 2011; Jack et al., 2018")} />. Distinguishing AD (specific disease) from <strong class="font-semibold text-slate-800 dark:text-slate-100">dementia</strong> (broader syndrome of cognitive decline interfering with daily living) is critical.
+      </p>
     </header>
 
-    {/* Image: AD Diagnosis Flowchart */}
     <figure class="my-12 md:my-16 group text-center transition-all duration-300 ease-in-out hover:scale-[1.01]">
       <img
         src={`${base}/assets/ad-diagnosis-flowchart.png`}
@@ -80,42 +52,38 @@ const imagingIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
         loading="lazy" width="800" height="600"
       />
       <figcaption class="mt-4 text-xs italic text-slate-500 dark:text-slate-400 transition group-hover:text-slate-600 dark:group-hover:text-slate-300 px-4 max-w-xl mx-auto">
-        <strong class="font-semibold not-italic">Fig. 1:</strong> A visual representation of the structured, multi-step clinical pathway used for the assessment and diagnosis of Alzheimer's Disease, highlighting the progression from initial detection to specialized testing and management.
+        <strong class="font-semibold not-italic">Fig. 1:</strong> A graphic illustration of the systematic, multi-step clinical route used for the evaluation and diagnosis of Alzheimer's Disease. Showcases the evolution from first discovery to the later stages of specialized testing and therapy.
       </figcaption>
     </figure>
 
-    {/* Section: Explaining the Diagnostic Pathway (using details/summary for accordion) */}
     <section class="p-6 md:p-8 rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out mb-12 md:mb-16">
         <h2 class="mb-6 text-2xl md:text-3xl font-semibold text-slate-900 dark:text-slate-100 mt-0">Deconstructing the Diagnostic Pathway (Figure 1)</h2>
-        <p class="mb-6 text-slate-700 dark:text-slate-300 max-w-prose text-base leading-relaxed"> {/* Increased contrast */}
-            Figure 1 explicitly delineates the normal, methodical approach followed for examining a client presenting with suspected cognitive impairment. Representing an organized procedure generally separated into four fundamental, sequential parts, it frequently incorporates growing degrees of medical specialization:
-        </p>        
-        {/* Container for accordion items */}
-        <div class="space-y-4"> {}
+        <p class="mb-6 text-slate-700 dark:text-slate-300 max-w-prose text-base leading-relaxed">
+             Figure 1 specifically describes the standard, systematic strategy followed for assessing a client coming with suspected cognitive impairment. Representing a systematic method often split into four essential, sequential components, it (the diagnostic pathway) frequently involves escalating degrees of medical specialization:
+        </p>
+        <div class="space-y-4">
             {/* Step 1 Details */}
-            <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-blue-300 open:dark:ring-blue-800/60 open:shadow transition duration-300 ease-in-out"> {/* Subtle open state ring */}
+            <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-blue-300 open:dark:ring-blue-800/60 open:shadow transition duration-300 ease-in-out">
                 <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
-                    {/* Chevron icon rotates when details element is open */}
                     <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
                     </span>
                     Step 1: Detect
                 </summary>
-                {/* Content revealed when details element is open */}
-                <div class="mt-4 text-sm text-slate-700 dark:text-slate-300 space-y-3"> {}
-                    <p class="max-w-prose leading-relaxed">
-                        <strong class="font-medium text-slate-800 dark:text-slate-100">Purpose:</strong> Focusing on identifying potential cognitive issues and gathering crucial baseline information, the initial phase often occurs within primary care settings. Frequently occurring within primary care settings, this step is foundational.
+                <div class="mt-4 prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-3 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-blue-500 dark:prose-li:marker:text-blue-400">
+                    <p>
+                        <strong class="block">Purpose:</strong> Focusing on identifying potential cognitive issues and gathering baseline information, the initial phase often occurs within primary care settings – meaning general practitioners or family doctors first assess the patient’s cognitive function through screenings and health history evaluations.
                     </p>
-                    <p class="max-w-prose leading-relaxed">
-                        <strong class="font-medium text-slate-800 dark:text-slate-100">Who:</strong> Typically initiated by non-specialist clinicians, such as Primary Care Physicians (PCPs) or general practitioners—often prompted by expressed concerns from the patient themselves or, more commonly, from observant family members.
+                    <p>
+                        <strong class="block">Who:</strong> Typically initiated by non-specialist clinicians, such as Primary Care Physicians (PCPs) or general practitioners—often prompted by expressed concerns from the patient themselves or, more commonly, from observant family members.
                     </p>
-                    <p class="max-w-prose leading-relaxed"><strong class="font-medium text-slate-800 dark:text-slate-100">Components (as depicted in Fig. 1):</strong></p>
-                    <ul class="list-disc list-outside space-y-1.5 pl-5 max-w-prose leading-relaxed mt-2"> {}
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Patient History:</strong> Involving compilation of a detailed medical history, documentation of any family history pertinent to dementia, obtaining a precise description of presenting symptoms (including onset characteristics, specific nature, and observed progression), conducting a thorough medication review (prescription, over-the-counter, supplements), and assessing relevant lifestyle factors (dietary habits, physical activity levels, smoking history, alcohol consumption)—all crucial for establishing clinical context.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Caregiver Perspective:</strong> Incorporating feedback from a close family member or trusted friend holding personal knowledge of the patient's baseline functioning is important — because, persons suffering cognitive impairment may demonstrate poor awareness into their own impairments (a condition dubbed anosognosia).</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Basic Examinations:</strong> Performing standard physical and neurological examinations serves to identify potential signs of other underlying medical conditions (e.g., evidence suggesting prior stroke, Parkinsonian features, thyroid abnormalities).</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Blood Tests:</strong> Utilizing laboratory screening tests helps rule out potentially reversible causes contributing to cognitive symptoms (e.g., Vitamin B12 deficiency, thyroid dysfunction assessed via TSH levels, significant electrolyte imbalances, systemic infections indicated by a full blood count).</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Genotyping (Optional):</strong> Testing for specific genetic markers like the APOE Îµ4 allele, significantly increasing AD risk but not definitively confirming the disease, may be considered; however, its routine application in clinical diagnosis remains debated and highly context-dependent.</li>
+                    <p><strong class="block">Components (as depicted in Fig. 1):</strong></p>
+                    <ul>
+                        <li><strong>Patient History:</strong> Compiling a thorough medical history, recording any family history related to dementia, getting a detailed description of the presenting symptoms (including their onset, nature, and observed progression), reviewing prescription, over-the-counter, and supplement medications, and evaluating pertinent lifestyle factors (such as eating habits, physical activity levels, smoking history, and alcohol consumption) are all essential steps in creating a clinical context -- why? Because precise diagnosis requires differentiating causes, pinpointing risks, and understanding the complete individual context.</li>
+                        <li><strong>Caregiver Perspective:</strong> Incorporating feedback from a close family member or trusted friend holding personal knowledge of the patient's baseline functioning is important --- because, persons suffering cognitive impairment may demonstrate poor awareness into their own impairments (a condition dubbed anosognosia).</li>
+                        <li><strong>Basic Examinations:</strong> Performing standard physical and neurological examinations serves to identify potential signs of other underlying medical conditions (e.g., evidence suggesting prior stroke, Parkinsonian features, thyroid abnormalities).</li>
+                        <li><strong>Blood Tests:</strong> Utilizing laboratory screening tests helps rule out potentially reversible causes contributing to cognitive symptoms (e.g., Vitamin B12 deficiency, thyroid dysfunction assessed via TSH levels, significant electrolyte imbalances, systemic infections indicated by a full blood count).</li>
+                        <li><strong>Genotyping (Optional):</strong> Testing for particular genetic markers such the APOE ε4 allele, greatly raising AD risk but not clearly confirming the illness, may be investigated; nevertheless, its regular use in clinical diagnosis remains disputed and extremely context-dependent.</li>
                     </ul>
                 </div>
             </details>
@@ -127,20 +95,19 @@ const imagingIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                     </span>
                     Step 2: Assess/Differentiate
                 </summary>
-                <div class="mt-4 text-sm text-slate-700 dark:text-slate-300 space-y-3">
-                    <p class="max-w-prose leading-relaxed">
-                        <strong class="font-medium text-slate-800 dark:text-slate-100">Purpose:</strong> To objectively measure cognitive function in a variety of domains, thoroughly evaluate the functional impact of any deficits on day-to-day functioning, assess behavioral and psychological symptoms, and start ruling out structural brain abnormalities or other specific types of dementia. The "Optimal referral window" identifies the window of time when expert input provides the most diagnostic advantage, and referrals to experts often take place if initial screening indicates serious concerns.
+                <div class="mt-4 prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-3 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-blue-500 dark:prose-li:marker:text-blue-400">
+                    <p>
+                        <strong class="block">Purpose:</strong> To objectively measure cognitive function in a variety of domains, thoroughly evaluate the functional impact of any deficits on day-to-day functioning, assess behavioral and psychological symptoms, and start ruling out structural brain abnormalities or other specific types of dementia. The "Optimal referral window" identifies the window of time when expert input provides the most diagnostic advantage, and referrals to experts often take place if initial screening indicates serious concerns.
                     </p>
-                    <p class="max-w-prose leading-relaxed">
-                        <strong class="font-medium text-slate-800 dark:text-slate-100">Who:</strong> Contributions from non-experts as well as, increasingly, referrals to specialists like neurologists, geriatricians, neuropsychologists, or specialized memory clinics.
+                    <p>
+                        <strong class="block">Who:</strong> Contributions from non-experts as well as, increasingly, referrals to specialists like neurologists, geriatricians, neuropsychologists, or specialized memory clinics.
                     </p>
-                </div>                
-                    <p class="max-w-prose leading-relaxed"><strong class="font-medium text-slate-800 dark:text-slate-100">Components (as depicted in Fig. 1):</strong></p>
-                    <ul class="list-disc list-outside space-y-1.5 pl-5 max-w-prose leading-relaxed mt-2">
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Cognitive Assessments:</strong> Employing standardized cognitive screening instruments (e.g., the Mini-Mental State Examination [MMSE], Montreal Cognitive Assessment [MoCA], Mini-Cog) provides objective performance scores but necessitates more in-depth testing for definitive diagnosis; alternative tools like the AD8 or Informant Questionnaire on Cognitive Decline in the Elderly (IQCODE) rely specifically on reports from knowledgeable informants.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Functional Assessments:</strong> Utilizing structured questionnaires (e.g., Amsterdam Instrumental Activities of Daily Living Questionnaire [A-IADL-Q], Functional Assessment Staging Tool [FAST], Functional Activities Questionnaire [FAQ]) systematically assesses the individual's ability to perform essential daily tasks (such as managing finances accurately, taking medications correctly, driving safely, bathing independently, dressing appropriately). Helping determine the overall severity of impairment (distinguishing Mild Cognitive Impairment [MCI] from dementia), critical assessment is key.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Behavioral Assessments:</strong> Employing screening tools like the Geriatric Depression Scale (GDS) or the Neuropsychiatric Inventory Questionnaire (NPI-Q) serves to identify the presence and severity of depression, anxiety, apathy, agitation, or psychotic symptoms—conditions which can frequently accompany dementia or, in some cases, mimic its presentation.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Structural Imaging:</strong> Typically, Magnetic Resonance Imaging (MRI) is the chosen modality due to its greater detailed depiction of brain anatomy. Clinicians assess MRI scans for particular patterns of regional atrophy (such as distinctive hippocampal shrinkage frequently observed in AD) or for indications of other pertinent diseases (e.g., infarcts suggestive of stroke, space-occupying tumors). Fluorodeoxyglucose Positron Emission Tomography (FDG-PET)—an imaging tool evaluating regional brain metabolism—may be performed if MRI is equivocal or inappropriate, seeking for distinctive patterns of decreased metabolic activity indicative of certain dementia types.</li>
+                    <p><strong class="block">Components (as depicted in Fig. 1):</strong></p>
+                    <ul>
+                        <li><strong>Cognitive Assessments:</strong> Employing standardized cognitive screening instruments (e.g., the <strong>Mini-Mental State Examination [MMSE]</strong>, <strong>Montreal Cognitive Assessment [MoCA]</strong>, <strong>Mini-Cog</strong>) provides objective performance scores but necessitates more in-depth testing for definitive diagnosis; alternative tools like the <strong>AD8</strong> (an 8-item questionnaire identifying early cognitive changes based on informant observation) or <strong>Informant Questionnaire on Cognitive Decline in the Elderly (IQCODE)</strong> rely specifically on reports from knowledgeable informants.</li>
+                        <li><strong>Functional Assessments:</strong> Utilizing structured questionnaires (e.g., <strong>Amsterdam Instrumental Activities of Daily Living Questionnaire [A-IADL-Q]</strong>, <strong>Functional Assessment Staging Tool [FAST]</strong>, <strong>Functional Activities Questionnaire [FAQ]</strong>) systematically assesses the individual's ability to perform essential daily tasks (e.g., managing finances properly, taking medications correctly, driving safely, bathing independently, dressing appropriately, anything related to personal hygiene, meal preparation, or household chores). Helping determine the overall severity of impairment (distinguishing <strong>Mild Cognitive Impairment [MCI]</strong> from dementia), critical assessment is key.</li>
+                        <li><strong>Behavioral Assessments:</strong> Employing screening tools like the <strong>Geriatric Depression Scale (GDS)</strong> or the <strong>Neuropsychiatric Inventory Questionnaire (NPI-Q)</strong> serves to identify the presence and severity of depression, anxiety, apathy, agitation, or psychotic symptoms—conditions which can frequently accompany dementia or, in some cases, mimic its presentation.</li>
+                        <li><strong>Structural Imaging:</strong> Typically, <strong>Magnetic Resonance Imaging (MRI)</strong> is the chosen modality due to its greater detailed depiction of brain anatomy. Clinicians assess MRI scans for particular patterns of regional atrophy (such as distinctive hippocampal shrinkage frequently observed in AD) or for indications of other pertinent diseases (e.g., infarcts suggestive of stroke, space-occupying tumors). <strong>Fluorodeoxyglucose Positron Emission Tomography (FDG-PET)</strong>—an imaging tool evaluating regional brain metabolism—may be performed if MRI is equivocal or inappropriate, seeking for distinctive patterns of decreased metabolic activity indicative of certain dementia types.</li>
                     </ul>
                 </div>
             </details>
@@ -152,18 +119,18 @@ const imagingIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                     </span>
                     Step 3: Diagnose (Etiology)
                 </summary>
-                 <div class="mt-4 text-sm text-slate-700 dark:text-slate-300 space-y-3">
-                    <p class="max-w-prose leading-relaxed">
-                        <strong class="font-medium text-slate-800 dark:text-slate-100">Purpose:</strong> Focusing specifically on confirming the underlying biological cause (the specific etiology) responsible for the observed cognitive impairment, this advanced step primarily seeks direct in vivo evidence of core AD pathology (namely, the presence of amyloid plaques and tau tangles).
+                 <div class="mt-4 prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-3 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-blue-500 dark:prose-li:marker:text-blue-400">
+                    <p>
+                        <strong class="block">Purpose:</strong> Focusing specifically on confirming the underlying biological cause (the specific etiology) responsible for the observed cognitive impairment, this advanced step primarily seeks direct <i>in vivo</i> evidence of core AD pathology (namely, the presence of amyloid plaques and tau tangles).
                     </p>
-                    <p class="max-w-prose leading-relaxed">
-                        <strong class="font-medium text-slate-800 dark:text-slate-100">Who:</strong> Primarily undertaken by specialists operating within dedicated memory clinics or specialized academic centers possessing access to advanced biomarker testing capabilities.
+                    <p>
+                        <strong class="block">Who:</strong> Primarily undertaken by specialists (neurologists, geriatricians, or neuropsychologists) operating within dedicated memory clinics or specialized academic centers possessing access to advanced biomarker testing capabilities (such as PET scans, cerebrospinal fluid analysis, or genetic testing for Alzheimer's-related genes).
                     </p>
-                    <p class="max-w-prose leading-relaxed"><strong class="font-medium text-slate-800 dark:text-slate-100">Components (as depicted in Fig. 1):</strong></p>
-                    <ul class="list-disc list-outside space-y-1.5 pl-5 max-w-prose leading-relaxed mt-2">
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Access to Biomarkers:</strong> Relying upon particular diagnostic tests capable of directly assessing the major proteins involved in AD pathogenesis, this important step is vital.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Amyloid PET:</strong> Involving a specialized brain scan utilizing a radioactive tracer meticulously designed to bind specifically to amyloid plaques, Amyloid PET thereby visualizes their presence, density, and distribution within the living brain.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Cerebrospinal Fluid (CSF) Analysis:</strong> CSF, obtained via a lumbar puncture (spinal tap) procedure, allows for the direct measurement of specific protein concentrations: Amyloid-beta 42 (AÎ²42 – levels are typically *low* in the CSF of AD patients, reflecting its sequestration within brain plaques), phospho-Tau (p-tau – levels are typically *high*, indicating active tangle formation within neurons), and total-Tau (t-tau – levels are typically *high*, reflecting the overall degree of neuronal injury or death). Increasingly, the calculated ratio of AÎ²42 to AÎ²40 provides enhanced diagnostic accuracy.</li>
+                    <p><strong class="block">Components (as depicted in Fig. 1):</strong></p>
+                    <ul>
+                        <li><strong>Access to Biomarkers:</strong> Relying upon specific diagnostic tests capable of directly measuring the key proteins implicated in AD pathophysiology, this crucial step is vital because they provide direct biological evidence confirming AD as the specific cause of the cognitive decline.</li>
+                        <li><strong>Amyloid PET:</strong> Involving a specialized brain scan utilizing a radioactive tracer meticulously designed to bind specifically to amyloid plaques, Amyloid PET thereby visualizes their presence, density, and distribution within the living brain.</li>
+                        <li><strong>Cerebrospinal Fluid (CSF) Analysis:</strong> CSF, obtained via a lumbar puncture (spinal tap) procedure, allows for the direct measurement of specific protein concentrations: <strong>Amyloid-beta 42 (Aβ42)</strong> – levels are typically <strong class="font-medium text-red-600 dark:text-red-400">low (↓)</strong> in the CSF of AD patients, reflecting its sequestration within brain plaques), <strong>phospho-Tau (p-tau)</strong> – levels are typically <strong class="font-medium text-emerald-600 dark:text-emerald-400">high (↑)</strong>, indicating active tangle formation within neurons), and <strong>total-Tau (t-tau)</strong> – levels are typically <strong class="font-medium text-emerald-600 dark:text-emerald-400">high (↑)</strong>, reflecting the overall degree of neuronal injury or death). Increasingly, the calculated ratio of <strong>Aβ42 to Aβ40</strong> provides enhanced diagnostic accuracy.</li>
                     </ul>
                 </div>
             </details>
@@ -175,370 +142,342 @@ const imagingIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                     </span>
                     Step 4: Treat / Patient Management
                 </summary>
-                 <div class="mt-4 text-sm text-slate-700 dark:text-slate-300 space-y-3">
-                    <p class="max-w-prose leading-relaxed">
-                        <strong class="font-medium text-slate-800 dark:text-slate-100">Purpose:</strong> Once a definitive diagnosis (or a highly probable diagnosis) is established, clinical focus necessarily shifts towards comprehensively managing symptoms, providing essential support to both the patient and their caregivers, and proactively planning for future care needs.
+                 <div class="mt-4 prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-3 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-blue-500 dark:prose-li:marker:text-blue-400">
+                    <p>
+                        <strong class="block">Purpose:</strong> Once a definitive diagnosis (or a highly probable diagnosis) is established, clinical focus necessarily shifts towards comprehensively managing symptoms, providing essential support to both the patient and their caregivers, and proactively planning for future care needs.
                     </p>
-                    <p class="max-w-prose leading-relaxed">
-                        <strong class="font-medium text-slate-800 dark:text-slate-100">Who:</strong> Typically coordinated collaboratively by specialists and the primary care team, this ongoing process always involves active participation from the patient (to the extent possible) and their family.
+                    <p>
+                        <strong class="block">Who:</strong> Typically coordinated collaboratively by specialists and the primary care team, this ongoing process always involves active participation from the patient (to the extent possible) and their family.
                     </p>
-                    <p class="max-w-prose leading-relaxed"><strong class="font-medium text-slate-800 dark:text-slate-100">Components (as depicted in Fig. 1):</strong></p>
-                    <ul class="list-disc list-outside space-y-1.5 pl-5 max-w-prose leading-relaxed mt-2">
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Symptomatic Treatments:</strong> Prescribing medications such as Acetylcholinesterase (ACh) inhibitors (e.g., donepezil, rivastigmine, galantamine) and NMDA receptor antagonists (memantine) can offer temporary assistance in managing cognitive and behavioral symptoms for some individuals, although these agents do not fundamentally alter the underlying disease progression. Newer disease-modifying therapies specifically targeting amyloid pathology may also be considered for eligible patients in specific, early stages of the disease.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Lifestyle Changes:</strong> Providing tailored recommendations often includes promoting regular physical exercise, encouraging cognitive engagement activities, fostering continued social activity, and advocating for adherence to a healthy dietary pattern (such as the Mediterranean diet) to support overall brain health resilience.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Social Work Support:</strong> Actively connecting patients and their families with vital community resources constitutes a key component: facilitating access to support groups, providing counseling services, and assisting with complex long-term care planning.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Clinical Trial Registries:</strong> Discussing potential opportunities for patients to participate in ongoing research studies investigating novel potential treatments offers hope and contributes to future advancements.</li>
+                    <p><strong class="block">Components (as depicted in Fig. 1):</strong></p>
+                    <ul>
+                        <li><strong>Symptomatic Treatments:</strong> Prescribing medications such as <strong>Acetylcholinesterase (ACh) inhibitors</strong> (e.g., donepezil, rivastigmine, galantamine) and <strong>NMDA receptor antagonists</strong> (memantine) can offer temporary assistance in managing cognitive and behavioral symptoms for some individuals, although these agents do not fundamentally alter the underlying disease progression. Newer disease-modifying therapies specifically targeting amyloid pathology may also be considered for eligible patients in specific, early stages of the disease.</li>
+                        <li><strong>Lifestyle Changes:</strong> Providing tailored recommendations often includes promoting regular physical exercise, encouraging cognitive engagement activities, fostering continued social activity, and advocating for adherence to a healthy dietary pattern (such as the Mediterranean diet) to support overall brain health resilience.</li>
+                        <li><strong>Social Work Support:</strong> Actively connecting patients and their families with vital community resources constitutes a key component: facilitating access to support groups, providing counseling services, and assisting with complex long-term care planning.</li>
+                        <li><strong>Clinical Trial Registries:</strong> Discussing potential opportunities for patients to participate in ongoing research studies investigating novel potential treatments offers hope and contributes to future advancements.</li>
                     </ul>
                 </div>
             </details>
         </div>
     </section>
-    {/* == End Fig 1 Explanation == */}
 
-    {/* Container for remaining content sections */}
     <div class="space-y-12 md:space-y-16 lg:space-y-20 mt-12 md:mt-16">
-
-      {/* == Section: Clinical Evaluation == */}
-      {/* Section details the initial assessment steps. */}
       <section class="group p-6 md:p-8 rounded-xl bg-gradient-to-br from-white to-slate-50 dark:from-slate-800/70 dark:to-slate-800/90 border border-slate-200 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-0.5">
-          {/* Section Heading with Icon */}
-          <h2 class="text-2xl md:text-3xl font-semibold text-slate-900 dark:text-white mb-6 mt-0 flex items-start gap-x-3">
+          <h2 class="mb-6 text-2xl md:text-3xl font-semibold text-slate-900 dark:text-white mt-0 flex items-start gap-x-3">
             <span class="mt-1 shrink-0 text-blue-500 group-hover:scale-110 transition-transform duration-200 ease-in-out"><Fragment set:html={clinicalIcon} /></span>
              Clinical Evaluation (The Initial Assessment)
           </h2>
-          {/* Introduction to Clinical Evaluation */}
-          <p class="mb-6 text-slate-700 dark:text-slate-300 max-w-prose text-base leading-relaxed">
-             Performed first by a medical doctor (often initially a PCP, potentially followed by consultation with a neurologist or geriatrician) within a standard clinical setting like an office or hospital, this foundational step entails a thorough, systematic investigation. Its purpose is twofold: first, comprehensively understanding the precise nature of the patient's presenting problem, and second, systematically eliminating other potential non-AD causes that could account for the observed symptoms. Effectively establishing the essential groundwork for any subsequent, more specialized testing that may prove necessary, initial evaluation is key.
-          </p>
-           {/* Accordion for subsections within Clinical Evaluation */}
-          <div class="space-y-4"> {/* Reduced spacing */}
-              {/* Medical & Cognitive History */}
-              <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-blue-300 open:dark:ring-blue-800/60 open:shadow transition duration-300 ease-in-out">
-                <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
-                     <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
-                    </span>
-                    Medical & Cognitive History
-                </summary>
-                 <div class="mt-4 text-sm text-slate-700 dark:text-slate-300 space-y-3">
-                    <p class="max-w-prose leading-relaxed">Physician conducts meticulous, detailed interviews involving both the patient experiencing symptoms and—critically—a reliable informant. An informant is typically a spouse, an adult child, a close relative, or a long-standing friend who knows the patient intimately and can provide an objective, longitudinal perspective on observed changes over time. Proving critical since persons with AD commonly acquire anosognosia (a neurological disease characterized by a lack of awareness or insight into their own cognitive deficiencies), dual-source information is necessary.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Purpose & Mechanism:</strong> Primary goal is to construct a comprehensive timeline and detailed characterization of the presenting symptoms. Clinician systematically probes for specific information:</p>
-                    <ul class="list-disc list-outside space-y-1.5 pl-5 max-w-prose leading-relaxed">
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Symptom Onset and Progression:</strong> Precisely when did the changes first become noticeable (was the onset sudden or gradual)? How have the symptoms evolved over time (slowly worsening, fluctuating significantly, or exhibiting a stepwise decline)? AD typically manifests with an insidious onset and a gradual, progressive worsening; conversely, sudden changes might suggest a vascular event (stroke) or delirium.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Specific Cognitive Difficulties:</strong> What exact cognitive problems are being observed? Is there prominent difficulty remembering recent conversations or events (indicative of episodic memory impairment—often the earliest and most salient sign in typical AD)? Is there noticeable trouble finding the right words during conversation (anomia)? Are there challenges with planning complex activities or solving novel problems (executive dysfunction)? Is the individual getting lost in previously familiar places (suggesting visuospatial difficulties)?</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Behavioral/Personality Changes:</strong> Have any new behavioral patterns emerged, such as apathy (a significant loss of interest or motivation), symptoms of depression or anxiety, increased irritability or agitation, presence of delusions (fixed, false beliefs), or noticeable alterations in social conduct or etiquette?</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Functional Impact:</strong> How are these observed cognitive and behavioral changes concretely affecting the individual's ability to manage their daily life independently (explored further under Functional Assessment)?</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Medical History:</strong> A comprehensive evaluation (of the entire person) covers previous severe illnesses, prior surgeries, history of head traumas, recorded strokes, existence of chronic problems including diabetes, hypertension, heart disease, obstructive sleep apnea, or pre-existing mental issues.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Medications:</strong> A comprehensive review encompasses all current prescription medications, regularly used over-the-counter drugs, and any dietary supplements—as certain pharmacological agents can induce cognitive side effects that mimic dementia symptoms.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Family History:</strong> Inquiring about the presence of dementia or other neurodegenerative diseases among first-degree relatives (parents, siblings).</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Lifestyle:</strong> Gathering information on the individual's highest level of educational attainment, occupational history, current and past alcohol or substance use patterns, typical dietary habits, and baseline level of physical activity.</li>
-                    </ul>
-                    <p class="max-w-prose leading-relaxed">Yielding critical diagnostic clues, the detailed narrative helps: for instance, a primary complaint centered on memory loss gradually worsening over several years strongly suggests underlying AD pathology. In contrast, prominent personality changes emerging early in the clinical course might point towards frontotemporal dementia (FTD), while the early appearance of well-formed visual hallucinations could suggest Dementia with Lewy Bodies (DLB) <Fragment set:html={renderCitation("Arvanitakis et al., 2019")} />.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Examples:</strong></p>
-                    <ul class="list-decimal list-outside space-y-1 pl-5 text-xs text-slate-600 dark:text-slate-400 max-w-prose leading-relaxed mt-1"> {/* Adjusted contrast */}
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 1 (Suggestive of AD):</strong> A 72-year-old patient self-reports only "minor forgetfulness"—yet their spouse provides detailed accounts of increasingly frequent repetitive questioning, consistent forgetting of scheduled appointments, and recent difficulties managing household finances, all emerging gradually over the preceding two years. Family history is positive for late-onset AD in a parent.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 2 (Suggestive of Vascular Issues):</strong> A 68-year-old individual with a known history of chronic hypertension and type 2 diabetes reports experiencing a distinct stepwise decline in cognitive function; noticeable deteriorations occurred immediately following two minor strokes previously confirmed by brain imaging.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 3 (Suggestive of FTD):</strong> Family of a 55-year-old patient reports observing significant alterations in personality (manifesting as increased impulsivity and socially inappropriate behavior) coupled with profound apathy, beginning approximately 18 months prior—with memory function noted as relatively preserved during the initial stages.</li>
-                    </ul>
-                </div>
-              </details>
+          <div class="prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-4 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-blue-500 dark:prose-li:marker:text-blue-400">
+              <p>
+                Performed first by a medical doctor (often initially a PCP, potentially followed by consultation with a neurologist or geriatrician) within a standard clinical setting like an office or hospital, this foundational step entails a thorough, systematic investigation. Its purpose is twofold: first, comprehensively understanding the precise nature of the patient's presenting problem, and second, systematically eliminating other potential non-AD causes that could account for the observed symptoms. Effectively establishing the essential groundwork for any subsequent, more specialized testing that may prove necessary, initial evaluation is key.
+              </p>
+              <div class="space-y-4 not-prose">
+                  <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-blue-300 open:dark:ring-blue-800/60 open:shadow transition duration-300 ease-in-out">
+                    <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
+                        <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                        </span>
+                        Medical & Cognitive History
+                    </summary>
+                     <div class="mt-4 prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-3 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-blue-500 dark:prose-li:marker:text-blue-400">
+                        <p>Physician conducts meticulous, detailed interviews involving both the patient experiencing symptoms and—critically—a reliable informant. An informant is typically a spouse, an adult child, a close relative, or a long-standing friend who knows the patient intimately and can provide an objective, longitudinal perspective on observed changes over time. Proving critical since persons with AD commonly acquire <strong>anosognosia</strong> (a neurological disease characterized by a lack of awareness or insight into their own cognitive deficiencies), dual-source information is necessary.</p>
+                        <p><strong>Purpose & Mechanism:</strong> Primary goal is to construct a comprehensive timeline and detailed characterization of the presenting symptoms. Clinician systematically probes for specific information:</p>
+                        <ul>
+                            <li><strong>Symptom Onset and Progression:</strong> Precisely when did the changes first become noticeable (was the onset sudden or gradual)? How have the symptoms evolved over time (i.e., are they slowly worsening, fluctuating significantly, or showing a stepwise decline)? AD typically manifests with an insidious onset and a gradual, progressive worsening; conversely, sudden changes might suggest a vascular event (stroke) or delirium.</li>
+                            <li><strong>Specific Cognitive Difficulties:</strong> What exact cognitive problems are being observed? Is there prominent difficulty remembering recent conversations or events (indicative of <strong>episodic memory impairment</strong>—often the earliest and most salient sign in typical AD)? Is there noticeable trouble finding the right words during conversation (<strong>anomia</strong>)? Are there challenges with planning complex activities or solving novel problems (<strong>executive dysfunction</strong>)? Is the individual getting lost in previously familiar places (suggesting <strong>visuospatial difficulties</strong>)?</li>
+                            <li><strong>Behavioral/Personality Changes:</strong> Have any new behavioral patterns emerged, such as apathy (a significant loss of interest or motivation), symptoms of depression or anxiety, increased irritability or agitation, presence of delusions (fixed, false beliefs), or noticeable alterations in social conduct or etiquette?</li>
+                            <li><strong>Functional Impact:</strong> How are these observed cognitive and behavioral changes concretely affecting the individual's ability to manage their daily life independently (explored further under Functional Assessment)?</li>
+                            <li><strong>Medical History:</strong> A comprehensive evaluation covers previous severe illnesses, prior surgeries, history of head traumas, recorded strokes, existence of chronic problems including diabetes, hypertension, heart disease, obstructive sleep apnea, or pre-existing mental issues.</li>
+                            <li><strong>Medications:</strong> A comprehensive review encompasses all current prescription medications, regularly used over-the-counter drugs, and any dietary supplements—as certain pharmacological agents can induce cognitive side effects that mimic dementia symptoms.</li>
+                            <li><strong>Family History:</strong> Inquiring about the presence of dementia or other neurodegenerative diseases among first-degree relatives (parents, siblings).</li>
+                            <li><strong>Lifestyle:</strong> Gathering information on the individual's highest level of educational attainment, occupational history, current and past alcohol or substance use patterns, typical dietary habits, and baseline level of physical activity.</li>
+                        </ul>
+                        <p>Yielding critical diagnostic clues, the detailed narrative helps: for instance, a primary complaint centered on memory loss gradually worsening over several years strongly suggests underlying AD pathology. In contrast, prominent personality changes emerging early in the clinical course might point towards frontotemporal dementia (FTD), while the early appearance of well-formed visual hallucinations could suggest Dementia with Lewy Bodies (DLB) <Fragment set:html={renderCitation("Arvanitakis et al., 2019")} />.</p>
+                        <p><strong class="block">Examples:</strong></p>
+                        <ol class="list-decimal list-outside pl-5 space-y-1">
+                            <li><strong>Case 1 (Suggestive of AD):</strong> A 72-year-old patient self-reports only "minor forgetfulness"—yet their spouse provides detailed accounts of increasingly frequent repetitive questioning, consistent forgetting of scheduled appointments, and recent difficulties managing household finances, all emerging gradually over the preceding two years. Family history is positive for late-onset AD in a parent.</li>
+                            <li><strong>Case 2 (Suggestive of Vascular Issues):</strong> A 68-year-old individual with a known history of chronic hypertension and type 2 diabetes reports experiencing a distinct stepwise decline in cognitive function; noticeable deteriorations occurred immediately following two minor strokes previously confirmed by brain imaging.</li>
+                            <li><strong>Case 3 (Suggestive of FTD):</strong> Family of a 55-year-old patient reports observing significant alterations in personality (manifesting as increased impulsivity and socially inappropriate behavior) coupled with profound apathy, beginning approximately 18 months prior—with memory function noted as relatively preserved during the initial stages.</li>
+                        </ol>
+                    </div>
+                  </details>
 
-              {/* Neurological & Physical Examination */}
-               <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-blue-300 open:dark:ring-blue-800/60 open:shadow transition duration-300 ease-in-out">
-                <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
-                    <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
-                    </span>
-                     Neurological & Physical Examination
-                 </summary>
-                 <div class="mt-4 text-sm text-slate-700 dark:text-slate-300 space-y-3">
-                    <p class="max-w-prose leading-relaxed">Constituting a standard, hands-on medical assessment performed directly by the examining physician, this evaluation is routine. <strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Purpose:</strong> To identify any objective physical signs indicative of other neurological conditions or systemic illnesses potentially causing or significantly contributing to presenting cognitive symptoms. Notably, AD—particularly in its early and middle stages—often presents with a remarkably normal neurological examination; consequently, *absence* of specific abnormal findings can itself be diagnostically significant, increasing suspicion for AD.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Mechanism & What's Checked:</strong></p>
-                    <ul class="list-disc list-outside space-y-1.5 pl-5 max-w-prose leading-relaxed">
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Cranial Nerves:</strong> Systematically testing functions mediated by the twelve cranial nerves, including vision (visual acuity, visual fields), eye movements, facial sensation, and facial muscle strength; abnormalities detected here could indicate stroke or other focal neurological lesions.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Motor System:</strong> Carefully assessing muscle strength throughout the limbs, evaluating muscle tone (for spasticity or rigidity), and checking for the presence of involuntary movements such as tremor (especially resting tremor), rigidity (increased resistance to passive movement), or bradykinesia (slowness of movement)—features characteristic of Parkinson's disease or related Parkinsonian syndromes.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Reflexes:</strong> Testing deep tendon reflexes (e.g., eliciting the knee-jerk reflex); significant asymmetry in reflexes might suggest a prior stroke affecting one side of the body.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Sensation:</strong> Evaluating the patient's response to various sensory stimuli, including light touch, pinprick (pain sensation), and vibration sense; deficits identified could indicate peripheral neuropathy (a common complication of diabetes or Vitamin B12 deficiency) or potentially spinal cord pathology.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Coordination & Cerebellar Function:</strong> Assessing performance on particular activities like the finger-to-nose test or fast alternating hand motions; inadequate coordination (ataxia) could imply underlying cerebellar diseases or stroke impacting cerebellar circuits.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Gait & Balance:</strong> Observing carefully how the patient walks (gait pattern) and maintains their balance while standing. A shuffling gait is often seen in Parkinsonism; an unsteady or wide-based gait could result from various causes, including normal pressure hydrocephalus (NPH) or significant cerebrovascular disease.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">General Physical Exam:</strong> Auscultating the heart and lungs, measuring blood pressure, visually inspecting for signs suggestive of thyroid disease (e.g., goiter, eye changes), liver disease (e.g., jaundice), or other relevant systemic problems.</li>
-                    </ul>
-                    <p class="max-w-prose leading-relaxed">Detecting specific abnormalities helps differentiate potential causes; for example, identifying unilateral weakness strongly points towards a stroke etiology, whereas observing resting tremor and muscle rigidity suggests Parkinson's disease (which can itself be associated with dementia) <Fragment set:html={renderCitation("Arvanitakis et al., 2019")} />. Conversely, finding entirely normal results on both neurological and physical exams increases clinical suspicion for a primary degenerative dementia process, such as AD.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Examples:</strong></p>
-                    <ul class="list-decimal list-outside space-y-1 pl-5 text-xs text-slate-600 dark:text-slate-400 max-w-prose leading-relaxed mt-1">
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 1 (Normal Exam):</strong> A patient presenting primarily with memory complaints undergoes examination and exhibits a completely normal neurological and physical assessment—making AD a more probable underlying cause relative to other conditions.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 2 (Suggests Parkinsonism):</strong> Examination reveals a mild resting tremor predominantly in the right hand, slight cogwheel rigidity detected in the limbs, and observable slowness in initiating movements—raising suspicion for Parkinson's disease dementia or potentially Dementia with Lewy Bodies.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 3 (Suggests Vascular Component):</strong> Patient demonstrates a slightly slowed gait pattern, exhibits brisk deep tendon reflexes on the left side compared to the right, and has documented poorly controlled hypertension—suggesting a possible contribution from underlying vascular brain injury to their cognitive symptoms.</li>
-                    </ul>
-                </div>
-               </details>
+                   <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-blue-300 open:dark:ring-blue-800/60 open:shadow transition duration-300 ease-in-out">
+                    <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
+                        <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                        </span>
+                        Neurological & Physical Examination
+                    </summary>
+                    <div class="mt-4 prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-3 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-blue-500 dark:prose-li:marker:text-blue-400">
+                        <p>Constituting a standard, hands-on medical assessment performed directly by the examining physician, this evaluation is routine. <strong>Purpose:</strong> To identify any objective physical signs indicative of other neurological conditions or systemic illnesses potentially causing or significantly contributing to presenting cognitive symptoms. Notably, AD—particularly in its early and middle stages—often presents with a normal neurological examination; consequently, <em>absence</em> of specific abnormal findings can itself be diagnostically significant, increasing suspicion for AD.</p>
+                        <p><strong>Mechanism & What's Checked:</strong></p>
+                        <ul>
+                            <li><strong>Cranial Nerves:</strong> Systematically testing functions mediated by the twelve cranial nerves, including vision, eye movements, facial sensation, and facial muscle strength; abnormalities detected here could indicate stroke or other focal neurological lesions.</li>
+                            <li><strong>Motor System:</strong> Carefully assessing muscle strength, evaluating muscle tone (for spasticity or rigidity), and checking for the presence of involuntary movements such as tremor, rigidity, or bradykinesia (slowness of movement)—features characteristic of <strong>Parkinson's disease</strong> or related Parkinsonian syndromes.</li>
+                            <li><strong>Reflexes:</strong> Testing deep tendon reflexes; significant asymmetry in reflexes might suggest a prior stroke.</li>
+                            <li><strong>Sensation:</strong> Evaluating the patient's response to various sensory stimuli (light touch, pinprick, vibration); deficits identified could indicate peripheral neuropathy or spinal cord pathology.</li>
+                            <li><strong>Coordination & Cerebellar Function:</strong> Assessing performance on activities like finger-to-nose test or rapid alternating movements; incoordination (<strong>ataxia</strong>) could imply cerebellar disease or stroke.</li>
+                            <li><strong>Gait & Balance:</strong> Observing how the patient walks and stands. A shuffling gait is often seen in Parkinsonism; an unsteady or wide-based gait could result from various causes, including <strong>normal pressure hydrocephalus (NPH)</strong> or cerebrovascular disease.</li>
+                            <li><strong>General Physical Exam:</strong> Auscultating heart/lungs, measuring blood pressure, inspecting for signs of thyroid disease, liver disease, or other relevant systemic problems.</li>
+                        </ul>
+                        <p>Detecting specific abnormalities helps differentiate potential causes; for example, identifying unilateral weakness strongly points towards a stroke etiology, whereas observing resting tremor and muscle rigidity suggests Parkinson's disease (which can itself be associated with dementia) <Fragment set:html={renderCitation("Arvanitakis et al., 2019")} />. Conversely, finding entirely normal results on both neurological and physical exams increases clinical suspicion for a primary degenerative dementia process, such as AD.</p>
+                        <p><strong class="block">Examples:</strong></p>
+                        <ol class="list-decimal list-outside pl-5 space-y-1">
+                            <li><strong>Case 1 (Normal Exam):</strong> A patient presenting primarily with memory complaints undergoes examination and exhibits a completely normal neurological and physical assessment—making AD a more probable underlying cause relative to other conditions.</li>
+                            <li><strong>Case 2 (Suggests Parkinsonism):</strong> Examination reveals a mild resting tremor predominantly in the right hand, slight cogwheel rigidity detected in the limbs, and observable slowness in initiating movements—raising suspicion for Parkinson's disease dementia or potentially Dementia with Lewy Bodies.</li>
+                            <li><strong>Case 3 (Suggests Vascular Component):</strong> Patient demonstrates a slightly slowed gait pattern, exhibits brisk deep tendon reflexes on the left side compared to the right, and has documented poorly controlled hypertension—suggesting a possible contribution from underlying vascular brain injury to their cognitive symptoms.</li>
+                        </ol>
+                    </div>
+                   </details>
 
-              {/* Cognitive Screening */}
-              <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-blue-300 open:dark:ring-blue-800/60 open:shadow transition duration-300 ease-in-out">
-                <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
-                    <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
-                    </span>
-                    Cognitive Screening
-                </summary>
-                 <div class="mt-4 text-sm text-slate-700 dark:text-slate-300 space-y-3">
-                    <p class="max-w-prose leading-relaxed">Brief, standardized assessment tools, cognitive screenings are administered typically by the physician or other trained clinical staff (such as a nurse or medical assistant). Widely used examples include the <strong class="font-medium text-slate-800 dark:text-slate-100">Mini-Mental State Examination (MMSE)</strong> and the <strong class="font-medium text-slate-800 dark:text-slate-100">Montreal Cognitive Assessment (MoCA)</strong>; administration generally requires only 10–15 minutes.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Purpose:</strong> To provide a rapid, objective snapshot of cognitive performance across several key domains (e.g., orientation to time and place, immediate and delayed memory recall, attention span, language functions like naming and repetition, visuospatial construction skills). Primarily serving to help identify the likely presence of cognitive impairment, tools establish a quantitative baseline score useful for tracking subsequent changes over time.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Mechanism:</strong> Patients are asked to perform a series of simple cognitive tasks: recalling a short list of unrelated words after a brief delay; drawing the face of a clock and setting the hands to a specific time; naming as many animals as possible within one minute; accurately copying a complex geometric figure; and correctly answering basic orientation questions (e.g., current date, day of the week, location). Performance on each item is scored, and scores are summed to yield a total score (e.g., out of a possible 30 points for both MMSE and MoCA).</p>
-                    <p class="max-w-prose leading-relaxed">Crucially, emphasizing that cognitive screenings are *screening* instruments—not definitive diagnostic tests in isolation—is vital. A low score strongly indicates the presence of cognitive impairment and clearly warrants further, more detailed investigation, but it does not specify the underlying cause. Conversely, achieving a score within the normal range does not definitively rule out early or subtle cognitive decline, particularly in individuals with high baseline educational or occupational attainment (sometimes referred to as high cognitive reserve) <Fragment set:html={renderCitation("Arevalo-Rodriguez et al., 2015; Arvanitakis et al., 2019")} />. However, specific patterns of performance on screening tests can sometimes offer diagnostic clues (e.g., disproportionately severe deficits in delayed recall are highly characteristic of early-stage AD).</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Examples:</strong></p>
-                    <ul class="list-decimal list-outside space-y-1 pl-5 text-xs text-slate-600 dark:text-slate-400 max-w-prose leading-relaxed mt-1">
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 1 (Impairment Detected):</strong> A patient achieves a score of 21 out of 30 on the MoCA, losing points primarily on the delayed word recall task and sentence repetition—a pattern consistent with potential AD-related cognitive deficits.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 2 (Normal Screen, Still Concerned):</strong> A retired engineer scores 27 out of 30 on the MMSE (a score typically considered within the normal range), yet their family adamantly insists on observing significant recent decline in their complex planning and organizational abilities. Discrepancy warrants more sensitive, comprehensive testing (i.e., formal neuropsychological evaluation).</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 3 (Specific Deficit Pattern):</strong> A patient scores 24 out of 30 on the MoCA but demonstrates considerable difficulty with the clock drawing task and accurately copying the cube (visuospatial tasks)—suggesting a greater contribution from underlying vascular disease or potentially Lewy Body Dementia rather than typical amnestic AD.</li>
-                    </ul>
-                </div>
-              </details>
+                  <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-blue-300 open:dark:ring-blue-800/60 open:shadow transition duration-300 ease-in-out">
+                    <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
+                        <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                        </span>
+                        Cognitive Screening
+                    </summary>
+                     <div class="mt-4 prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-3 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-blue-500 dark:prose-li:marker:text-blue-400">
+                        <p>Brief, standardized assessment tools, cognitive screenings are administered typically by the physician or other trained clinical staff. Widely used examples include the <strong>Mini-Mental State Examination (MMSE)</strong> and the <strong>Montreal Cognitive Assessment (MoCA)</strong>; administration generally requires only 10–15 minutes.</p>
+                        <p><strong>Purpose:</strong> To provide a rapid, objective snapshot of cognitive performance across several key domains (e.g., orientation, memory recall, attention, language, visuospatial skills). Primarily serving to help identify the likely presence of cognitive impairment, tools establish a quantitative baseline score useful for tracking subsequent changes over time.</p>
+                        <p><strong>Mechanism:</strong> Patients are asked to perform a series of simple cognitive tasks: recalling a short list of words after a delay; drawing a clock face; naming animals; copying a figure; answering orientation questions. Performance is scored to yield a total score (e.g., out of 30).</p>
+                        <p>Crucially, emphasizing that cognitive screenings are <em>screening</em> instruments—not definitive diagnostic tests in isolation—is vital. A low score strongly indicates cognitive impairment and warrants further investigation, but does not specify the cause. Conversely, a normal score does not definitively rule out early decline, especially in individuals with high <strong>cognitive reserve</strong> <Fragment set:html={renderCitation("Arevalo-Rodriguez et al., 2015; Arvanitakis et al., 2019")} />. Specific performance patterns can offer diagnostic clues (e.g., poor delayed recall is characteristic of early AD).</p>
+                        <p><strong class="block">Examples:</strong></p>
+                        <ol class="list-decimal list-outside pl-5 space-y-1">
+                            <li><strong>Case 1 (Impairment Detected):</strong> A patient achieves a score of 21 out of 30 on the MoCA, losing points primarily on the delayed word recall task and sentence repetition—a pattern consistent with potential AD-related cognitive deficits.</li>
+                            <li><strong>Case 2 (Normal Screen, Still Concerned):</strong> A retired engineer scores 27 out of 30 on the MMSE (a score normally regarded within the normal range), although their family firmly insists on witnessing considerable recent loss in their complicated planning and organizing skills. Discrepancy necessitates more sensitive, complete testing (i.e., full neuropsychological examination).</li>
+                            <li><strong>Case 3 (Specific Deficit Pattern):</strong> A patient scores 24 out of 30 on the MoCA but demonstrates considerable difficulty with the clock drawing task and accurately copying the cube (visuospatial tasks)—suggesting a greater contribution from underlying vascular disease or potentially Lewy Body Dementia rather than typical amnestic AD.</li>
+                        </ol>
+                    </div>
+                  </details>
 
-              {/* Functional Assessment */}
-              <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-blue-300 open:dark:ring-blue-800/60 open:shadow transition duration-300 ease-in-out">
-                <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
-                    <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
-                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
-                    </span>
-                    Functional Assessment
-                </summary>
-                 <div class="mt-4 text-sm text-slate-700 dark:text-slate-300 space-y-3">
-                    <p class="max-w-prose leading-relaxed">Systematically evaluating how identified cognitive changes concretely impact the individual's ability to function independently and effectively in their everyday life activities, this component is essential. Relying heavily on information gathered from both the patient themselves and—often more reliably, especially as the disease progresses—from a knowledgeable informant, assessment is comprehensive.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Purpose:</strong> To determine whether observed cognitive impairment has reached a level of severity sufficient to interfere significantly with the performance of daily activities. Representing the defining characteristic that distinguishes dementia from milder forms of cognitive impairment, functional impairment is key. If objective cognitive impairment is detected but does not yet substantially impact independent daily functioning, the appropriate diagnosis might be Mild Cognitive Impairment (MCI): a recognized transitional stage often preceding dementia development.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Mechanism:</strong> Clinician poses specific, detailed questions regarding the patient's current ability to perform two categories of daily tasks:</p>
-                    <ul class="list-disc list-outside space-y-1.5 pl-5 max-w-prose leading-relaxed">
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Activities of Daily Living (ADLs):</strong> Encompassing basic self-care tasks essential for personal maintenance, ADLs include bathing or showering independently, dressing oneself appropriately for the weather, grooming (e.g., brushing teeth, combing hair), feeding oneself, managing toileting needs, and transferring safely (e.g., moving from a bed to a chair). Difficulty performing ADLs typically emerges during moderate to severe stages of AD progression.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Instrumental Activities of Daily Living (IADLs):</strong> Representing more complex tasks that necessitate higher-level cognitive functions for successful execution, IADLs are critical indicators. Examples include managing personal finances accurately (e.g., paying bills on time, balancing a checkbook), managing medications correctly (e.g., remembering doses and times), shopping independently for groceries or necessities, preparing complete meals safely, using the telephone or other communication technologies effectively, performing basic housekeeping tasks, arranging transportation (either driving oneself or utilizing public transit), and independently managing scheduled appointments. Difficulty with IADLs often becomes apparent earlier in the course of AD—frequently serving as one of the first functional declines noticed by concerned family members <Fragment set:html={renderCitation("Galvin et al., 2006")} />. Standardized questionnaires, such as the Functional Activities Questionnaire (FAQ) or specific IADL rating scales, may be employed to structure the assessment.</li>
-                    </ul>
-                    <p class="max-w-prose leading-relaxed">Documented presence and quantifiable severity of functional impairment are critical factors for accurately staging the disease process and developing an appropriate, individualized care plan.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Examples:</strong></p>
-                    <ul class="list-decimal list-outside space-y-1 pl-5 text-xs text-slate-600 dark:text-slate-400 max-w-prose leading-relaxed mt-1">
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 1 (MCI):</strong> A patient demonstrates objective deficits on cognitive screening (e.g., MoCA score of 24/30), but their informant confirms continued management of all personal finances, driving without incident, and handling all household tasks independently—suggesting a diagnosis of Mild Cognitive Impairment (MCI).</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 2 (Mild Dementia):</strong> A patient performs reasonably well on most basic ADLs, but their informant reports recent concerning incidents, such as bouncing checks, forgetting to pay important bills (necessitating spouse taking over financial management), and recently getting lost while driving in a previously familiar neighborhood—indicating significant IADL impairment consistent with a diagnosis of mild dementia.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 3 (Moderate/Severe Dementia):</strong> Informant reports patient now requires direct assistance with selecting appropriate clothing for the weather (indicating ADL impairment) and can no longer safely prepare even simple meals (indicating significant IADL impairment)—suggesting a more advanced stage of dementia due to this level of functional dependence.</li>
-                    </ul>
-                 </div>
-              </details>
+                  <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-blue-300 open:dark:ring-blue-800/60 open:shadow transition duration-300 ease-in-out">
+                    <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
+                        <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
+                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                        </span>
+                        Functional Assessment
+                    </summary>
+                     <div class="mt-4 prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-3 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-blue-500 dark:prose-li:marker:text-blue-400">
+                        <p>Systematically examining how identified cognitive changes concretely influence the individual's capacity to operate freely and efficiently in their daily life activities, this component is very important. Relying significantly on information acquired from both the patient themselves and—often more reliably—from a competent informant, evaluation is thorough.</p>
+                        <p><strong>Purpose:</strong> To determine whether observed cognitive impairment has reached a level of severity sufficient to interfere significantly with the performance of daily activities. Representing the defining characteristic that distinguishes dementia from milder forms of cognitive impairment, functional impairment is key. If objective cognitive impairment is detected but does not yet substantially impact independent daily functioning, the appropriate diagnosis might be <strong>Mild Cognitive Impairment (MCI)</strong>.</p>
+                        <p><strong>Mechanism:</strong> Clinician poses specific, detailed questions regarding the patient's current ability to perform two categories of daily tasks:</p>
+                        <ul>
+                            <li><strong>Activities of Daily Living (ADLs):</strong> Encompassing basic self-care tasks essential for personal maintenance (bathing, dressing, grooming, feeding, toileting, transferring). Difficulty performing ADLs typically emerges during moderate to severe stages of AD progression.</li>
+                            <li><strong>Instrumental Activities of Daily Living (IADLs):</strong> Representing more complex tasks necessitating higher-level cognitive functions (managing finances, managing medications, shopping, preparing meals, using communication technologies, housekeeping, transportation, managing appointments). Difficulty with IADLs often becomes apparent earlier in the course of AD <Fragment set:html={renderCitation("Galvin et al., 2006")} />. Standardized questionnaires (e.g., <strong>FAQ</strong>) may be applied to objectively quantify functional abilities.</li>
+                        </ul>
+                        <p>Documented existence and measurable level of functional impairment are essential variables for appropriately staging the illness process and devising an appropriate, tailored treatment strategy.</p>
+                        <p><strong class="block">Examples:</strong></p>
+                        <ol class="list-decimal list-outside pl-5 space-y-1">
+                            <li><strong>Case 1 (MCI):</strong> A patient demonstrates objective deficits on cognitive screening (e.g., MoCA score of 24/30), but their informant confirms continued management of all personal finances, driving without incident, and handling all household tasks independently—suggesting a diagnosis of Mild Cognitive Impairment (MCI).</li>
+                            <li><strong>Case 2 (Mild Dementia):</strong> A patient performs reasonably well on most basic ADLs, but their informant reports recent concerning incidents, such as bouncing checks, forgetting to pay important bills (necessitating spouse taking over financial management), and recently getting lost while driving in a previously familiar neighborhood—indicating significant IADL impairment consistent with a diagnosis of mild dementia.</li>
+                            <li><strong>Case 3 (Moderate/Severe Dementia):</strong> Informant reports patient now requires direct assistance with selecting appropriate clothing for the weather (indicating ADL impairment) and can no longer safely prepare even simple meals (indicating significant IADL impairment)—suggesting a more advanced stage of dementia due to this level of functional dependence.</li>
+                        </ol>
+                    </div>
+                  </details>
+              </div>
           </div>
       </section>
 
-      {/* == Section: Neuropsychological Testing == */}
-       <section class="group p-6 md:p-8 rounded-xl bg-gradient-to-br from-white to-slate-50 dark:from-slate-800/70 dark:to-slate-800/90 border border-slate-200 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-0.5">
-          {/* Section Heading with Icon */}
+      <section class="group p-6 md:p-8 rounded-xl bg-gradient-to-br from-white to-slate-50 dark:from-slate-800/70 dark:to-slate-800/90 border border-slate-200 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-0.5">
           <h2 class="mb-6 text-2xl md:text-3xl font-semibold text-slate-900 dark:text-white mt-0 flex items-start gap-x-3">
             <span class="mt-1 shrink-0 text-green-500 group-hover:scale-110 transition-transform duration-200 ease-in-out"><Fragment set:html={neuropsychIcon} /></span>
              Neuropsychological Testing (In-Depth Cognitive Assessment)
           </h2>
-          {/* Main content styled using Tailwind Typography prose classes */}
           <div class="prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-4 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-green-500 dark:prose-li:marker:text-green-400">
               <p>
-                  Representing a significantly more detailed, comprehensive, and nuanced evaluation of cognitive abilities compared to brief screening instruments administered during initial clinical evaluation, neuropsychological testing is specialized. Conducted by a <strong>neuropsychologist</strong>—a licensed psychologist possessing specialized doctoral-level training and expertise in brain-behavior relationships—specialized testing typically occurs within a quiet, controlled office or clinic setting conducive to optimal performance. Neuropsychological testing is often recommended in several specific clinical scenarios: when initial clinical evaluation and cognitive screening results are inconclusive or ambiguous; when accurately differentiating between conditions presenting with similar symptoms is critically needed (e.g., distinguishing early AD from major depression, or differentiating AD from Frontotemporal Dementia [FTD]); or when establishing a highly detailed, quantitative baseline cognitive profile is desired for meticulously tracking future changes over time. Complete assessment usually requires several hours to administer (often spanning 2–4 hours or potentially longer) and involves administering a carefully selected battery of standardized tests.
+                  Representing a significantly more detailed, comprehensive, and nuanced evaluation of cognitive abilities compared to brief screening instruments, neuropsychological testing is specialized. Conducted by a <strong>neuropsychologist</strong>—a licensed psychologist possessing specialized doctoral-level training and expertise in brain-behavior relationships—specialized testing typically occurs within a quiet, controlled office or clinic setting. Neuropsychological testing is often recommended when initial evaluation is inconclusive; when differentiating between conditions with similar symptoms is needed (e.g., AD vs. depression, AD vs. FTD); or when establishing a detailed baseline cognitive profile is desired for tracking future changes. Complete assessment usually requires several hours (2–4 hours or longer) and involves administering a selected battery of standardized tests.
               </p>
               <p>
-                  <strong class="block mb-1">Purpose:</strong> To provide a precise, quantitative profile delineating an individual's specific cognitive strengths and weaknesses across multiple distinct cognitive domains. Domains typically include:
+                  <strong>Purpose:</strong> To provide a precise, quantitative profile delineating an individual's specific cognitive strengths and weaknesses across multiple distinct cognitive domains. Domains typically include:
               </p>
               <ul>
-                  <li><strong>Episodic Memory:</strong> Assessing the ability to learn and subsequently recall new verbal information (e.g., word lists, short stories) and visual information (e.g., complex geometric designs) after a specified delay period—a domain often significantly and disproportionately impaired early in the course of typical AD.</li>
-                  <li><strong>Executive Functions:</strong> Evaluating higher-level cognitive control processes such as planning multi-step tasks, strategic problem-solving, working memory capacity (ability to hold and mentally manipulate information), cognitive flexibility (ability to shift efficiently between different tasks or mental sets), response inhibition (capacity to suppress prepotent but inappropriate responses or resist distractions), and abstract reasoning abilities.</li>
-                  <li><strong>Language:</strong> Assessing various aspects of language function, including naming ability (confrontation naming, assessing word-finding difficulties or anomia), verbal fluency (generating words within specific categories, e.g., animals, or starting with a specific letter), auditory comprehension, and expressive language skills.</li>
-                  <li><strong>Visuospatial Skills:</strong> Evaluating the ability to perceive complex spatial relationships accurately, navigate environments effectively, draw or copy geometric figures precisely, and mentally assemble objects or solve visual puzzles.</li>
-                  <li><strong>Attention/Concentration:</strong> Assessing different facets of attention, including ability to focus selectively, sustain attention over time (vigilance), and divide or shift attention between multiple stimuli or tasks.</li>
-                  <li><strong>Processing Speed:</strong> Measuring the rapidity with which an individual can process incoming information and execute simple cognitive operations.</li>
+                  <li><strong>Episodic Memory:</strong> Ability to learn and recall new verbal and visual information after a delay—often significantly impaired early in typical AD.</li>
+                  <li><strong>Executive Functions:</strong> Higher-level cognitive control processes like planning, problem-solving, working memory, cognitive flexibility, response inhibition, and abstract reasoning.</li>
+                  <li><strong>Language:</strong> Aspects like naming ability (anomia), verbal fluency, comprehension, and expression.</li>
+                  <li><strong>Visuospatial Skills:</strong> Ability to comprehend spatial relationships, navigate environments, draw/copy figures, and mentally manipulate objects.</li>
+                  <li><strong>Attention/Concentration:</strong> Ability to focus selectively, sustain attention, and divide or shift attention.</li>
+                  <li><strong>Processing Speed:</strong> Rapidity of processing information and executing simple cognitive operations.</li>
               </ul>
               <p>
-                  <strong class="block mb-1">Mechanism:</strong> Neuropsychologist administers a tailored battery comprising various standardized tests. Involving diverse formats, tests include solving visual puzzles, answering specific questions, performing challenging memory tasks (both immediate and delayed recall), drawing complex figures, and completing timed reaction tasks. Performance on each test is scored objectively according to standardized procedures, and resulting scores are then compared to established normative data—scores derived from large samples of healthy individuals matched for similar age, educational background, and sometimes other demographic factors like sex or ethnicity. Specific *pattern* of performance observed across different cognitive domains proves highly informative diagnostically. For example: Typical AD characteristically manifests with a prominent deficit in episodic memory function (specifically, marked difficulty learning and retaining newly acquired information—a pattern often referred to as an amnestic profile), frequently appearing disproportionately severe relative to other cognitive domains, particularly in the early stages of the disease <Fragment set:html={renderCitation("Bondi et al., 2017; Arvanitakis et al., 2019")} />. In contrast, other types of dementia typically exhibit distinct cognitive profiles (e.g., primary deficits in executive functions or language abilities are more characteristic of specific variants of FTD).
+                  <strong>Mechanism:</strong> Neuropsychologist administers a tailored battery of standardized tests (puzzles, questions, memory tasks, drawing, reaction time). Performance is scored objectively and compared to normative data matched for age and education. The specific <em>pattern</em> of performance across domains is diagnostically informative. Typical AD characteristically manifests with a prominent deficit in episodic memory function (an <strong>amnestic profile</strong>), often disproportionately severe relative to other domains early on <Fragment set:html={renderCitation("Bondi et al., 2017; Arvanitakis et al., 2019")} />. Other dementias often exhibit distinct profiles (e.g., primary executive or language deficits in FTD variants).
               </p>
-              <p>
-                  <strong class="block mb-1">Examples:</strong>
-                  <ol class="list-decimal list-outside space-y-1 pl-5 text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1"> {/* Adjusted contrast */}
-                     <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 1 (Confirms AD Pattern):</strong> Formal neuropsychological testing reveals severe impairment on measures of delayed verbal recall (e.g., performance significantly below expectations on the California Verbal Learning Test) coupled with moderate deficits in semantic category fluency (e.g., naming animals), while basic attention and visuospatial construction skills remain relatively preserved. Supporting a clinical diagnosis of AD, this specific cognitive profile is strong evidence.</li>
-                     <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 2 (Suggests Depression/Pseudodementia):</strong> Testing demonstrates markedly inconsistent effort across tasks, significantly slowed information processing speed, and mild difficulties observed across multiple cognitive domains, but notably reveals relatively intact learning and recall performance when provided with cues and structured encoding strategies. Considered alongside concurrently elevated scores on standardized depression inventories—this pattern suggests observed cognitive symptoms may be primarily attributable to severe depression (sometimes termed pseudodementia) rather than an underlying neurodegenerative process like AD.</li>
-                     <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 3 (Suggests Non-AD Dementia):</strong> Patient performs particularly poorly on tests assessing executive functions (e.g., demonstrating significant perseveration on the Wisconsin Card Sorting Test, marked difficulty on the Trail Making Test Part B) and exhibits substantial language impairments (e.g., significant word-finding difficulties on the Boston Naming Test)—while achieving relatively better scores on memory measures. More indicative of Frontotemporal Dementia than typical AD, this specific pattern of cognitive deficits is notable.</li>
-                  </ol>
-              </p>
+              <p><strong class="block">Examples:</strong></p>
+              <ol class="list-decimal list-outside pl-5 space-y-1">
+                 <li><strong>Case 1 (Confirms AD Pattern):</strong> Formal testing reveals severe impairment on delayed verbal recall (e.g., California Verbal Learning Test) and moderate deficits in semantic fluency (e.g., naming animals), while attention and visuospatial skills are relatively preserved. This profile strongly supports a clinical diagnosis of AD.</li>
+                 <li><strong>Case 2 (Suggests Depression/Pseudodementia):</strong> Testing shows inconsistent effort, slowed processing, and mild difficulties across domains, but relatively intact learning/recall with cues. Along with high depression scores, this pattern suggests symptoms may be primarily due to severe depression rather than AD.</li>
+                 <li><strong>Case 3 (Suggests Non-AD Dementia):</strong> Patient performs poorly on executive function tests (e.g., Wisconsin Card Sorting Test, Trail Making Test Part B) and shows significant language impairments (e.g., Boston Naming Test), while memory scores are relatively better. This pattern is more indicative of Frontotemporal Dementia than typical AD.</li>
+              </ol>
           </div>
       </section>
 
-      {/* == Section: Biomarker Testing == */}
-       {/* Covers tests that detect biological markers of AD pathology. */}
        <section class="group p-6 md:p-8 rounded-xl bg-gradient-to-br from-white to-slate-50 dark:from-slate-800/70 dark:to-slate-800/90 border border-slate-200 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-0.5">
-          {/* Section Heading with Icon */}
           <h2 class="mb-6 text-2xl md:text-3xl font-semibold text-slate-900 dark:text-white mt-0 flex items-start gap-x-3">
             <span class="mt-1 shrink-0 text-violet-500 group-hover:scale-110 transition-transform duration-200 ease-in-out"><Fragment set:html={biomarkerIcon} /></span>
             Biomarker Testing (Evidence of AD Pathology)
           </h2>
-           {/* Introduction to Biomarkers */}
-          <p class="mb-6 text-slate-700 dark:text-slate-300 max-w-prose text-base leading-relaxed">
-             <strong class="font-semibold text-slate-800 dark:text-slate-100">Biomarkers</strong> are objective, measurable biological characteristics indicating a specific disease process. For AD, they provide <i>in vivo</i> (in life) evidence of the core brain changes: <strong class="font-semibold text-slate-800 dark:text-slate-100">amyloid-beta (AÎ²) plaques</strong> and <strong class="font-semibold text-slate-800 dark:text-slate-100">phosphorylated tau (p-tau) tangles</strong>. These tests increase diagnostic certainty, especially in complex cases, guided by the <strong class="font-semibold text-slate-800 dark:text-slate-100">AT(N) framework</strong> (A=amyloid, T=tau, N=neurodegeneration) <Fragment set:html={renderCitation("Jack et al., 2018")} />. Testing is typically done in specialized centers.
-          </p>
-          {/* Accordion for different biomarker types */}
-          <div class="space-y-4"> {/* Reduced spacing */}
-            {/* CSF Biomarkers */}
-            <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-violet-300 open:dark:ring-violet-800/60 open:shadow transition duration-300 ease-in-out">
-                <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
-                     <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
-                    </span>
-                    CSF Biomarkers (A, T, N Components)
-                </summary>
-                 <div class="mt-4 text-sm text-slate-700 dark:text-slate-300 space-y-3">
-                    <p class="max-w-prose leading-relaxed">Involving the laboratory analysis of <strong class="font-medium text-slate-800 dark:text-slate-100">cerebrospinal fluid (CSF)</strong>—the clear, colorless fluid circulating within and around the brain and spinal cord, serving protective and metabolic functions—this method is informative. <strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Mechanism:</strong> CSF is obtained through a medical procedure known as a <strong class="font-medium text-slate-800 dark:text-slate-100">lumbar puncture (LP)</strong> (colloquially termed a spinal tap). During the procedure, a thin, sterile needle is carefully inserted between two vertebrae in the lower back (lumbar region) to collect a small sample of CSF. Generally considered safe when performed by experienced clinicians, the procedure is typically conducted on an outpatient basis. Collected CSF directly reflects the biochemical milieu within the central nervous system, providing a window into ongoing brain processes.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Purpose & Interpretation:</strong> Specific proteins relevant to AD pathology are precisely quantified in the CSF sample:</p>
-                    <ul class="list-disc list-outside space-y-1.5 pl-5 max-w-prose leading-relaxed">
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">AÎ²42 (Amyloid-beta 42):</strong> Typically <strong class="font-semibold text-red-600 dark:text-red-400">low (↓)</strong> in AD CSF because it's being deposited into brain plaques. ('A' marker).</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Phosphorylated Tau (p-tau):</strong> Typically <strong class="font-semibold text-emerald-600 dark:text-emerald-400">high (↑)</strong> in AD CSF, reflecting active tangle formation inside neurons. ('T' marker).</li> {/* Changed color */}
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Total Tau (t-tau):</strong> Typically <strong class="font-semibold text-emerald-600 dark:text-emerald-400">high (↑)</strong> in AD CSF, indicating the overall level of neuronal injury or death. ('N' marker).</li> {/* Changed color */}
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">AÎ²42/AÎ²40 Ratio:</strong> Often more accurate than AÎ²42 alone; typically <strong class="font-semibold text-red-600 dark:text-red-400">low (↓)</strong> in AD. ('A' marker).</li>
-                    </ul>
-                    <p class="max-w-prose leading-relaxed">The combination of low AÎ²42 (or ratio) with high p-tau and t-tau is highly specific for AD pathology <Fragment set:html={renderCitation("Olsson et al., 2016")} />.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Examples:</strong></p>
-                    <ul class="list-decimal list-outside space-y-1 pl-5 text-xs text-slate-600 dark:text-slate-400 max-w-prose leading-relaxed mt-1">
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 1 (Confirms AD):</strong> A patient with progressive memory loss has CSF results showing low AÎ²42, high p-tau, and high t-tau, strongly supporting AD pathology.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 2 (Rules Out AD):</strong> A patient with cognitive symptoms has completely normal levels of AÎ²42, p-tau, and t-tau in their CSF, making AD highly unlikely.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 3 (Ambiguous/Non-AD):</strong> CSF shows normal AÎ²42 and p-tau, but markedly elevated t-tau. This suggests neuronal injury is occurring, but likely due to a non-AD cause (e.g., recent stroke, Creutzfeldt-Jakob disease).</li>
-                    </ul>
-                </div>
-            </details>
+           <div class="prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-4 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-violet-500 dark:prose-li:marker:text-violet-400">
+                <p>
+                    <strong>Biomarkers</strong> are objective, measurable biological characteristics indicating a specific disease process. For AD, they provide <i>in vivo</i> (in life) evidence of the core brain changes: <strong>amyloid-beta (Aβ) plaques</strong> and <strong>phosphorylated tau (p-tau) tangles</strong>. These tests increase diagnostic certainty, especially in complex cases, guided by the <strong>AT(N) framework</strong> (A=amyloid, T=tau, N=neurodegeneration) <Fragment set:html={renderCitation("Jack et al., 2018")} />. Testing is typically done in specialized centers.
+                </p>
+                <div class="space-y-4 not-prose">
+                  <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-violet-300 open:dark:ring-violet-800/60 open:shadow transition duration-300 ease-in-out">
+                      <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
+                          <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                          </span>
+                          CSF Biomarkers (A, T, N Components)
+                      </summary>
+                      <div class="mt-4 prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-3 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-violet-500 dark:prose-li:marker:text-violet-400">
+                          <p>Involving the laboratory study of <strong>cerebrospinal fluid (CSF)</strong>—the clear, colorless fluid moving inside and around the brain and spinal cord, fulfilling protective and metabolic functions. <strong>Mechanism:</strong> CSF is acquired using a medical technique known as a <strong>lumbar puncture (LP)</strong> (colloquially dubbed a spinal tap). Collected CSF directly represents the metabolic environment inside the central nervous system.</p>
+                          <p><strong>Purpose & Interpretation:</strong> Specific proteins relevant to AD pathology are precisely quantified in the CSF sample:</p>
+                          <ul>
+                              <li><strong>Aβ42 (Amyloid-beta 42):</strong> Typically <strong class="font-semibold text-red-600 dark:text-red-400">low (↓)</strong> in AD CSF because it's being deposited into brain plaques. ('A' marker).</li>
+                              <li><strong>Phosphorylated Tau (p-tau):</strong> Typically <strong class="font-semibold text-emerald-600 dark:text-emerald-400">high (↑)</strong> in AD CSF, reflecting active tangle formation inside neurons. ('T' marker).</li>
+                              <li><strong>Total Tau (t-tau):</strong> Typically <strong class="font-semibold text-emerald-600 dark:text-emerald-400">high (↑)</strong> in AD CSF, indicating the overall level of neuronal injury or death. ('N' marker).</li>
+                              <li><strong>Aβ42/Aβ40 Ratio:</strong> Often more accurate than Aβ42 alone; typically <strong class="font-semibold text-red-600 dark:text-red-400">low (↓)</strong> in AD. ('A' marker).</li>
+                          </ul>
+                          <p>The combination of low Aβ42 (or ratio) with high p-tau and t-tau is highly specific for AD pathology <Fragment set:html={renderCitation("Olsson et al., 2016")} />.</p>
+                          <p><strong class="block">Examples:</strong></p>
+                          <ol class="list-decimal list-outside pl-5 space-y-1">
+                              <li><strong>Case 1 (Confirms AD):</strong> A patient with progressive memory loss has CSF results showing low Aβ42, high p-tau, and high t-tau, strongly supporting AD pathology.</li>
+                              <li><strong>Case 2 (Rules Out AD):</strong> A patient with cognitive symptoms has completely normal levels of Aβ42, p-tau, and t-tau in their CSF, making AD highly unlikely.</li>
+                              <li><strong>Case 3 (Ambiguous/Non-AD):</strong> CSF shows normal Aβ42 and p-tau, but markedly elevated t-tau. This suggests neuronal injury is occurring, but likely due to a non-AD cause (e.g., recent stroke, Creutzfeldt-Jakob disease).</li>
+                          </ol>
+                      </div>
+                  </details>
 
-            {/* Amyloid PET */}
-            <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-violet-300 open:dark:ring-violet-800/60 open:shadow transition duration-300 ease-in-out">
-                <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
-                     <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
-                    </span>
-                    Amyloid PET (A Marker)
-                 </summary>
-                 <div class="mt-4 text-sm text-slate-700 dark:text-slate-300 space-y-3">
-                    <p class="max-w-prose leading-relaxed">Positron Emission Tomography (PET) is a nuclear medicine imaging technology. For Amyloid PET, a minuscule quantity of a radioactive tracer—a molecule meticulously engineered to bind with high specificity to deposited AÎ² plaques—is administered intravenously into the patient's bloodstream.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Mechanism:</strong> Injected tracer circulates throughout the body, crosses the blood-brain barrier, and selectively attaches to any accumulated amyloid deposits present within the brain parenchyma. Following an appropriate uptake period (typically ranging from 30 to 90 minutes, depending on the specific tracer utilized), the patient lies comfortably within a PET scanner. Detecting the positrons emitted by the decaying radioactive tracer, the scanner facilitates imaging. Sophisticated computer algorithms then process detected signals to generate detailed cross-sectional images vividly illustrating the density and precise anatomical distribution of amyloid plaques throughout the brain.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Purpose & Interpretation:</strong> A <strong class="font-medium text-slate-800 dark:text-slate-100">positive</strong> Amyloid PET scan is characterized by widespread tracer uptake observed across various cortical regions of the brain, visually confirming the presence of a significant burden of amyloid pathology (a finding highly consistent with AD). Conversely, a <strong class="font-medium text-slate-800 dark:text-slate-100">negative</strong> scan demonstrates only minimal, non-specific tracer uptake (often confined primarily to white matter regions) and renders AD considerably less likely as the cause of symptoms—particularly if significant dementia symptoms are clinically present (strongly suggesting a non-amyloid driven dementia etiology) <Fragment set:html={renderCitation("Johnson et al., 2013")} />. Amyloid PET proves particularly useful in clarifying diagnoses for patients presenting with atypical clinical syndromes or for definitively confirming the presence of brain amyloidosis prior to initiating potentially costly or risky amyloid-targeting therapies.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Examples:</strong></p>
-                    <ul class="list-decimal list-outside space-y-1 pl-5 text-xs text-slate-600 dark:text-slate-400 max-w-prose leading-relaxed mt-1">
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 1 (Positive Scan):</strong> A 60-year-old individual experiencing unusually rapid cognitive decline undergoes an Amyloid PET scan, yielding a positive result—confirming underlying AD pathology as the likely driver of their symptoms, despite the atypical disease progression rate.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 2 (Negative Scan):</strong> A 75-year-old patient presenting with memory complaints but having shown normal AÎ²42 levels in their CSF analysis subsequently undergoes an Amyloid PET scan, returning a negative result. Strongly arguing against AD pathology, this finding prompts intensive investigation into alternative potential causes, such as underlying vascular dementia or severe depression.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 3 (Research Context):</strong> A cognitively normal older adult participating in an AD prevention research study undergoes an Amyloid PET scan as part of the protocol, and the scan result is positive—indicating the presence of preclinical AD (meaning amyloid accumulation has begun years before emergence of any clinical symptoms).</li>
-                    </ul>
-                </div>
-            </details>
+                  <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-violet-300 open:dark:ring-violet-800/60 open:shadow transition duration-300 ease-in-out">
+                      <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
+                          <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                          </span>
+                          Amyloid PET (A Marker)
+                       </summary>
+                       <div class="mt-4 prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-3 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-violet-500 dark:prose-li:marker:text-violet-400">
+                          <p>Positron Emission Tomography (PET) is a nuclear medicine imaging technology. For Amyloid PET, a minuscule quantity of a radioactive tracer—a molecule meticulously engineered to bind with high specificity to deposited Aβ plaques—is administered intravenously.</p>
+                          <p><strong>Mechanism:</strong> Injected tracer circulates... crosses the blood-brain barrier... selectively attaches to any accumulated amyloid deposits... PET scanner detects the positrons... detailed cross-sectional images vividly illustrating the density and precise anatomical distribution of amyloid plaques.</p>
+                          <p><strong>Purpose & Interpretation:</strong> A <strong>positive</strong> Amyloid PET scan is characterized by widespread tracer uptake... confirming the presence of a significant burden of amyloid pathology (consistent with AD). Conversely, a <strong>negative</strong> scan... renders AD considerably less likely... <Fragment set:html={renderCitation("Johnson et al., 2013")} />. Amyloid PET proves particularly useful in clarifying diagnoses for patients presenting with atypical clinical syndromes or for definitively confirming the presence of brain amyloidosis prior to initiating potentially costly or risky amyloid-targeting therapies.</p>
+                          <p><strong class="block">Examples:</strong></p>
+                          <ol class="list-decimal list-outside pl-5 space-y-1">
+                              <li><strong>Case 1 (Positive Scan):</strong> A 60-year-old individual experiencing unusually rapid cognitive decline undergoes an Amyloid PET scan, yielding a positive result—confirming underlying AD pathology...</li>
+                              <li><strong>Case 2 (Negative Scan):</strong> A 75-year-old patient... Amyloid PET scan, returning a negative result. Strongly arguing against AD pathology...</li>
+                              <li><strong>Case 3 (Research Context):</strong> A cognitively normal older adult participating in an AD prevention research study undergoes an Amyloid PET scan... result is positive—indicating the presence of preclinical AD...</li>
+                          </ol>
+                      </div>
+                  </details>
 
-            {/* Tau PET */}
-            <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-violet-300 open:dark:ring-violet-800/60 open:shadow transition duration-300 ease-in-out">
-                <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
-                     <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
-                    </span>
-                    Tau PET (T Marker)
-                 </summary>
-                 <div class="mt-4 text-sm text-slate-700 dark:text-slate-300 space-y-3">
-                    <p class="max-w-prose leading-relaxed">Another advanced PET imaging technique, Tau PET is analogous in principle to Amyloid PET, but critically utilizes different, specifically designed radioactive tracers. Engineered to bind with high affinity and specificity to neurofibrillary tangles composed primarily of abnormal, hyperphosphorylated tau protein, tracers are key.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Mechanism:</strong> A tau-specific radioactive tracer is injected intravenously, travels to the brain, selectively binds to accumulated tau tangles within neurons, and emitted positron signals are subsequently detected by the PET scanner.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Purpose & Interpretation:</strong> Tau PET enables visualization of both the overall burden and—importantly—the precise topographical *distribution* of tau pathology within the living brain. Unlike amyloid pathology (which can be relatively widespread even in some cognitively unimpaired older adults), anatomical location and quantitative severity of tau tangles detected by Tau PET correlate much more closely and consistently with the specific type and severity of cognitive symptoms experienced by the patient, as well as with the overall clinical stage of AD <Fragment set:html={renderCitation("Villemagne et al., 2018")} />. For instance: observing significant tau accumulation predominantly within the medial temporal lobes strongly correlates with characteristic episodic memory impairment typical of early-stage AD. While Tau PET is currently utilized more extensively within research settings, it is progressively entering clinical practice, offering valuable diagnostic and prognostic information.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Examples:</strong></p>
-                    <ul class="list-decimal list-outside space-y-1 pl-5 text-xs text-slate-600 dark:text-slate-400 max-w-prose leading-relaxed mt-1">
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 1 (Confirms AD Pattern/Stage):</strong> A patient with a clinical diagnosis of AD, supported by positive amyloid biomarker results, undergoes a Tau PET scan. Revealing significant tracer uptake concentrated primarily in the temporal and parietal cortical regions, the scan shows a pattern consistent with their presenting memory and language difficulties and confirming moderate-stage AD tau pathology.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 2 (Differentiates Tauopathy):</strong> A patient presents clinically with prominent behavioral changes highly suggestive of Frontotemporal Dementia (FTD). A Tau PET scan demonstrates tracer uptake predominantly localized to the frontal lobes—supporting a diagnosis of a primary tauopathy (such as Pick's disease or Progressive Supranuclear Palsy) rather than the typical temporoparietal tau distribution characteristic of AD.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 3 (Predicts Progression):</strong> Within a research context, an individual diagnosed with Mild Cognitive Impairment (MCI) and known positive amyloid markers undergoes a Tau PET scan. Revealing early tau accumulation restricted primarily to the entorhinal cortex, the scan suggests a high probability of imminent progression from MCI to clinically manifest AD dementia.</li>
-                    </ul>
-                </div>
-            </details>
+                  <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-violet-300 open:dark:ring-violet-800/60 open:shadow transition duration-300 ease-in-out">
+                      <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
+                           <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                          </span>
+                          Tau PET (T Marker)
+                       </summary>
+                       <div class="mt-4 prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-3 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-violet-500 dark:prose-li:marker:text-violet-400">
+                          <p>Another advanced PET imaging technique, Tau PET is analogous in principle to Amyloid PET, but critically utilizes different, specifically designed radioactive tracers. Engineered to bind with high affinity and specificity to neurofibrillary tangles composed primarily of abnormal, hyperphosphorylated tau protein, tracers are key.</p>
+                          <p><strong>Mechanism:</strong> A tau-specific radioactive tracer is injected intravenously, travels to the brain, selectively binds to accumulated tau tangles within neurons, and emitted positron signals are subsequently detected by the PET scanner.</p>
+                          <p><strong>Purpose & Interpretation:</strong> Tau PET enables visualization of both the overall burden and—importantly—the precise topographical *distribution* of tau pathology within the living brain. Unlike amyloid pathology... anatomical location and quantitative severity of tau tangles detected by Tau PET correlate much more closely and consistently with the specific type and severity of cognitive symptoms experienced by the patient, as well as with the overall clinical stage of AD <Fragment set:html={renderCitation("Villemagne et al., 2018")} />. For instance: observing significant tau accumulation predominantly within the medial temporal lobes strongly correlates with characteristic episodic memory impairment typical of early-stage AD... offering valuable diagnostic and prognostic information.</p>
+                          <p><strong class="block">Examples:</strong></p>
+                          <ol class="list-decimal list-outside pl-5 space-y-1">
+                              <li><strong>Case 1 (Confirms AD Pattern/Stage):</strong> A patient with a clinical diagnosis of AD... Tau PET scan... Revealing significant tracer uptake concentrated primarily in the temporal and parietal cortical regions... confirming moderate-stage AD tau pathology.</li>
+                              <li><strong>Case 2 (Differentiates Tauopathy):</strong> A patient presents clinically with prominent behavioral changes... Tau PET scan demonstrates tracer uptake predominantly localized to the frontal lobes—supporting a diagnosis of a primary tauopathy...</li>
+                              <li><strong>Case 3 (Predicts Progression):</strong> Within a research context, an individual diagnosed with Mild Cognitive Impairment (MCI)... Tau PET scan... Revealing early tau accumulation restricted primarily to the entorhinal cortex... suggests a high probability of imminent progression...</li>
+                          </ol>
+                      </div>
+                  </details>
 
-             {/* Blood Biomarkers */}
-             <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-violet-300 open:dark:ring-violet-800/60 open:shadow transition duration-300 ease-in-out">
-                <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
-                     <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
-                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
-                    </span>
-                    (Emerging) Blood Biomarkers
-                </summary>
-                 <div class="mt-4 text-sm text-slate-700 dark:text-slate-300 space-y-3">
-                    <p class="max-w-prose leading-relaxed">Representing a rapidly advancing frontier in AD diagnostics, blood biomarkers involve the development and validation of simple blood tests capable of detecting specific AD-related proteins circulating in the periphery.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Mechanism:</strong> Highly sensitive laboratory techniques (such as sophisticated immunoassays like SIMOA or advanced mass spectrometry methods) are employed to precisely measure the concentration of specific target molecules within a patient's blood plasma or serum sample. Key molecular targets currently under intense investigation and initial clinical implementation include specific phosphorylated forms of tau protein (e.g., <strong class="font-medium text-slate-800 dark:text-slate-100">p-tau181, p-tau217, p-tau231</strong>) and the calculated <strong class="font-medium text-slate-800 dark:text-slate-100">ratio of AÎ²42 to AÎ²40</strong> concentrations in plasma.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Purpose & Interpretation:</strong> Studies have demonstrated that elevated levels of specific plasma p-tau isoforms (particularly p-tau217 and p-tau231) and a decreased plasma AÎ²42/AÎ²40 ratio exhibit high accuracy in predicting the presence of underlying amyloid plaque pathology in the brain. Furthermore, elevated plasma p-tau levels also show strong correlation with the presence of brain tau tangles. Correlating remarkably well with results obtained from established gold-standard methods like PET scans and CSF analysis, blood-based measures show promise <Fragment set:html={renderCitation("Ashton et al., 2022; Karikari et al., 2020")} />.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Current Status & Future Implications:</strong> While several blood tests are beginning to achieve clinical availability (e.g., C2N Diagnostics' PrecivityAD test measuring the plasma AÎ²42/40 ratio and APOE genotype; Quest Diagnostics' AD-Detect test assessing the plasma AÎ²42/40 ratio), their primary clinical role currently is often conceptualized as an initial screening or triaging step. Effectively identifying individuals at higher risk for underlying AD pathology who would likely benefit most from undergoing more invasive or expensive confirmatory diagnostic procedures, such as CSF analysis or PET imaging, blood tests streamline diagnosis. Holding enormous potential to significantly simplify the complex AD diagnostic process, vastly improve accessibility to accurate diagnosis (particularly within primary care settings), and potentially enable earlier screening of at-risk populations, blood tests facilitate timely intervention.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Examples:</strong></p>
-                    <ul class="list-decimal list-outside space-y-1 pl-5 text-xs text-slate-600 dark:text-slate-400 max-w-prose leading-relaxed mt-1">
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 1 (Positive Screen):</strong> A primary care physician orders a plasma p-tau217 test for a patient presenting with mild but persistent memory concerns. Returning significantly elevated, the test result prompts an appropriate referral to a specialized memory clinic for probable confirmatory testing using either PET imaging or CSF analysis.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 2 (Negative Screen):</strong> A patient expressing significant worry about developing AD due to a strong family history undergoes a plasma AÎ²42/40 ratio test, yielding a result within the normal range—substantially reducing the immediate likelihood of underlying AD pathology and providing significant reassurance.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 3 (Monitoring/Research):</strong> Blood biomarkers are utilized within a clinical trial investigating a novel therapeutic agent. Serial measurements track whether the experimental drug effectively alters levels of specific p-tau isoforms or AÎ² peptides circulating in the blood over the course of treatment—serving as a potential indicator of the drug successfully engaging its target or potentially modifying the underlying disease process.</li>
-                    </ul>
+                   <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-violet-300 open:dark:ring-violet-800/60 open:shadow transition duration-300 ease-in-out">
+                      <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
+                           <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
+                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                          </span>
+                          (Emerging) Blood Biomarkers
+                      </summary>
+                       <div class="mt-4 prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-3 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-violet-500 dark:prose-li:marker:text-violet-400">
+                          <p>Representing a rapidly advancing frontier in AD diagnostics, blood biomarkers involve the development and validation of simple blood tests capable of detecting specific AD-related proteins circulating in the periphery.</p>
+                          <p><strong>Mechanism:</strong> Highly sensitive laboratory techniques (e.g., SIMOA, mass spectrometry) are employed to precisely measure the concentration of specific target molecules within a patient's blood plasma or serum sample. Key molecular targets currently under intense investigation and initial clinical implementation include specific phosphorylated forms of tau protein (e.g., <strong>p-tau181, p-tau217, p-tau231</strong>) and the calculated <strong>ratio of Aβ42 to Aβ40</strong> concentrations in plasma.</p>
+                          <p><strong>Purpose & Interpretation:</strong> Studies have demonstrated that elevated levels of specific plasma p-tau isoforms (particularly p-tau217 and p-tau231) and a decreased plasma Aβ42/Aβ40 ratio exhibit high accuracy in predicting the presence of underlying amyloid plaque pathology in the brain... Correlating remarkably well with results obtained from established gold-standard methods like PET scans and CSF analysis, blood-based measures show promise <Fragment set:html={renderCitation("Ashton et al., 2022; Karikari et al., 2020")} />.</p>
+                          <p><strong>Current Status & Future Implications:</strong> While several blood tests are beginning to achieve clinical availability... their primary clinical role currently is often conceptualized as an initial screening or triaging step... Holding enormous potential to significantly simplify the complex AD diagnostic process, vastly improve accessibility to accurate diagnosis..., and potentially enable earlier screening of at-risk populations...</p>
+                          <p><strong class="block">Examples:</strong></p>
+                          <ol class="list-decimal list-outside pl-5 space-y-1">
+                              <li><strong>Case 1 (Positive Screen):</strong> A primary care physician orders a plasma p-tau217 test... Returning significantly elevated, the test result prompts an appropriate referral...</li>
+                              <li><strong>Case 2 (Negative Screen):</strong> A patient expressing significant worry... undergoes a plasma Aβ42/40 ratio test, yielding a result within the normal range—substantially reducing the immediate likelihood...</li>
+                              <li><strong>Case 3 (Monitoring/Research):</strong> Blood biomarkers are utilized within a clinical trial... Serial measurements track whether the experimental drug effectively alters levels...</li>
+                          </ol>
+                      </div>
+                  </details>
                 </div>
-            </details>
           </div>
       </section>
 
-       {/* == Section: Neuroimaging == */}
-        {/* Details brain imaging techniques used in diagnosis. */}
-        <section class="group p-6 md:p-8 rounded-xl bg-gradient-to-br from-white to-slate-50 dark:from-slate-800/70 dark:to-slate-800/90 border border-slate-200 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-0.5">
-          {/* Section Heading with Icon */}
+       <section class="group p-6 md:p-8 rounded-xl bg-gradient-to-br from-white to-slate-50 dark:from-slate-800/70 dark:to-slate-800/90 border border-slate-200 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-0.5">
           <h2 class="mb-6 text-2xl md:text-3xl font-semibold text-slate-900 dark:text-white mt-0 flex items-start gap-x-3">
             <span class="mt-1 shrink-0 text-teal-500 group-hover:scale-110 transition-transform duration-200 ease-in-out"><Fragment set:html={imagingIcon} /></span>
             Neuroimaging (Brain Structure & Function - 'N' Component)
           </h2>
-           {/* Introduction to Neuroimaging */}
-           <p class="mb-6 text-slate-700 dark:text-slate-300 max-w-prose text-base leading-relaxed">
-             Brain imaging techniques play an indispensable, multifaceted role within the comprehensive diagnostic workup for suspected AD. Their primary purposes are fundamentally twofold: 1) definitively excluding other potential structural causes responsible for observed cognitive symptoms (such as occult brain tumors, chronic subdural hematomas resulting from falls, evidence of significant stroke, or conditions like normal pressure hydrocephalus), and 2) identifying specific, characteristic patterns of brain atrophy (regional tissue shrinkage) or demonstrably altered brain function (typically measured via metabolic activity) highly suggestive of AD or other specific neurodegenerative disease processes. Corresponding conceptually to the 'N' (Neurodegeneration) component within the established AT(N) biomarker framework, neuroimaging modalities provide crucial data.
-          </p>
-          {/* Accordion for imaging modalities */}
-          <div class="space-y-4"> {/* Reduced spacing */}
-             {/* MRI */}
-             <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-teal-300 open:dark:ring-teal-800/60 open:shadow transition duration-300 ease-in-out">
-                 <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
-                     <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
-                    </span>
-                    Structural Magnetic Resonance Imaging (MRI)
-                 </summary>
-                 <div class="mt-4 text-sm text-slate-700 dark:text-slate-300 space-y-3">
-                    <p class="max-w-prose leading-relaxed">Magnetic Resonance Imaging (MRI) employs powerful magnetic fields and precisely timed radio wave pulses (importantly, utilizing non-ionizing radiation, unlike X-rays or CT scans) to generate exceptionally detailed, high-resolution cross-sectional images of the brain's structure. Due to its superior ability to differentiate between various soft tissues within the brain, MRI generally stands as the preferred structural imaging technique for dementia evaluation.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Mechanism:</strong> Patient lies still inside the bore of a large, cylindrical superconducting magnet. Sequences of radio wave pulses are transmitted into the body and subsequently received; powerful computer systems then analyze complex signals emitted back by different brain tissues (e.g., gray matter, white matter, CSF) to reconstruct intricate, detailed anatomical pictures. Administration of intravenous contrast agents (like gadolinium-based compounds) is typically *not* required for standard dementia evaluation protocols unless a specific clinical suspicion exists for conditions like brain tumors or active inflammation.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Purpose & Interpretation:</strong></p>
-                    <ul class="list-disc list-outside space-y-1.5 pl-5 max-w-prose leading-relaxed">
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Rule out structural lesions:</strong> MRI demonstrates excellent sensitivity for detecting various structural abnormalities causing cognitive impairment, including strokes (both acute/recent and chronic/old infarcts), primary or metastatic brain tumors, evidence of past traumatic brain injury or intracranial bleeding, signs of active inflammation or infection, and conditions such as normal pressure hydrocephalus (NPH)—all needing exclusion before diagnosing a primary neurodegenerative dementia like AD.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Assess atrophy patterns:</strong> In the context of AD, MRI scans frequently reveal characteristic, quantifiable patterns of regional brain volume loss (atrophy). Specifically, atrophy affecting medial temporal lobe structures—most notably involving the <strong class="font-medium text-slate-800 dark:text-slate-100">hippocampus</strong> (critically essential for forming new memories) and adjacent entorhinal cortex—represents a well-established neuropathological hallmark of AD, often becoming apparent relatively early in the disease course. As AD progresses pathologically and clinically, observed atrophy typically becomes more diffuse and widespread, extending to affect parietal and frontal lobe regions as well <Fragment set:html={renderCitation("Frisoni et al., 2010")} />. Advanced quantitative MRI analysis techniques can provide precise volumetric measurements of structures like the hippocampus, allowing objective comparison to age-matched norms.</li>
-                        <li><strong class="font-medium text-slate-800 dark:text-slate-100">Assess vascular burden:</strong> Specific MRI sequences, such as FLAIR (Fluid-Attenuated Inversion Recovery), are highly sensitive for detecting <strong class="font-medium text-slate-800 dark:text-slate-100">white matter hyperintensities (WMH)</strong>. Often representing underlying small vessel ischemic damage—a common form of vascular brain injury—WMH are significant findings. Observing an extensive burden of WMH on MRI may suggest a significant component of vascular dementia contributing to the patient's overall cognitive symptom profile (potentially indicating mixed dementia).</li>
-                    </ul>
-                    <p class="max-w-prose leading-relaxed">Therefore, an MRI demonstrating pronounced hippocampal atrophy in a patient presenting with significant memory loss strongly supports an AD diagnosis. Conversely, an MRI revealing a large space-occupying tumor or evidence of extensive prior stroke damage clearly points towards a different underlying etiology for cognitive symptoms.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Examples:</strong></p>
-                    <ul class="list-decimal list-outside space-y-1 pl-5 text-xs text-slate-600 dark:text-slate-400 max-w-prose leading-relaxed mt-1">
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 1 (Typical AD):</strong> An MRI scan performed on a 70-year-old individual with progressive amnesia reveals significant, bilateral atrophy of the hippocampi—appearing disproportionately severe for their chronological age—alongside minimal evidence of vascular changes (WMH). Strongly supporting a clinical diagnosis of AD, this imaging finding is compelling.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 2 (Vascular Dementia):</strong> An MRI obtained for a patient exhibiting a stepwise pattern of cognitive decline accompanied by motor symptoms reveals the presence of multiple small, deep lacunar infarcts (strokes) within subcortical structures, as well as extensive confluent white matter hyperintensities throughout the brain—indicative of significant underlying vascular dementia.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 3 (Tumor):</strong> An MRI performed to investigate new-onset confusion and persistent headaches reveals a large meningioma (a typically benign tumor arising from the brain's covering layers) significantly compressing the adjacent frontal lobe—providing a clear structural explanation for the patient's presenting symptoms.</li>
-                    </ul>
-                 </div>
-             </details>
-             {/* FDG-PET */}
-             <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-teal-300 open:dark:ring-teal-800/60 open:shadow transition duration-300 ease-in-out">
-                 <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
-                     <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
-                    </span>
-                     FDG-PET (Fluorodeoxyglucose PET)
-                 </summary>
-                  <div class="mt-4 text-sm text-slate-700 dark:text-slate-300 space-y-3">
-                    <p class="max-w-prose leading-relaxed">Functioning by measuring regional brain metabolic activity, this specific type of Positron Emission Tomography (PET) scan essentially maps how actively different brain areas utilize energy. <strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Mechanism:</strong> Patient receives an intravenous injection of a radioactive tracer called <strong class="font-medium text-slate-800 dark:text-slate-100">Fluorodeoxyglucose (FDG)</strong>. FDG is structurally very similar to glucose (simple sugar)—the brain's primary metabolic fuel source. Highly active brain cells naturally consume more glucose (and consequently, uptake more FDG). Following an appropriate uptake period (typically 30–45 minutes, during which the patient rests quietly in a dimly lit room to minimize extraneous brain activation), the PET scanner detects radioactive signals emitted by the FDG tracer concentrated within brain cells. Computer processing then generates a detailed map illustrating the level of metabolic activity throughout the entire brain volume. Brain regions exhibiting significantly reduced metabolic activity (termed <strong class="font-medium text-slate-800 dark:text-slate-100">hypometabolism</strong>) appear as "cold spots" (often depicted using cooler colors like blue or green) on resulting scan images—directly indicating reduced neuronal function or synaptic activity within those specific anatomical areas.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Purpose & Interpretation:</strong> FDG-PET provides crucial *functional* information effectively complementing *structural* information obtained from MRI scans. Directly reflecting the level of neuronal dysfunction, it importantly can often precede the development of observable, significant structural atrophy visible on MRI. In the context of typical AD, FDG-PET frequently reveals a characteristic, recognizable pattern of regional hypometabolism predominantly affecting the <strong class="font-medium text-slate-800 dark:text-slate-100">temporoparietal cortex</strong>. Reduced activity occurs in the temporal lobes (critically involved in memory formation and language processing) and the parietal lobes (essential for spatial awareness, sensory integration, and navigation) <Fragment set:html={renderCitation("Mosconi et al., 2008")} />. Posterior cingulate cortex and precuneus region are also typically hypometabolic in AD. Identifying specific topographical patterns of hypometabolism significantly aids in differentiating AD from other forms of dementia (e.g., Frontotemporal Dementia [FTD] often presents with pronounced *frontal* hypometabolism; Dementia with Lewy Bodies [DLB] may exhibit characteristic *occipital* hypometabolism). Consequently, FDG-PET can provide strong supportive evidence for an AD diagnosis, even in cases where structural MRI appears relatively normal, particularly early in the disease course. Serving as an important biomarker reflecting ongoing neurodegeneration ('N' within the ATN framework), it adds valuable data.</p>
-                    <p><strong class="font-medium text-slate-800 dark:text-slate-100 block mb-1">Examples:</strong></p>
-                    <ul class="list-decimal list-outside space-y-1 pl-5 text-xs text-slate-600 dark:text-slate-400 max-w-prose leading-relaxed mt-1">
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 1 (Typical AD):</strong> An FDG-PET scan performed on a patient presenting with early but definite memory impairment and increasing navigational difficulties reveals markedly reduced metabolic activity localized to bilateral parietal and temporal cortical regions, as well as the posterior cingulate cortex—strongly supporting a diagnosis of AD.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 2 (Suggests FTD):</strong> A patient presents clinically with significant personality changes and prominent executive dysfunction. Their FDG-PET scan demonstrates pronounced hypometabolism primarily affecting the frontal lobes, with relative sparing of temporoparietal regions typically affected in AD—highly consistent with Frontotemporal Dementia.</li>
-                        <li><strong class="font-medium text-slate-700 dark:text-slate-200">Case 3 (Normal Metabolism):</strong> Despite reporting subjective cognitive complaints, a patient undergoes an FDG-PET scan revealing entirely normal, symmetric metabolic activity throughout all cortical regions—making a significant underlying neurodegenerative process like AD considerably less likely and suggesting investigation into alternative potential causes, such as underlying anxiety, depression, medication side effects, or perhaps very early pathological changes not yet detectable by this imaging modality.</li>
-                    </ul>
-                  </div>
-             </details>
-          </div>
-      </section>
+           <div class="prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-4 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-teal-500 dark:prose-li:marker:text-teal-400">
+                <p>
+                   Brain imaging techniques play an indispensable, multifaceted role within the comprehensive diagnostic workup for suspected AD. Their primary purposes are fundamentally twofold: 1) definitively excluding other potential structural causes responsible for observed cognitive symptoms..., and 2) identifying specific, characteristic patterns of brain atrophy (regional tissue shrinkage) or demonstrably altered brain function (typically measured via metabolic activity) highly suggestive of AD or other specific neurodegenerative disease processes. Corresponding conceptually to the 'N' (Neurodegeneration) component within the established AT(N) biomarker framework, neuroimaging modalities provide crucial data.
+                </p>
+                <div class="space-y-4 not-prose">
+                   <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-teal-300 open:dark:ring-teal-800/60 open:shadow transition duration-300 ease-in-out">
+                       <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
+                           <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                          </span>
+                          Structural Magnetic Resonance Imaging (MRI)
+                       </summary>
+                       <div class="mt-4 prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-3 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-teal-500 dark:prose-li:marker:text-teal-400">
+                          <p>Magnetic Resonance Imaging (MRI) employs powerful magnetic fields and precisely timed radio wave pulses... to generate exceptionally detailed, high-resolution cross-sectional images of the brain's structure... MRI generally stands as the preferred structural imaging technique for dementia evaluation.</p>
+                          <p><strong>Mechanism:</strong> Patient lies still inside the bore of a large, cylindrical superconducting magnet... computer systems then analyze complex signals emitted back by different brain tissues... Administration of intravenous contrast agents... is typically not required...</p>
+                          <p><strong>Purpose & Interpretation:</strong></p>
+                          <ul>
+                              <li><strong>Rule out structural lesions:</strong> MRI demonstrates excellent sensitivity for detecting various structural abnormalities causing cognitive impairment, including strokes..., primary or metastatic brain tumors..., evidence of past traumatic brain injury..., signs of active inflammation..., and conditions such as normal pressure hydrocephalus (NPH)...</li>
+                              <li><strong>Assess atrophy patterns:</strong> In the context of AD, MRI scans frequently reveal characteristic, quantifiable patterns of regional brain volume loss (atrophy). Specifically, atrophy affecting medial temporal lobe structures—most notably involving the <strong>hippocampus</strong>... and adjacent entorhinal cortex—represents a well-established neuropathological hallmark of AD... As AD progresses... atrophy typically becomes more diffuse... <Fragment set:html={renderCitation("Frisoni et al., 2010")} />. Advanced quantitative MRI analysis techniques can provide precise volumetric measurements...</li>
+                              <li><strong>Assess vascular burden:</strong> Specific MRI sequences, such as FLAIR... are highly sensitive for detecting <strong>white matter hyperintensities (WMH)</strong>... Often representing underlying small vessel ischemic damage... Observing an extensive burden of WMH on MRI may suggest a significant component of vascular dementia contributing to the patient's overall cognitive symptom profile...</li>
+                          </ul>
+                          <p>Therefore, an MRI demonstrating pronounced hippocampal atrophy in a patient presenting with significant memory loss strongly supports an AD diagnosis...</p>
+                          <p><strong class="block">Examples:</strong></p>
+                          <ol class="list-decimal list-outside pl-5 space-y-1">
+                              <li><strong>Case 1 (Typical AD):</strong> An MRI scan... reveals significant, bilateral atrophy of the hippocampi... Strongly supporting a clinical diagnosis of AD...</li>
+                              <li><strong>Case 2 (Vascular Dementia):</strong> An MRI... reveals the presence of multiple small, deep lacunar infarcts... as well as extensive confluent white matter hyperintensities... indicative of significant underlying vascular dementia.</li>
+                              <li><strong>Case 3 (Tumor):</strong> An MRI... reveals a large meningioma... significantly compressing the adjacent frontal lobe—providing a clear structural explanation...</li>
+                          </ol>
+                       </div>
+                   </details>
+                   <details class="group rounded-lg bg-slate-50 dark:bg-slate-700/40 p-4 open:ring-1 open:ring-teal-300 open:dark:ring-teal-800/60 open:shadow transition duration-300 ease-in-out">
+                       <summary class="text-lg font-semibold text-slate-800 dark:text-slate-100 cursor-pointer list-none flex items-center gap-x-2 hover:bg-slate-100 dark:hover:bg-slate-700/60 rounded-md p-2 -m-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800 group-open:pb-2">
+                           <span class="transition-transform duration-200 ease-in-out group-open:rotate-90">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                          </span>
+                           FDG-PET (Fluorodeoxyglucose PET)
+                       </summary>
+                        <div class="mt-4 prose prose-slate dark:prose-invert max-w-none text-sm sm:text-base space-y-3 prose-strong:text-slate-800 dark:prose-strong:text-slate-100 prose-ul:space-y-1.5 prose-li:marker:text-teal-500 dark:prose-li:marker:text-teal-400">
+                          <p>Functioning by measuring regional brain metabolic activity, this specific type of Positron Emission Tomography (PET) scan essentially maps how actively different brain areas utilize energy. <strong>Mechanism:</strong> Patient receives an intravenous injection of a radioactive tracer called <strong>Fluorodeoxyglucose (FDG)</strong>... PET scanner detects radioactive signals... Computer processing then generates a detailed map illustrating the level of metabolic activity... Brain regions exhibiting significantly reduced metabolic activity (termed <strong>hypometabolism</strong>) appear as "cold spots"...</p>
+                          <p><strong>Purpose & Interpretation:</strong> FDG-PET provides crucial *functional* information effectively complementing *structural* information obtained from MRI scans. Directly reflecting the level of neuronal dysfunction, it importantly can often precede the development of observable, significant structural atrophy visible on MRI. In the context of typical AD, FDG-PET frequently reveals a characteristic, recognizable pattern of regional hypometabolism predominantly affecting the <strong>temporoparietal cortex</strong>... Posterior cingulate cortex and precuneus region are also typically hypometabolic in AD <Fragment set:html={renderCitation("Mosconi et al., 2008")} />. Identifying specific topographical patterns of hypometabolism significantly aids in differentiating AD from other forms of dementia... Serving as an important biomarker reflecting ongoing neurodegeneration ('N' within the ATN framework)...</p>
+                          <p><strong class="block">Examples:</strong></p>
+                          <ol class="list-decimal list-outside pl-5 space-y-1">
+                              <li><strong>Case 1 (Typical AD):</strong> An FDG-PET scan... reveals markedly reduced metabolic activity localized to bilateral parietal and temporal cortical regions, as well as the posterior cingulate cortex—strongly supporting a diagnosis of AD.</li>
+                              <li><strong>Case 2 (Suggests FTD):</strong> A patient presents clinically with significant personality changes... Their FDG-PET scan demonstrates pronounced hypometabolism primarily affecting the frontal lobes... highly consistent with Frontotemporal Dementia.</li>
+                              <li><strong>Case 3 (Normal Metabolism):</strong> Despite reporting subjective cognitive complaints, a patient undergoes an FDG-PET scan revealing entirely normal, symmetric metabolic activity... making a significant underlying neurodegenerative process like AD considerably less likely...</li>
+                          </ol>
+                        </div>
+                   </details>
+                </div>
+           </div>
+       </section>
 
     </div> {/* End Main Content Sections Container */}
 </BaseLayout>
 
-{/* Scoped styles for details/summary markers (optional enhancement) */}
 <style is:global>
-  /* Hides the default triangle marker for details/summary elements */
-  details > summary {
-    list-style: none;
-  }
-  details > summary::-webkit-details-marker {
-    display: none;
-  }
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+  /* Style for low/high markers in CSF section */
+  .text-red-600 { color: #dc2626; }
+  .dark .text-red-400 { color: #f87171; }
+  .text-emerald-600 { color: #059669; }
+  .dark .text-emerald-400 { color: #34d399; }
 </style>
